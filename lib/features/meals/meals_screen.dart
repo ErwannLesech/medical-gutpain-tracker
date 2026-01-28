@@ -198,18 +198,7 @@ class _MealsScreenState extends ConsumerState<MealsScreen> {
             foods: meal.foods,
             title: meal.title,
             notes: meal.notes,
-            isConfirmed: meal.status == MealStatus.confirmed ||
-                meal.status == MealStatus.modified,
-            isSkipped: meal.status == MealStatus.skipped,
             onTap: () => _navigateToEditMeal(context, meal),
-            onConfirm: () async {
-              await ref.read(mealsProvider.notifier).confirmMeal(meal.id);
-              HapticService.success();
-            },
-            onSkip: () async {
-              await ref.read(mealsProvider.notifier).skipMeal(meal.id);
-              HapticService.light();
-            },
           ),
         );
       },

@@ -69,28 +69,8 @@ class Meal {
   })  : createdAt = DateTime.now(),
         updatedAt = DateTime.now();
 
-  /// Confirme le repas avec l'heure actuelle
-  void confirm() {
-    consumedDateTime = DateTime.now();
-    status = MealStatus.confirmed;
-    updatedAt = DateTime.now();
-  }
-
-  /// Marque le repas comme modifié
-  void markAsModified() {
-    status = MealStatus.modified;
-    updatedAt = DateTime.now();
-  }
-
-  /// Marque le repas comme sauté
-  void skip() {
-    status = MealStatus.skipped;
-    updatedAt = DateTime.now();
-  }
-
-  /// Retourne true si le repas a été consommé
-  bool get isConsumed => 
-      status == MealStatus.confirmed || status == MealStatus.modified;
+  /// Retourne true - tous les repas planifiés sont considérés comme consommés
+  bool get isConsumed => true;
 
   /// Retourne le nom lisible du type de repas
   String get typeName {

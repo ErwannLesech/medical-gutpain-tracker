@@ -96,29 +96,7 @@ class MealsNotifier extends StateNotifier<MealsState> {
     }
   }
 
-  /// Confirme un repas
-  Future<bool> confirmMeal(int id) async {
-    try {
-      await _repository.confirm(id);
-      await loadMeals();
-      return true;
-    } catch (e) {
-      state = state.copyWith(error: e.toString());
-      return false;
-    }
-  }
 
-  /// Marque un repas comme sauté
-  Future<bool> skipMeal(int id) async {
-    try {
-      await _repository.skip(id);
-      await loadMeals();
-      return true;
-    } catch (e) {
-      state = state.copyWith(error: e.toString());
-      return false;
-    }
-  }
 
   /// Supprime un repas
   Future<bool> deleteMeal(int id) async {

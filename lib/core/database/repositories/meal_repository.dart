@@ -16,6 +16,9 @@ class MealRepository {
 
   /// Crée un nouveau repas
   Future<int> create(Meal meal) async {
+    // Tous les repas planifiés sont considérés comme consommés
+    meal.consumedDateTime = meal.plannedDateTime;
+    
     return await _isar.writeTxn(() async {
       return await _isar.meals.put(meal);
     });
@@ -124,49 +127,15 @@ class MealRepository {
         .findAll();
   }
 
-  /// Récupère les repas planifiés (non confirmés) pour une journée
-  Future<List<Meal>> getPlannedByDate(DateTime date) async {
-    final startOfDay = DateTime(date.year, date.month, date.day);
-    final endOfDay = startOfDay.add(const Duration(days: 1));
-
-    return await _isar.meals
-        .where()
-        .filter()
-        .statusEqualTo(MealStatus.planned)
-        .plannedDateTimeBetween(startOfDay, endOfDay)
-        .sortByPlannedDateTime()
-        .findAll();
-  }
-
   // ==================== UPDATE ====================
 
   /// Met à jour un repas existant
   Future<int> update(Meal meal) async {
     meal.updatedAt = DateTime.now();
+    // Tous les repas ont leur consumedDateTime = plannedDateTime
+    meal.consumedDateTime = meal.plannedDateTime;
     return await _isar.writeTxn(() async {
       return await _isar.meals.put(meal);
-    });
-  }
-
-  /// Confirme un repas (marque comme consommé)
-  Future<void> confirm(int id) async {
-    await _isar.writeTxn(() async {
-      final meal = await _isar.meals.get(id);
-      if (meal != null) {
-        meal.confirm();
-        await _isar.meals.put(meal);
-      }
-    });
-  }
-
-  /// Marque un repas comme sauté
-  Future<void> skip(int id) async {
-    await _isar.writeTxn(() async {
-      final meal = await _isar.meals.get(id);
-      if (meal != null) {
-        meal.skip();
-        await _isar.meals.put(meal);
-      }
     });
   }
 
