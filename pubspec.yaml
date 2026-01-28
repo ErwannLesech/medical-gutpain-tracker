@@ -9,6 +9,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
 
   # UI & Icons
   cupertino_icons: ^1.0.8
@@ -24,7 +26,7 @@ dependencies:
   path_provider: ^2.1.2
   
   # Date & Time
-  intl: ^0.19.0
+  intl: ^0.20.2
   table_calendar: ^3.1.2
   
   # PDF Export
@@ -39,6 +41,7 @@ dependencies:
   # Notifications
   flutter_local_notifications: ^18.0.1
   timezone: ^0.9.4
+  flutter_timezone: ^5.0.1
   
   # Haptic Feedback
   vibration: ^2.0.0
