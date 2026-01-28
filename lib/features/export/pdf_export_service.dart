@@ -178,7 +178,7 @@ class PdfExportService {
                         _tableCell(
                           DateFormat('dd/MM/yyyy').format(report.date),
                         ),
-                        _tableCell('${report.statusEmoji} ${report.statusName}'),
+                        _tableCell('${report.statusName}'),
                         _tableCell('${report.stressLevel}/5'),
                         _tableCell('${report.fatigueLevel}/5'),
                         _tableCell('${report.hoursSlept.toStringAsFixed(1)}h'),
@@ -245,10 +245,33 @@ class PdfExportService {
                             meal.consumedDateTime ?? meal.plannedDateTime,
                           ),
                         ),
-                        _tableCell('${meal.typeEmoji} ${meal.typeName}'),
+                        _tableCell('${meal.typeName}'),
                         _tableCell(_getQuantityText(meal.quantity)),
-                        _tableCell(
-                          meal.foods.isNotEmpty ? meal.foods.join(', ') : '-',
+                        pw.Padding(
+                          padding: const pw.EdgeInsets.all(4),
+                          child: pw.Column(
+                            crossAxisAlignment: pw.CrossAxisAlignment.start,
+                            children: [
+                              if (meal.title != null && meal.title!.isNotEmpty)
+                                pw.Text(
+                                  meal.title!,
+                                  style: pw.TextStyle(
+                                    fontSize: 8,
+                                    fontWeight: pw.FontWeight.bold,
+                                  ),
+                                ),
+                              if (meal.foods.isNotEmpty)
+                                pw.Text(
+                                  meal.foods.join(', '),
+                                  style: const pw.TextStyle(fontSize: 8),
+                                ),
+                              if ((meal.title == null || meal.title!.isEmpty) && meal.foods.isEmpty)
+                                pw.Text(
+                                  '-',
+                                  style: const pw.TextStyle(fontSize: 8),
+                                ),
+                            ],
+                          ),
                         ),
                         _tableCell(meal.notes ?? '-'),
                       ],
@@ -536,7 +559,7 @@ class PdfExportService {
                 pw.Container(
                   width: 60,
                   child: pw.Text(
-                    '${meal.typeEmoji} ${meal.typeName}',
+                    '${meal.typeName}',
                     style: pw.TextStyle(
                       fontSize: 9,
                       color: highlightColor != null ? PdfColors.white : PdfColors.black,
@@ -545,14 +568,35 @@ class PdfExportService {
                 ),
                 pw.SizedBox(width: 8),
                 pw.Expanded(
-                  child: pw.Text(
-                    meal.foods.isNotEmpty
-                        ? meal.foods.join(', ')
-                        : (meal.title ?? '-'),
-                    style: pw.TextStyle(
-                      fontSize: 9,
-                      color: highlightColor != null ? PdfColors.white : PdfColors.black,
-                    ),
+                  child: pw.Column(
+                    crossAxisAlignment: pw.CrossAxisAlignment.start,
+                    children: [
+                      if (meal.title != null && meal.title!.isNotEmpty)
+                        pw.Text(
+                          meal.title!,
+                          style: pw.TextStyle(
+                            fontSize: 9,
+                            fontWeight: pw.FontWeight.bold,
+                            color: highlightColor != null ? PdfColors.white : PdfColors.black,
+                          ),
+                        ),
+                      if (meal.foods.isNotEmpty)
+                        pw.Text(
+                          meal.foods.join(', '),
+                          style: pw.TextStyle(
+                            fontSize: 8,
+                            color: highlightColor != null ? PdfColors.white : PdfColors.grey700,
+                          ),
+                        ),
+                      if (meal.title == null && meal.foods.isEmpty)
+                        pw.Text(
+                          '-',
+                          style: pw.TextStyle(
+                            fontSize: 9,
+                            color: highlightColor != null ? PdfColors.white : PdfColors.black,
+                          ),
+                        ),
+                    ],
                   ),
                 ),
               ],
@@ -567,7 +611,7 @@ class PdfExportService {
             margin: const pw.EdgeInsets.only(left: 8, bottom: 3, top: 3),
             padding: const pw.EdgeInsets.all(6),
             decoration: pw.BoxDecoration(
-              color: _getIntensityColor(pain.intensity).shade(30),
+              color: _getIntensityLightColor(pain.intensity),
               border: pw.Border.all(
                 color: _getIntensityColor(pain.intensity),
                 width: 1.5,
@@ -591,7 +635,7 @@ class PdfExportService {
                 pw.Container(
                   width: 60,
                   child: pw.Text(
-                    '⚠️ Douleur ${pain.intensity}/5',
+                    'Douleur ${pain.intensity}/5',
                     style: const pw.TextStyle(fontSize: 9),
                   ),
                 ),
@@ -655,7 +699,7 @@ class PdfExportService {
                 pw.SizedBox(width: 8),
                 pw.Expanded(
                   child: pw.Text(
-                    '${report.statusEmoji} ${report.statusName} - '
+                    '${report.statusName} - '
                     'Stress: ${report.stressLevel}/5, '
                     'Fatigue: ${report.fatigueLevel}/5, '
                     'Transit: ${report.transitQualityName}',
@@ -700,6 +744,23 @@ class PdfExportService {
         return PdfColors.red;
       default:
         return PdfColors.grey;
+    }
+  }
+
+  PdfColor _getIntensityLightColor(int intensity) {
+    switch (intensity) {
+      case 1:
+        return PdfColors.green50;
+      case 2:
+        return PdfColors.lightGreen50;
+      case 3:
+        return PdfColors.amber50;
+      case 4:
+        return PdfColors.orange50;
+      case 5:
+        return PdfColors.red50;
+      default:
+        return PdfColors.grey100;
     }
   }
 }

@@ -318,19 +318,21 @@ class _DateSelector extends StatelessWidget {
             Text(
               label,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Colors.grey,
+                    color: Colors.grey.shade600,
                   ),
             ),
             const SizedBox(height: 4),
             Row(
               children: [
-                const Icon(Icons.calendar_today, size: 18),
+                Icon(Icons.calendar_today, size: 18, color: Theme.of(context).primaryColor),
                 const SizedBox(width: 8),
-                Text(
-                  DateFormat('dd/MM/yyyy').format(date),
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
+                Expanded(
+                  child: Text(
+                    DateFormat('dd/MM/yyyy').format(date),
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                  ),
                 ),
               ],
             ),
