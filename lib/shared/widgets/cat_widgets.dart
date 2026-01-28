@@ -156,13 +156,20 @@ class _CatDrawResultDialogState extends State<CatDrawResultDialog>
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
+                        // Fermer le dialog d'abord
                         Navigator.of(context).pop();
-                        // Redirection vers la page des badges et galerie
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => const AchievementsScreen(),
-                          ),
-                        );
+                        // Naviguer vers la galerie de chats après un court délai
+                        if (isNew) {
+                          Future.delayed(const Duration(milliseconds: 100), () {
+                            if (context.mounted) {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => const AchievementsScreen(),
+                                ),
+                              );
+                            }
+                          });
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor:

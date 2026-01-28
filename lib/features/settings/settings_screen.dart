@@ -100,24 +100,6 @@ class SettingsScreen extends ConsumerWidget {
                         },
                       ),
                     ),
-                    const Divider(height: 1),
-                    // Test de notification
-                    ListTile(
-                      leading: const Icon(Icons.notification_add),
-                      title: const Text('Tester les notifications'),
-                      subtitle: const Text('Envoie une notification immédiate ou programmée'),
-                      trailing: const Icon(Icons.send),
-                      onTap: () => _sendTestNotification(context),
-                    ),
-                    const Divider(height: 1),
-                    // Diagnostics notifications
-                    ListTile(
-                      leading: const Icon(Icons.info_outline),
-                      title: const Text('Diagnostics notifications'),
-                      subtitle: const Text('Vérifier l\'état des notifications'),
-                      trailing: const Icon(Icons.chevron_right),
-                      onTap: () => _showNotificationDiagnostics(context),
-                    ),
                   ],
                 ),
               ),
@@ -242,6 +224,35 @@ class SettingsScreen extends ConsumerWidget {
                       ),
                       trailing: const Icon(Icons.chevron_right),
                       onTap: () => _backupData(context, ref),
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 24),
+
+              // Section Administration
+              _buildSectionTitle(context, 'Administration'),
+              const SizedBox(height: 12),
+
+              WakyCard(
+                padding: const EdgeInsets.all(0),
+                child: Column(
+                  children: [
+                    ListTile(
+                      leading: const Icon(Icons.notification_add),
+                      title: const Text('Tester les notifications'),
+                      subtitle: const Text('Envoie une notification immédiate ou programmée'),
+                      trailing: const Icon(Icons.send),
+                      onTap: () => _sendTestNotification(context),
+                    ),
+                    const Divider(height: 1),
+                    ListTile(
+                      leading: const Icon(Icons.info_outline),
+                      title: const Text('Diagnostics notifications'),
+                      subtitle: const Text('Vérifier l\'état des notifications'),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: () => _showNotificationDiagnostics(context),
                     ),
                     const Divider(height: 1),
                     ListTile(

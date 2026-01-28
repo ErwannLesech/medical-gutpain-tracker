@@ -264,11 +264,6 @@ class PainScreen extends ConsumerWidget {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _navigateToQuickPain(context),
-        backgroundColor: WakyColors.error,
-        child: const Icon(Icons.add, color: Colors.white),
-      ),
     );
   }
 

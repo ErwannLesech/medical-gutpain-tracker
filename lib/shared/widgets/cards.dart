@@ -67,11 +67,7 @@ class MealCard extends StatelessWidget {
   final List<String> foods;
   final String? title;
   final String? notes;
-  final bool isConfirmed;
-  final bool isSkipped;
   final VoidCallback? onTap;
-  final VoidCallback? onConfirm;
-  final VoidCallback? onSkip;
 
   const MealCard({
     super.key,
@@ -81,11 +77,7 @@ class MealCard extends StatelessWidget {
     required this.foods,
     this.title,
     this.notes,
-    this.isConfirmed = false,
-    this.isSkipped = false,
     this.onTap,
-    this.onConfirm,
-    this.onSkip,
   });
 
   @override
@@ -129,45 +121,6 @@ class MealCard extends StatelessWidget {
                   ],
                 ),
               ),
-              if (isConfirmed)
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: WakyColors.success.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(Icons.check_circle, size: 16, color: WakyColors.success),
-                      SizedBox(width: 4),
-                      Text(
-                        'Confirmé',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: WakyColors.success,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              else if (isSkipped)
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: Colors.grey.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const Text(
-                    'Sauté',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
             ],
           ),
           if (foods.isNotEmpty) ...[
@@ -202,15 +155,6 @@ class MealCard extends StatelessWidget {
                       ),
                 ),
               ),
-          ] else if (!isConfirmed && !isSkipped && title == null) ...[
-            const SizedBox(height: 12),
-            Text(
-              'Appuyez pour ajouter des aliments',
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Colors.grey,
-                    fontStyle: FontStyle.italic,
-                  ),
-            ),
           ],
           // Afficher les notes si présentes
           if (notes != null && notes!.isNotEmpty) ...[
@@ -235,32 +179,6 @@ class MealCard extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
-          ],
-          if (!isConfirmed && !isSkipped) ...[
-            const SizedBox(height: 12),
-            Row(
-              children: [
-                Expanded(
-                  child: OutlinedButton.icon(
-                    onPressed: onSkip,
-                    icon: const Icon(Icons.close, size: 18),
-                    label: const Text('Sauté'),
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: Colors.grey,
-                      side: const BorderSide(color: Colors.grey),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: ElevatedButton.icon(
-                    onPressed: onTap,
-                    icon: const Icon(Icons.edit, size: 18),
-                    label: const Text('Modifier'),
-                  ),
-                ),
-              ],
             ),
           ],
         ],

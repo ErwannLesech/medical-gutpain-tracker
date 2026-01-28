@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -526,29 +528,42 @@ class _DashboardTab extends ConsumerWidget {
 
     if (hour < 12) {
       greeting = 'Bonjour';
-      emoji = '🌅';
+      emoji = '';
     } else if (hour < 18) {
       greeting = 'Bon après-midi';
-      emoji = '☀️';
+      emoji = '';
     } else {
       greeting = 'Bonsoir';
-      emoji = '🌙';
+      emoji = '';
     }
+
+    final affectionateTerms = [
+      "chérie",
+      "mon coeur",
+      "mon amour",
+      "ma chère",
+      "ma déesse",
+      "ma princesse",
+      "mon chaton",
+      "mon chat",
+      "ma p'tite chérie",
+      "mon p'tit chat",
+      "mon p'tit chaton",
+      "chère copine"
+    ];
+    final random = Random();
+    final randomTerm = affectionateTerms[random.nextInt(affectionateTerms.length)];
+
+    greeting = '$greeting $randomTerm';
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            Text(emoji, style: const TextStyle(fontSize: 28)),
-            const SizedBox(width: 12),
-            Text(
-              greeting,
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-            ),
-          ],
+        Text(
+          greeting,
+          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
         ),
         const SizedBox(height: 4),
         Text(
