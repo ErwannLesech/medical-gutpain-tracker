@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:isar/isar.dart';
 
 import '../../core/models/models.dart';
+import '../../core/utils/haptic_service.dart';
+import '../../core/services/providers.dart';
 import '../../shared/widgets/widgets.dart';
 import '../../shared/theme/colors.dart';
 import 'daily_provider.dart';
 import 'daily_form_screen.dart';
+import 'date_selector_screen.dart';
 import '../home/home_provider.dart';
 
 /// Écran de suivi du journal journalier
@@ -29,110 +31,131 @@ class DailyScreen extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Journal',
-                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'Suivez votre bien-être au quotidien',
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: Colors.grey,
-                          ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Journal',
+                              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              'Suivez votre bien-être au quotidien',
+                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    color: Colors.grey,
+                                  ),
+                            ),
+                          ],
+                        ),
+                        // Badge aujourd'hui
+                        Consumer(
+                          builder: (context, ref, _) {
+                            return FutureBuilder<DailyReport?>(
+                              future: ref.read(dailyReportProvider.notifier).getTodayReport(),
+                              builder: (context, snapshot) {
+                                final todayReport = snapshot.data;
+                                if (todayReport == null) return const SizedBox.shrink();
+                                
+                                return InkWell(
+                                  onTap: () => _navigateToEditReport(context, ref, todayReport),
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 10,
+                                      vertical: 8,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: WakyColors.success.withValues(alpha: 0.1),
+                                      borderRadius: BorderRadius.circular(12),
+                                      border: Border.all(
+                                        color: WakyColors.success.withValues(alpha: 0.3),
+                                      ),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          todayReport.statusEmoji,
+                                          style: const TextStyle(fontSize: 20),
+                                        ),
+                                        const SizedBox(width: 6),
+                                        Text(
+                                          'Aujourd\'hui',
+                                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                                color: WakyColors.success,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        ),
+                      ],
                     ),
                   ],
                 ),
               ),
             ),
 
-            // Bouton rapport du jour
+            // Bouton création de journal
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Consumer(
-                  builder: (context, ref, _) {
-                    return FutureBuilder<DailyReport?>(
-                      future:
-                          ref.read(dailyReportProvider.notifier).getTodayReport(),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting &&
-                            !snapshot.hasData) {
-                          return const WakyCard(
-                            child: Center(child: CircularProgressIndicator()),
-                          );
-                        }
-
-                        final todayReport = snapshot.data;
-                        final hasReport = todayReport != null;
-
-                        return WakyCard(
-                          backgroundColor: hasReport
-                              ? WakyColors.primary.withValues(alpha: 0.05)
-                              : WakyColors.warning.withValues(alpha: 0.05),
-                          onTap: () => _navigateToTodayReport(
-                            context,
-                            ref,
-                            todayReport,
-                          ),
-                          child: Row(
-                            children: [
-                              Container(
-                                width: 56,
-                                height: 56,
-                                decoration: BoxDecoration(
-                                  color: hasReport
-                                      ? WakyColors.success.withValues(alpha: 0.1)
-                                      : WakyColors.warning.withValues(alpha: 0.1),
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Icon(
-                                  hasReport ? Icons.edit : Icons.add,
-                                  color: hasReport
-                                      ? WakyColors.success
-                                      : WakyColors.warning,
-                                  size: 28,
-                                ),
-                              ),
-                              const SizedBox(width: 16),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      hasReport
-                                          ? 'Journal d\'aujourd\'hui'
-                                          : 'Créer le journal du jour',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium
-                                          ?.copyWith(
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                    ),
-                                    Text(
-                                      hasReport
-                                          ? '${todayReport?.statusEmoji} ${todayReport?.statusName} - Cliquer pour modifier'
-                                          : DateFormat('EEEE d MMMM', 'fr_FR')
-                                              .format(DateTime.now()),
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodySmall
-                                          ?.copyWith(
-                                            color: Colors.grey,
-                                          ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const Icon(Icons.chevron_right),
-                            ],
-                          ),
-                        );
-                      },
-                    );
-                  },
+                child: WakyCard(
+                  backgroundColor: WakyColors.primary.withValues(alpha: 0.05),
+                  onTap: () => _navigateToCreateJournal(context, ref),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 56,
+                        height: 56,
+                        decoration: BoxDecoration(
+                          color: WakyColors.primary.withValues(alpha: 0.15),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(
+                          Icons.add_circle_outline,
+                          color: WakyColors.primary,
+                          size: 28,
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Créer un journal',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                            ),
+                            Text(
+                              'Pour aujourd\'hui ou un jour passé',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
+                                  ?.copyWith(
+                                    color: Colors.grey,
+                                  ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const Icon(Icons.chevron_right),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -243,33 +266,52 @@ class DailyScreen extends ConsumerWidget {
     );
   }
 
-  Future<void> _navigateToTodayReport(
+  Future<void> _navigateToCreateJournal(
     BuildContext context,
     WidgetRef ref,
-    DailyReport? report,
   ) async {
-    DailyReport reportToEdit;
-    if (report == null) {
-      reportToEdit =
-          await ref.read(dailyReportProvider.notifier).createTodayReport();
-    } else {
-      reportToEdit = report;
-    }
-
-    final result = await Navigator.of(context).push<bool>(
+    HapticService.medium();
+    
+    // Ouvrir le sélecteur de date
+    final selectedDate = await Navigator.of(context).push<DateTime>(
       MaterialPageRoute(
-        builder: (context) => DailyFormScreen(
-          report: reportToEdit,
-          date: DateTime.now(),
-        ),
+        builder: (context) => const DateSelectorScreen(),
       ),
     );
 
-    if (result == true) {
-      ref.invalidate(recentReportsProvider);
-      ref.invalidate(dailyReportProvider);
-      ref.invalidate(todayReportProvider);
-      ref.invalidate(consecutiveDaysProvider);
+    if (selectedDate != null && context.mounted) {
+      // Vérifier si un rapport existe déjà pour cette date
+      final existingReport = await ref.read(dailyReportRepositoryProvider).getByDate(selectedDate);
+      
+      DailyReport reportToEdit;
+      if (existingReport != null) {
+        // Éditer le rapport existant
+        reportToEdit = existingReport;
+      } else {
+        // Créer un nouveau rapport pour cette date
+        reportToEdit = DailyReport(
+          date: DailyReport.normalizeDate(selectedDate),
+        );
+      }
+      
+      if (context.mounted) {
+        final result = await Navigator.of(context).push<bool>(
+          MaterialPageRoute(
+            builder: (context) => DailyFormScreen(
+              report: reportToEdit,
+              date: selectedDate,
+            ),
+          ),
+        );
+
+        if (result == true) {
+          ref.invalidate(recentReportsProvider);
+          ref.invalidate(dailyReportProvider);
+          ref.invalidate(todayReportProvider);
+          ref.invalidate(allReportsForCalendarProvider);
+          ref.invalidate(consecutiveDaysProvider);
+        }
+      }
     }
   }
 

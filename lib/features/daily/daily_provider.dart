@@ -146,6 +146,12 @@ final wellbeingStatsProvider = FutureProvider<WellbeingStats>((ref) async {
   );
 });
 
+/// Provider pour obtenir tous les rapports (utilisé pour le calendrier)
+final allReportsForCalendarProvider = FutureProvider<List<DailyReport>>((ref) async {
+  final repository = ref.watch(dailyReportRepositoryProvider);
+  return await repository.getAll();
+});
+
 /// Statistiques de bien-être
 class WellbeingStats {
   final double averageWellbeing;
