@@ -6,6 +6,7 @@ import '../../core/utils/haptic_service.dart';
 import '../../shared/widgets/widgets.dart';
 import '../../shared/theme/colors.dart';
 import 'pain_provider.dart';
+import '../home/home_provider.dart';
 
 /// Écran de saisie rapide de douleur
 class PainFormScreen extends ConsumerStatefulWidget {
@@ -25,6 +26,7 @@ class _PainFormScreenState extends ConsumerState<PainFormScreen> {
   late bool _isUsual;
   late DigestiveState _digestiveState;
   late List<int> _symptomsIndexes;
+  late DateTime _dateTime;
   String? _description;
   String? _otherMomentDescription;
   bool _isLoading = false;
@@ -53,6 +55,7 @@ class _PainFormScreenState extends ConsumerState<PainFormScreen> {
       _isUsual = widget.event!.isUsual;
       _digestiveState = widget.event!.digestiveState;
       _symptomsIndexes = List.from(widget.event!.symptomsIndexes);
+      _dateTime = widget.event!.dateTime;
       _description = widget.event!.description;
       _otherMomentDescription = widget.event!.otherMomentDescription;
     } else {
@@ -60,6 +63,7 @@ class _PainFormScreenState extends ConsumerState<PainFormScreen> {
       _isUsual = true; // Activé par défaut
       _digestiveState = DigestiveState.hungry;
       _symptomsIndexes = [];
+      _dateTime = DateTime.now();
       _description = null;
       _otherMomentDescription = null;
     }
@@ -157,7 +161,13 @@ class _PainFormScreenState extends ConsumerState<PainFormScreen> {
                   isSelected: isSelected,
                   onTap: () {
                     HapticService.selection();
-                    setState(() => _digestiveState = state);
+                    setState(() {
+                      // Si on passe de "Autre" à un autre état, réinitialiser la date
+                      if (_digestiveState == DigestiveState.other && state != DigestiveState.other) {
+                        _dateTime = DateTime.now();
+                      }
+                      _digestiveState = state;
+                    });
                   },
                 );
               }).toList(),
@@ -180,6 +190,89 @@ class _PainFormScreenState extends ConsumerState<PainFormScreen> {
                 },
               ),
             ],
+
+            const SizedBox(height: 12),
+            
+            // Date et heure - toujours affichée, modifiable uniquement si "Autre"
+            Text(
+              'Date et heure de la douleur',
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+            ),
+            const SizedBox(height: 4),
+            if (_digestiveState != DigestiveState.other)
+              Text(
+                'Modifiable uniquement avec l\'état "Autre"',
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: Colors.grey,
+                      fontStyle: FontStyle.italic,
+                    ),
+              ),
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                Expanded(
+                  child: WakyCard(
+                    padding: const EdgeInsets.all(10),
+                    onTap: _digestiveState == DigestiveState.other ? _selectDate : null,
+                    backgroundColor: _digestiveState == DigestiveState.other 
+                        ? null 
+                        : Colors.grey.withValues(alpha: 0.1),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.calendar_today, 
+                          size: 18,
+                          color: _digestiveState == DigestiveState.other 
+                              ? null 
+                              : Colors.grey,
+                        ),
+                        const SizedBox(width: 10),
+                        Text(
+                          _formatDate(_dateTime),
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            color: _digestiveState == DigestiveState.other 
+                                ? null 
+                                : Colors.grey,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: WakyCard(
+                    padding: const EdgeInsets.all(10),
+                    onTap: _digestiveState == DigestiveState.other ? _selectTime : null,
+                    backgroundColor: _digestiveState == DigestiveState.other 
+                        ? null 
+                        : Colors.grey.withValues(alpha: 0.1),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.access_time, 
+                          size: 18,
+                          color: _digestiveState == DigestiveState.other 
+                              ? null 
+                              : Colors.grey,
+                        ),
+                        const SizedBox(width: 10),
+                        Text(
+                          _formatTime(_dateTime),
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            color: _digestiveState == DigestiveState.other 
+                                ? null 
+                                : Colors.grey,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
 
             const SizedBox(height: 24),
 
@@ -274,6 +367,7 @@ class _PainFormScreenState extends ConsumerState<PainFormScreen> {
     try {
       final event = _isEditing
           ? widget.event!.copyWith(
+              dateTime: _dateTime,
               intensity: _intensity,
               isUsual: _isUsual,
               digestiveState: _digestiveState,
@@ -282,7 +376,7 @@ class _PainFormScreenState extends ConsumerState<PainFormScreen> {
               otherMomentDescription: _otherMomentDescription,
             )
           : PainEvent(
-              dateTime: DateTime.now(),
+              dateTime: _dateTime,
               intensity: _intensity,
               isUsual: _isUsual,
               digestiveState: _digestiveState,
@@ -303,6 +397,31 @@ class _PainFormScreenState extends ConsumerState<PainFormScreen> {
         HapticService.success();
         // Rafraîchir les événements récents
         ref.invalidate(recentPainEventsProvider);
+        
+        // Vérifier les achievements pour le suivi de douleurs
+        try {
+          final streak = await ref.read(consecutiveDaysProvider.future);
+          final unlockedBadges = await ref.read(checkAchievementsProvider(streak).future);
+          
+          // Rafraîchir les achievements
+          ref.invalidate(allAchievementsProvider);
+          ref.invalidate(unseenAchievementsProvider);
+          ref.invalidate(achievementStatsProvider);
+          
+          if (unlockedBadges.isNotEmpty && mounted) {
+            final badgeNames = unlockedBadges.map((b) => b.title).join(', ');
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('🏆 Badge${unlockedBadges.length > 1 ? 's' : ''} débloqué${unlockedBadges.length > 1 ? 's' : ''} : $badgeNames'),
+                backgroundColor: WakyColors.sunshine,
+                duration: const Duration(seconds: 4),
+              ),
+            );
+          }
+        } catch (e) {
+          debugPrint('Erreur lors de la vérification des achievements: $e');
+        }
+        
         Navigator.of(context).pop();
       }
     } finally {
@@ -310,6 +429,68 @@ class _PainFormScreenState extends ConsumerState<PainFormScreen> {
         setState(() => _isLoading = false);
       }
     }
+  }
+
+  Future<void> _selectDate() async {
+    final date = await showDatePicker(
+      context: context,
+      initialDate: _dateTime,
+      firstDate: DateTime(2020),
+      lastDate: DateTime.now().add(const Duration(days: 1)),
+      locale: const Locale('fr', 'FR'),
+    );
+
+    if (date != null) {
+      HapticService.selection();
+      setState(() {
+        _dateTime = DateTime(
+          date.year,
+          date.month,
+          date.day,
+          _dateTime.hour,
+          _dateTime.minute,
+        );
+      });
+    }
+  }
+
+  Future<void> _selectTime() async {
+    final time = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.fromDateTime(_dateTime),
+    );
+
+    if (time != null) {
+      HapticService.selection();
+      setState(() {
+        _dateTime = DateTime(
+          _dateTime.year,
+          _dateTime.month,
+          _dateTime.day,
+          time.hour,
+          time.minute,
+        );
+      });
+    }
+  }
+
+  String _formatDate(DateTime date) {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final yesterday = today.subtract(const Duration(days: 1));
+    final dateOnly = DateTime(date.year, date.month, date.day);
+
+    if (dateOnly == today) {
+      return 'Aujourd\'hui';
+    } else if (dateOnly == yesterday) {
+      return 'Hier';
+    } else {
+      return '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}';
+    }
+  }
+
+  String _formatTime(DateTime time) {
+    return '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}';
   }
 
   void _confirmDelete() {
