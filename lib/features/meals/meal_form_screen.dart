@@ -5,7 +5,9 @@ import 'package:intl/intl.dart';
 import '../../core/models/models.dart';
 import '../../core/utils/haptic_service.dart';
 import '../../shared/widgets/widgets.dart';
+import '../../shared/theme/colors.dart';
 import 'meals_provider.dart';
+import '../home/home_provider.dart';
 
 /// Écran de formulaire pour ajouter/modifier un repas
 class MealFormScreen extends ConsumerStatefulWidget {
@@ -335,6 +337,31 @@ class _MealFormScreenState extends ConsumerState<MealFormScreen> {
 
       if (success && mounted) {
         HapticService.success();
+        
+        // Vérifier les achievements pour les repas
+        try {
+          final streak = await ref.read(consecutiveDaysProvider.future);
+          final unlockedBadges = await ref.read(checkAchievementsProvider(streak).future);
+          
+          // Rafraîchir les achievements
+          ref.invalidate(allAchievementsProvider);
+          ref.invalidate(unseenAchievementsProvider);
+          ref.invalidate(achievementStatsProvider);
+          
+          if (unlockedBadges.isNotEmpty && mounted) {
+            final badgeNames = unlockedBadges.map((b) => b.title).join(', ');
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('🏆 Badge${unlockedBadges.length > 1 ? 's' : ''} débloqué${unlockedBadges.length > 1 ? 's' : ''} : $badgeNames'),
+                backgroundColor: WakyColors.sunshine,
+                duration: const Duration(seconds: 4),
+              ),
+            );
+          }
+        } catch (e) {
+          debugPrint('Erreur lors de la vérification des achievements: $e');
+        }
+        
         Navigator.of(context).pop();
       }
     } finally {

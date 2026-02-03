@@ -68,9 +68,33 @@ class _DailyFormScreenState extends ConsumerState<DailyFormScreen> {
         }
         
         // Vérifier les achievements
-        final streak = await ref.read(consecutiveDaysProvider.future);
-        ref.invalidate(checkAchievementsProvider(streak));
         ref.invalidate(consecutiveDaysProvider);
+        final streak = await ref.read(consecutiveDaysProvider.future);
+        
+        // Exécuter la vérification des achievements (pas juste invalider)
+        try {
+          final unlockedBadges = await ref.read(checkAchievementsProvider(streak).future);
+          
+          // Rafraîchir les achievements après la vérification
+          ref.invalidate(allAchievementsProvider);
+          ref.invalidate(unseenAchievementsProvider);
+          ref.invalidate(achievementStatsProvider);
+          
+          // Afficher un message si des badges ont été débloqués
+          if (unlockedBadges.isNotEmpty && mounted) {
+            final badgeNames = unlockedBadges.map((b) => b.title).join(', ');
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('🏆 Badge${unlockedBadges.length > 1 ? 's' : ''} débloqué${unlockedBadges.length > 1 ? 's' : ''} : $badgeNames'),
+                backgroundColor: WakyColors.sunshine,
+                duration: const Duration(seconds: 4),
+              ),
+            );
+          }
+        } catch (e) {
+          // Continuer même si la vérification des achievements échoue
+          debugPrint('Erreur lors de la vérification des achievements: $e');
+        }
         
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
