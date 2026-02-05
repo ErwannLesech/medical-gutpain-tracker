@@ -8,7 +8,6 @@ import 'package:share_plus/share_plus.dart';
 import '../../core/models/app_settings.dart' as models;
 import '../../core/utils/haptic_service.dart';
 import '../../core/services/providers.dart';
-import '../../core/services/notification_service.dart';
 import '../../shared/widgets/widgets.dart';
 import '../../shared/theme/colors.dart';
 import '../export/export_screen.dart';
@@ -82,21 +81,6 @@ class SettingsScreen extends ConsumerWidget {
                           if (value) HapticService.selection();
                           ref.read(appSettingsNotifierProvider.notifier).setHapticFeedback(value);
                           HapticService.setEnabled(value);
-                        },
-                      ),
-                    ),
-                    const Divider(height: 1),
-                    // Rappels de journaux
-                    ListTile(
-                      leading: const Icon(Icons.notifications),
-                      title: const Text('Activer alertes journaux'),
-                      trailing: Switch(
-                        value: settings?.mealReminders ?? true,
-                        onChanged: (value) {
-                          HapticService.selection();
-                          ref.read(appSettingsNotifierProvider.notifier).updateSettings(
-                            (settings ?? models.AppSettings()).copyWith(mealReminders: value),
-                          );
                         },
                       ),
                     ),
@@ -239,22 +223,6 @@ class SettingsScreen extends ConsumerWidget {
                 padding: const EdgeInsets.all(0),
                 child: Column(
                   children: [
-                    ListTile(
-                      leading: const Icon(Icons.notification_add),
-                      title: const Text('Tester les notifications'),
-                      subtitle: const Text('Envoie une notification immédiate ou programmée'),
-                      trailing: const Icon(Icons.send),
-                      onTap: () => _sendTestNotification(context),
-                    ),
-                    const Divider(height: 1),
-                    ListTile(
-                      leading: const Icon(Icons.info_outline),
-                      title: const Text('Diagnostics notifications'),
-                      subtitle: const Text('Vérifier l\'état des notifications'),
-                      trailing: const Icon(Icons.chevron_right),
-                      onTap: () => _showNotificationDiagnostics(context),
-                    ),
-                    const Divider(height: 1),
                     ListTile(
                       leading: const Icon(Icons.delete_forever, color: Colors.red),
                       title: const Text('Réinitialiser toutes les données'),
@@ -551,76 +519,6 @@ class SettingsScreen extends ConsumerWidget {
     }
   }
 
-  Future<void> _sendTestNotification(BuildContext context) async {
-    try {
-      HapticService.medium();
-      
-      final notificationService = NotificationService();
-      
-      // Afficher un dialogue pour choisir le type de test
-      final result = await showDialog<String>(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('Tester les notifications'),
-          content: const Text(
-            'Choisissez le type de test :\n\n'
-            '• Immédiat : notification instantanée\n'
-            '• Dans 1 minute : simule le rappel du journal',
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop('cancel'),
-              child: const Text('Annuler'),
-            ),
-            TextButton(
-              onPressed: () => Navigator.of(context).pop('immediate'),
-              child: const Text('Immédiat'),
-            ),
-            TextButton(
-              onPressed: () => Navigator.of(context).pop('scheduled'),
-              child: const Text('Dans 1 minute'),
-            ),
-          ],
-        ),
-      );
-
-      if (result == null || result == 'cancel' || !context.mounted) return;
-
-      if (result == 'immediate') {
-        await notificationService.showTestNotification();
-        if (context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('🔔 Notification immédiate envoyée !'),
-              backgroundColor: WakyColors.success,
-              duration: Duration(seconds: 2),
-            ),
-          );
-        }
-      } else if (result == 'scheduled') {
-        await notificationService.scheduleTestJournalReminder();
-        if (context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('⏰ Notification programmée pour dans 1 minute !'),
-              backgroundColor: WakyColors.success,
-              duration: Duration(seconds: 3),
-            ),
-          );
-        }
-      }
-    } catch (e) {
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('❌ Erreur d\'envoi : $e'),
-            backgroundColor: WakyColors.error,
-          ),
-        );
-      }
-    }
-  }
-
   Future<void> _backupData(BuildContext context, WidgetRef ref) async {
     try {
       HapticService.medium();
@@ -700,73 +598,6 @@ class SettingsScreen extends ConsumerWidget {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('❌ Erreur lors de la sauvegarde : $e'),
-            backgroundColor: WakyColors.error,
-          ),
-        );
-      }
-    }
-  }
-
-  Future<void> _showNotificationDiagnostics(BuildContext context) async {
-    try {
-      final notificationService = NotificationService();
-      final diagnostics = await notificationService.getDiagnostics();
-      
-      if (!context.mounted) return;
-      
-      final buffer = StringBuffer();
-      buffer.writeln('État des notifications :\n');
-      buffer.writeln('Initialisé : ${diagnostics['initialized']}');
-      buffer.writeln('Notifications activées : ${diagnostics['notificationsEnabled']}');
-      buffer.writeln('Alarmes exactes : ${diagnostics['exactAlarmsEnabled']}');
-      buffer.writeln('Timezone : ${diagnostics['timezone']}');
-      buffer.writeln('\nNotifications en attente : ${diagnostics['pendingNotificationsCount']}');
-      
-      if (diagnostics['pendingNotifications'] != null && 
-          (diagnostics['pendingNotifications'] as List).isNotEmpty) {
-        buffer.writeln('\nDétails :');
-        for (var notif in diagnostics['pendingNotifications']) {
-          buffer.writeln('  • ${notif['title']}');
-        }
-      }
-      
-      buffer.writeln('\nProchain rappel 21h :');
-      buffer.writeln('${diagnostics['next21hScheduled']}');
-      
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('Diagnostics'),
-          content: SingleChildScrollView(
-            child: Text(
-              buffer.toString(),
-              style: const TextStyle(fontFamily: 'monospace', fontSize: 12),
-            ),
-          ),
-          actions: [
-            if (diagnostics['exactAlarmsEnabled'] == false)
-              TextButton(
-                onPressed: () async {
-                  await notificationService.requestExactAlarmPermission();
-                  if (context.mounted) {
-                    Navigator.of(context).pop();
-                    _showNotificationDiagnostics(context);
-                  }
-                },
-                child: const Text('Activer alarmes exactes'),
-              ),
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Fermer'),
-            ),
-          ],
-        ),
-      );
-    } catch (e) {
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('❌ Erreur : $e'),
             backgroundColor: WakyColors.error,
           ),
         );

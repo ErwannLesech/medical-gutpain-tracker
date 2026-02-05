@@ -71,78 +71,6 @@ class NotificationService {
     return true;
   }
 
-  /// Programme la notification quotidienne du journal à 21h
-  Future<void> scheduleDailyJournalReminder() async {
-    await _notifications.zonedSchedule(
-      0, // ID unique pour cette notification
-      'Journal du jour 📝',
-      'Prenez un moment pour noter votre journée',
-      _nextInstanceOf21(),
-      const NotificationDetails(
-        android: AndroidNotificationDetails(
-          'daily_journal',
-          'Rappel journal quotidien',
-          channelDescription: 'Rappel pour remplir le journal du jour',
-          importance: Importance.high,
-          priority: Priority.high,
-          icon: '@mipmap/ic_launcher',
-        ),
-        iOS: DarwinNotificationDetails(
-          presentAlert: true,
-          presentBadge: true,
-          presentSound: true,
-        ),
-      ),
-      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime,
-      matchDateTimeComponents: DateTimeComponents.time,
-    );
-  }
-
-  /// Calcule la prochaine occurrence de 21h
-  tz.TZDateTime _nextInstanceOf21() {
-    final now = tz.TZDateTime.now(tz.local);
-    var scheduledDate = tz.TZDateTime(
-      tz.local,
-      now.year,
-      now.month,
-      now.day,
-      21, // 21h
-      0,  // 0 minutes
-    );
-
-    // Si 21h est déjà passé aujourd'hui, programme pour demain
-    if (scheduledDate.isBefore(now)) {
-      scheduledDate = scheduledDate.add(const Duration(days: 1));
-    }
-
-    return scheduledDate;
-  }
-
-  /// Annule toutes les notifications
-  Future<void> cancelAll() async {
-    await _notifications.cancelAll();
-  }
-
-  /// Annule une notification spécifique
-  Future<void> cancel(int id) async {
-    await _notifications.cancel(id);
-  }
-
-  /// Vérifie si les notifications sont activées
-  Future<bool> areNotificationsEnabled() async {
-    final androidImplementation = _notifications.resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>();
-    
-    if (androidImplementation != null) {
-      final enabled = await androidImplementation.areNotificationsEnabled();
-      return enabled ?? false;
-    }
-
-    return true;
-  }
-
   /// Envoie une notification de test immédiatement
   Future<void> showTestNotification() async {
     await _notifications.show(
@@ -167,37 +95,6 @@ class NotificationService {
     );
   }
 
-  /// Programme une notification de test du journal dans 1 minute
-  Future<void> scheduleTestJournalReminder() async {
-    final now = tz.TZDateTime.now(tz.local);
-    final scheduledDate = now.add(const Duration(minutes: 1));
-    
-    await _notifications.zonedSchedule(
-      998, // ID unique pour le test programmé
-      'Test journal dans 1 minute ⏰',
-      'Cette notification devrait apparaître dans 1 minute',
-      scheduledDate,
-      const NotificationDetails(
-        android: AndroidNotificationDetails(
-          'daily_journal',
-          'Rappel journal quotidien',
-          channelDescription: 'Rappel pour remplir le journal du jour',
-          importance: Importance.high,
-          priority: Priority.high,
-          icon: '@mipmap/ic_launcher',
-        ),
-        iOS: DarwinNotificationDetails(
-          presentAlert: true,
-          presentBadge: true,
-          presentSound: true,
-        ),
-      ),
-      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime,
-    );
-  }
-
   /// Obtient des informations de diagnostic sur les notifications
   Future<Map<String, dynamic>> getDiagnostics() async {
     final androidImpl = _notifications.resolvePlatformSpecificImplementation<
@@ -217,7 +114,6 @@ class NotificationService {
     }
 
     final pendingNotifications = await _notifications.pendingNotificationRequests();
-    final next21h = _nextInstanceOf21();
     
     return {
       'initialized': _initialized,
@@ -229,7 +125,6 @@ class NotificationService {
         'title': n.title,
         'body': n.body,
       }).toList(),
-      'next21hScheduled': next21h.toIso8601String(),
       'timezone': tz.local.name,
     };
   }

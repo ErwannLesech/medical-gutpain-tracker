@@ -32,7 +32,6 @@ void main() async {
   try {
     await notificationService.initialize();
     await notificationService.requestPermissions();
-    await notificationService.scheduleDailyJournalReminder();
   } catch (e) {
     // Si les notifications ne fonctionnent pas, l'app continue quand même
     debugPrint('⚠️ Erreur lors de l\'initialisation des notifications: $e');
