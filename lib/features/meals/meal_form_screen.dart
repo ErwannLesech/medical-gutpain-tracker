@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 import '../../core/models/models.dart';
+import '../../core/database/repositories/repositories.dart';
+import '../../core/services/providers.dart';
 import '../../core/utils/haptic_service.dart';
 import '../../shared/widgets/widgets.dart';
 import '../../shared/theme/colors.dart';
@@ -71,6 +73,56 @@ class _MealFormScreenState extends ConsumerState<MealFormScreen> {
     if (hour < 14) return MealType.lunch;
     if (hour < 18) return MealType.snack;
     return MealType.dinner;
+  }
+
+  Future<void> _copyPreviousMeal() async {
+    final repository = ref.read(mealRepositoryProvider);
+    // Récupérer les 20 derniers repas pour trouver le dernier avec un titre
+    final recentMeals = await repository.getRecent(limit: 20);
+    
+    // Filtrer pour trouver le dernier repas qui a un titre
+    // Et exclure le repas actuel si on est en mode édition
+    final mealsWithTitle = recentMeals.where((meal) {
+      // Exclure le repas actuel en mode édition
+      if (_isEditing && meal.id == widget.meal?.id) {
+        return false;
+      }
+      // Ne garder que les repas avec un titre
+      return meal.title != null && meal.title!.isNotEmpty;
+    }).toList();
+    
+    if (mealsWithTitle.isEmpty) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Aucun repas précédent avec un titre trouvé'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
+      return;
+    }
+    
+    final lastMeal = mealsWithTitle.first;
+    
+    setState(() {
+      _foods = List.from(lastMeal.foods);
+      _quantity = lastMeal.quantity;
+      _title = lastMeal.title;
+      _notes = lastMeal.notes;
+      _titleController.text = lastMeal.title ?? '';
+    });
+    
+    if (mounted) {
+      HapticService.success();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Repas "${lastMeal.displayName}" copié'),
+          duration: const Duration(seconds: 2),
+          backgroundColor: WakyColors.sunshine,
+        ),
+      );
+    }
   }
 
   @override
@@ -192,11 +244,24 @@ class _MealFormScreenState extends ConsumerState<MealFormScreen> {
             const SizedBox(height: 24),
 
             // Aliments
-            Text(
-              'Aliments',
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Aliments',
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                ),
+                TextButton.icon(
+                  onPressed: _copyPreviousMeal,
+                  icon: const Icon(Icons.content_copy, size: 18),
+                  label: const Text('Copier le dernier repas'),
+                  style: TextButton.styleFrom(
+                    foregroundColor: WakyColors.sunshine,
                   ),
+                ),
+              ],
             ),
             const SizedBox(height: 12),
             suggestedFoods.when(
