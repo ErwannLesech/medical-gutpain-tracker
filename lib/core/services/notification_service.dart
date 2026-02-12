@@ -149,4 +149,68 @@ class NotificationService {
     }
     return true;
   }
+
+  // CORRECTION 1 : ID fixe par type de notif pour pouvoir annuler/remplacer
+  static const int _dailyNotificationId = 1;
+
+  /// Planifie une notification journalière de rappel
+  Future<void> scheduleDailyNotification({
+    required String title,
+    required String body,
+    required int hour,
+    required int minute,
+  }) async {
+    // CORRECTION 2 : androidScheduleMode en exactAllowWhileIdle
+    // pour déclencher même en mode Doze (app killed)
+    await _notifications.zonedSchedule(
+      _dailyNotificationId,
+      title,
+      body,
+      _nextInstanceOfTime(hour, minute),
+      const NotificationDetails(
+        android: AndroidNotificationDetails(
+          'daily_reminder',
+          'Rappel journalier',
+          channelDescription: 'Notification quotidienne pour remplir le journal',
+          importance: Importance.max,
+          priority: Priority.high,
+          icon: '@mipmap/ic_launcher',
+        ),
+        iOS: DarwinNotificationDetails(
+          presentAlert: true,
+          presentBadge: true,
+          presentSound: true,
+        ),
+      ),
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.absoluteTime,
+      // ✅ exact + passe en mode Doze/battery saver
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+      // CORRECTION 3 : matchDateTimeComponents pour répétition journalière
+      matchDateTimeComponents: DateTimeComponents.time,
+    );
+  }
+
+  /// Calcule le prochain déclenchement à l'heure choisie
+  /// Si l'heure est déjà passée aujourd'hui → demain
+  tz.TZDateTime _nextInstanceOfTime(int hour, int minute) {
+    final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
+    tz.TZDateTime scheduled = tz.TZDateTime(
+      tz.local,
+      now.year,
+      now.month,
+      now.day,
+      hour,
+      minute,
+    );
+    if (scheduled.isBefore(now)) {
+      scheduled = scheduled.add(const Duration(days: 1));
+    }
+    return scheduled;
+  }
+
+  /// Annule la notification journalière
+  Future<void> cancelDailyNotification() async {
+    await _notifications.cancel(_dailyNotificationId);
+  }
 }

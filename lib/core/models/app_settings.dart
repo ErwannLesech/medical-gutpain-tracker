@@ -27,6 +27,13 @@ class AppSettings {
   /// Activer les retours haptiques
   bool hapticFeedback;
 
+  /// Activer la notification journalière de rappel
+  bool dailyReminderEnabled;
+
+  /// Heure de la notification journalière
+  int dailyReminderHour;
+  int dailyReminderMinute;
+
   /// Heures par défaut des repas
   int breakfastHour;
   int breakfastMinute;
@@ -61,6 +68,9 @@ class AppSettings {
     this.userName,
     this.mealReminders = true,
     this.hapticFeedback = true,
+    this.dailyReminderEnabled = false,
+    this.dailyReminderHour = 20,
+    this.dailyReminderMinute = 0,
     this.breakfastHour = 8,
     this.breakfastMinute = 0,
     this.lunchHour = 12,
@@ -87,12 +97,19 @@ class AppSettings {
   String get dinnerTime => 
       '${dinnerHour.toString().padLeft(2, '0')}:${dinnerMinute.toString().padLeft(2, '0')}';
 
+  /// Retourne l'heure de la notification journalière formatée
+  String get dailyReminderTime => 
+      '${dailyReminderHour.toString().padLeft(2, '0')}:${dailyReminderMinute.toString().padLeft(2, '0')}';
+
   /// Copie les paramètres avec des modifications
   AppSettings copyWith({
     ThemeMode? themeMode,
     String? userName,
     bool? mealReminders,
     bool? hapticFeedback,
+    bool? dailyReminderEnabled,
+    int? dailyReminderHour,
+    int? dailyReminderMinute,
     int? breakfastHour,
     int? breakfastMinute,
     int? lunchHour,
@@ -110,6 +127,9 @@ class AppSettings {
       userName: userName ?? this.userName,
       mealReminders: mealReminders ?? this.mealReminders,
       hapticFeedback: hapticFeedback ?? this.hapticFeedback,
+      dailyReminderEnabled: dailyReminderEnabled ?? this.dailyReminderEnabled,
+      dailyReminderHour: dailyReminderHour ?? this.dailyReminderHour,
+      dailyReminderMinute: dailyReminderMinute ?? this.dailyReminderMinute,
       breakfastHour: breakfastHour ?? this.breakfastHour,
       breakfastMinute: breakfastMinute ?? this.breakfastMinute,
       lunchHour: lunchHour ?? this.lunchHour,

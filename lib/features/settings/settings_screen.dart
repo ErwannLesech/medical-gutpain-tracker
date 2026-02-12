@@ -8,6 +8,7 @@ import 'package:share_plus/share_plus.dart';
 import '../../core/models/app_settings.dart' as models;
 import '../../core/utils/haptic_service.dart';
 import '../../core/services/providers.dart';
+import '../../core/services/notification_service.dart';
 import '../../shared/widgets/widgets.dart';
 import '../../shared/theme/colors.dart';
 import '../export/export_screen.dart';
@@ -169,6 +170,56 @@ class SettingsScreen extends ConsumerWidget {
                         },
                       ),
                     ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 24),
+
+              // Section Notifications
+              _buildSectionTitle(context, 'Notifications'),
+              const SizedBox(height: 12),
+
+              WakyCard(
+                padding: const EdgeInsets.all(0),
+                child: Column(
+                  children: [
+                    ListTile(
+                      leading: const Icon(Icons.notifications_active),
+                      title: const Text('Rappel journalier'),
+                      subtitle: Text(
+                        settings?.dailyReminderEnabled == true
+                            ? 'Activé à ${settings!.dailyReminderTime}'
+                            : 'Désactivé',
+                      ),
+                      trailing: Switch(
+                        value: settings?.dailyReminderEnabled ?? false,
+                        onChanged: (value) async {
+                          HapticService.selection();
+                          await _toggleDailyReminder(context, ref, value, settings);
+                        },
+                      ),
+                    ),
+                    if (settings?.dailyReminderEnabled == true) ...[
+                      const Divider(height: 1),
+                      ListTile(
+                        leading: const SizedBox(width: 40),
+                        title: const Text('Heure du rappel'),
+                        subtitle: Text(settings?.dailyReminderTime ?? '20:00'),
+                        trailing: const Icon(Icons.access_time),
+                        onTap: () => _showTimePicker(
+                          context,
+                          ref,
+                          TimeOfDay(
+                            hour: settings?.dailyReminderHour ?? 20,
+                            minute: settings?.dailyReminderMinute ?? 0,
+                          ),
+                          (time) async {
+                            await _updateDailyReminderTime(context, ref, time, settings);
+                          },
+                        ),
+                      ),
+                    ],
                   ],
                 ),
               ),
@@ -603,5 +654,121 @@ class SettingsScreen extends ConsumerWidget {
         );
       }
     }
+  }
+
+  /// Active/désactive la notification journalière
+  Future<void> _toggleDailyReminder(
+    BuildContext context,
+    WidgetRef ref,
+    bool enabled,
+    models.AppSettings? settings,
+  ) async {
+    try {
+      final notificationService = NotificationService();
+      
+      if (enabled) {
+        // Activer la notification
+        final hour = settings?.dailyReminderHour ?? 20;
+        final minute = settings?.dailyReminderMinute ?? 0;
+        
+        await notificationService.scheduleDailyNotification(
+          title: 'Rappel WakyGut',
+          body: 'N\'oubliez pas de remplir votre journal du jour ! 📝',
+          hour: hour,
+          minute: minute,
+        );
+        
+        await ref.read(appSettingsNotifierProvider.notifier).updateSettings(
+          (settings ?? models.AppSettings()).copyWith(
+            dailyReminderEnabled: true,
+          ),
+        );
+        
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('✅ Notification activée à ${_formatTime(hour, minute)}'),
+              backgroundColor: WakyColors.success,
+            ),
+          );
+        }
+      } else {
+        // Désactiver la notification
+        await notificationService.cancelDailyNotification();
+        
+        await ref.read(appSettingsNotifierProvider.notifier).updateSettings(
+          (settings ?? models.AppSettings()).copyWith(
+            dailyReminderEnabled: false,
+          ),
+        );
+        
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Notification désactivée'),
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('❌ Erreur : $e'),
+            backgroundColor: WakyColors.error,
+          ),
+        );
+      }
+    }
+  }
+
+  /// Met à jour l'heure de la notification journalière
+  Future<void> _updateDailyReminderTime(
+    BuildContext context,
+    WidgetRef ref,
+    TimeOfDay time,
+    models.AppSettings? settings,
+  ) async {
+    try {
+      final notificationService = NotificationService();
+      
+      // Reprogrammer la notification avec la nouvelle heure
+      await notificationService.scheduleDailyNotification(
+        title: 'Rappel WakyGut',
+        body: 'N\'oubliez pas de remplir votre journal du jour ! 📝',
+        hour: time.hour,
+        minute: time.minute,
+      );
+      
+      // Mettre à jour les paramètres
+      await ref.read(appSettingsNotifierProvider.notifier).updateSettings(
+        (settings ?? models.AppSettings()).copyWith(
+          dailyReminderHour: time.hour,
+          dailyReminderMinute: time.minute,
+        ),
+      );
+      
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('✅ Heure mise à jour : ${_formatTime(time.hour, time.minute)}'),
+            backgroundColor: WakyColors.success,
+          ),
+        );
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('❌ Erreur : $e'),
+            backgroundColor: WakyColors.error,
+          ),
+        );
+      }
+    }
+  }
+
+  String _formatTime(int hour, int minute) {
+    return '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}';
   }
 }

@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:timezone/data/latest_all.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 import 'core/database/database_service.dart';
 import 'core/models/app_settings.dart' as settings;
@@ -16,6 +18,26 @@ void main() async {
   
   // Initialize date formatting for French locale
   await initializeDateFormatting('fr_FR', null);
+  
+  // Initialize timezone
+  tz.initializeTimeZones();
+  
+  // Récupère le nom de timezone via dart:io, sans package externe
+  final String timezoneName = DateTime.now().timeZoneName;
+  try {
+    tz.setLocalLocation(tz.getLocation(timezoneName));
+  } catch (_) {
+    // Fallback : cherche par offset UTC si le nom n'est pas reconnu
+    final Duration offset = DateTime.now().timeZoneOffset;
+    final String fallback = tz.timeZoneDatabase.locations.keys.firstWhere(
+      (name) {
+        final loc = tz.getLocation(name);
+        return tz.TZDateTime.now(loc).timeZoneOffset == offset;
+      },
+      orElse: () => 'UTC',
+    );
+    tz.setLocalLocation(tz.getLocation(fallback));
+  }
   
   // Set preferred orientations
   await SystemChrome.setPreferredOrientations([

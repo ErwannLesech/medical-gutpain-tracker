@@ -32,89 +32,109 @@ const AppSettingsSchema = CollectionSchema(
       name: r'breakfastTime',
       type: IsarType.string,
     ),
-    r'dinnerHour': PropertySchema(
+    r'dailyReminderEnabled': PropertySchema(
       id: 3,
+      name: r'dailyReminderEnabled',
+      type: IsarType.bool,
+    ),
+    r'dailyReminderHour': PropertySchema(
+      id: 4,
+      name: r'dailyReminderHour',
+      type: IsarType.long,
+    ),
+    r'dailyReminderMinute': PropertySchema(
+      id: 5,
+      name: r'dailyReminderMinute',
+      type: IsarType.long,
+    ),
+    r'dailyReminderTime': PropertySchema(
+      id: 6,
+      name: r'dailyReminderTime',
+      type: IsarType.string,
+    ),
+    r'dinnerHour': PropertySchema(
+      id: 7,
       name: r'dinnerHour',
       type: IsarType.long,
     ),
     r'dinnerMinute': PropertySchema(
-      id: 4,
+      id: 8,
       name: r'dinnerMinute',
       type: IsarType.long,
     ),
     r'dinnerTime': PropertySchema(
-      id: 5,
+      id: 9,
       name: r'dinnerTime',
       type: IsarType.string,
     ),
     r'exportWithCharts': PropertySchema(
-      id: 6,
+      id: 10,
       name: r'exportWithCharts',
       type: IsarType.bool,
     ),
     r'firstUseDate': PropertySchema(
-      id: 7,
+      id: 11,
       name: r'firstUseDate',
       type: IsarType.dateTime,
     ),
     r'hapticFeedback': PropertySchema(
-      id: 8,
+      id: 12,
       name: r'hapticFeedback',
       type: IsarType.bool,
     ),
     r'highlightProblematicFoods': PropertySchema(
-      id: 9,
+      id: 13,
       name: r'highlightProblematicFoods',
       type: IsarType.bool,
     ),
     r'lastBackupDate': PropertySchema(
-      id: 10,
+      id: 14,
       name: r'lastBackupDate',
       type: IsarType.dateTime,
     ),
     r'locale': PropertySchema(
-      id: 11,
+      id: 15,
       name: r'locale',
       type: IsarType.string,
     ),
     r'lunchHour': PropertySchema(
-      id: 12,
+      id: 16,
       name: r'lunchHour',
       type: IsarType.long,
     ),
     r'lunchMinute': PropertySchema(
-      id: 13,
+      id: 17,
       name: r'lunchMinute',
       type: IsarType.long,
     ),
     r'lunchTime': PropertySchema(
-      id: 14,
+      id: 18,
       name: r'lunchTime',
       type: IsarType.string,
     ),
     r'maxMealPainLinkHours': PropertySchema(
-      id: 15,
+      id: 19,
       name: r'maxMealPainLinkHours',
       type: IsarType.long,
     ),
     r'mealReminders': PropertySchema(
-      id: 16,
+      id: 20,
       name: r'mealReminders',
       type: IsarType.bool,
     ),
     r'textScale': PropertySchema(
-      id: 17,
+      id: 21,
       name: r'textScale',
       type: IsarType.double,
     ),
     r'themeMode': PropertySchema(
-      id: 18,
+      id: 22,
       name: r'themeMode',
       type: IsarType.byte,
       enumMap: _AppSettingsthemeModeEnumValueMap,
     ),
     r'userName': PropertySchema(
-      id: 19,
+      id: 23,
       name: r'userName',
       type: IsarType.string,
     )
@@ -140,6 +160,7 @@ int _appSettingsEstimateSize(
 ) {
   var bytesCount = offsets.last;
   bytesCount += 3 + object.breakfastTime.length * 3;
+  bytesCount += 3 + object.dailyReminderTime.length * 3;
   bytesCount += 3 + object.dinnerTime.length * 3;
   bytesCount += 3 + object.locale.length * 3;
   bytesCount += 3 + object.lunchTime.length * 3;
@@ -161,23 +182,27 @@ void _appSettingsSerialize(
   writer.writeLong(offsets[0], object.breakfastHour);
   writer.writeLong(offsets[1], object.breakfastMinute);
   writer.writeString(offsets[2], object.breakfastTime);
-  writer.writeLong(offsets[3], object.dinnerHour);
-  writer.writeLong(offsets[4], object.dinnerMinute);
-  writer.writeString(offsets[5], object.dinnerTime);
-  writer.writeBool(offsets[6], object.exportWithCharts);
-  writer.writeDateTime(offsets[7], object.firstUseDate);
-  writer.writeBool(offsets[8], object.hapticFeedback);
-  writer.writeBool(offsets[9], object.highlightProblematicFoods);
-  writer.writeDateTime(offsets[10], object.lastBackupDate);
-  writer.writeString(offsets[11], object.locale);
-  writer.writeLong(offsets[12], object.lunchHour);
-  writer.writeLong(offsets[13], object.lunchMinute);
-  writer.writeString(offsets[14], object.lunchTime);
-  writer.writeLong(offsets[15], object.maxMealPainLinkHours);
-  writer.writeBool(offsets[16], object.mealReminders);
-  writer.writeDouble(offsets[17], object.textScale);
-  writer.writeByte(offsets[18], object.themeMode.index);
-  writer.writeString(offsets[19], object.userName);
+  writer.writeBool(offsets[3], object.dailyReminderEnabled);
+  writer.writeLong(offsets[4], object.dailyReminderHour);
+  writer.writeLong(offsets[5], object.dailyReminderMinute);
+  writer.writeString(offsets[6], object.dailyReminderTime);
+  writer.writeLong(offsets[7], object.dinnerHour);
+  writer.writeLong(offsets[8], object.dinnerMinute);
+  writer.writeString(offsets[9], object.dinnerTime);
+  writer.writeBool(offsets[10], object.exportWithCharts);
+  writer.writeDateTime(offsets[11], object.firstUseDate);
+  writer.writeBool(offsets[12], object.hapticFeedback);
+  writer.writeBool(offsets[13], object.highlightProblematicFoods);
+  writer.writeDateTime(offsets[14], object.lastBackupDate);
+  writer.writeString(offsets[15], object.locale);
+  writer.writeLong(offsets[16], object.lunchHour);
+  writer.writeLong(offsets[17], object.lunchMinute);
+  writer.writeString(offsets[18], object.lunchTime);
+  writer.writeLong(offsets[19], object.maxMealPainLinkHours);
+  writer.writeBool(offsets[20], object.mealReminders);
+  writer.writeDouble(offsets[21], object.textScale);
+  writer.writeByte(offsets[22], object.themeMode.index);
+  writer.writeString(offsets[23], object.userName);
 }
 
 AppSettings _appSettingsDeserialize(
@@ -189,24 +214,27 @@ AppSettings _appSettingsDeserialize(
   final object = AppSettings(
     breakfastHour: reader.readLongOrNull(offsets[0]) ?? 8,
     breakfastMinute: reader.readLongOrNull(offsets[1]) ?? 0,
-    dinnerHour: reader.readLongOrNull(offsets[3]) ?? 19,
-    dinnerMinute: reader.readLongOrNull(offsets[4]) ?? 30,
-    exportWithCharts: reader.readBoolOrNull(offsets[6]) ?? true,
-    hapticFeedback: reader.readBoolOrNull(offsets[8]) ?? true,
-    highlightProblematicFoods: reader.readBoolOrNull(offsets[9]) ?? true,
-    lastBackupDate: reader.readDateTimeOrNull(offsets[10]),
-    locale: reader.readStringOrNull(offsets[11]) ?? 'fr',
-    lunchHour: reader.readLongOrNull(offsets[12]) ?? 12,
-    lunchMinute: reader.readLongOrNull(offsets[13]) ?? 30,
-    maxMealPainLinkHours: reader.readLongOrNull(offsets[15]) ?? 6,
-    mealReminders: reader.readBoolOrNull(offsets[16]) ?? true,
-    textScale: reader.readDoubleOrNull(offsets[17]) ?? 1.0,
+    dailyReminderEnabled: reader.readBoolOrNull(offsets[3]) ?? false,
+    dailyReminderHour: reader.readLongOrNull(offsets[4]) ?? 20,
+    dailyReminderMinute: reader.readLongOrNull(offsets[5]) ?? 0,
+    dinnerHour: reader.readLongOrNull(offsets[7]) ?? 19,
+    dinnerMinute: reader.readLongOrNull(offsets[8]) ?? 30,
+    exportWithCharts: reader.readBoolOrNull(offsets[10]) ?? true,
+    hapticFeedback: reader.readBoolOrNull(offsets[12]) ?? true,
+    highlightProblematicFoods: reader.readBoolOrNull(offsets[13]) ?? true,
+    lastBackupDate: reader.readDateTimeOrNull(offsets[14]),
+    locale: reader.readStringOrNull(offsets[15]) ?? 'fr',
+    lunchHour: reader.readLongOrNull(offsets[16]) ?? 12,
+    lunchMinute: reader.readLongOrNull(offsets[17]) ?? 30,
+    maxMealPainLinkHours: reader.readLongOrNull(offsets[19]) ?? 6,
+    mealReminders: reader.readBoolOrNull(offsets[20]) ?? true,
+    textScale: reader.readDoubleOrNull(offsets[21]) ?? 1.0,
     themeMode:
-        _AppSettingsthemeModeValueEnumMap[reader.readByteOrNull(offsets[18])] ??
+        _AppSettingsthemeModeValueEnumMap[reader.readByteOrNull(offsets[22])] ??
             ThemeMode.system,
-    userName: reader.readStringOrNull(offsets[19]),
+    userName: reader.readStringOrNull(offsets[23]),
   );
-  object.firstUseDate = reader.readDateTime(offsets[7]);
+  object.firstUseDate = reader.readDateTime(offsets[11]);
   object.id = id;
   return object;
 }
@@ -225,40 +253,48 @@ P _appSettingsDeserializeProp<P>(
     case 2:
       return (reader.readString(offset)) as P;
     case 3:
-      return (reader.readLongOrNull(offset) ?? 19) as P;
+      return (reader.readBoolOrNull(offset) ?? false) as P;
     case 4:
-      return (reader.readLongOrNull(offset) ?? 30) as P;
+      return (reader.readLongOrNull(offset) ?? 20) as P;
     case 5:
-      return (reader.readString(offset)) as P;
+      return (reader.readLongOrNull(offset) ?? 0) as P;
     case 6:
-      return (reader.readBoolOrNull(offset) ?? true) as P;
-    case 7:
-      return (reader.readDateTime(offset)) as P;
-    case 8:
-      return (reader.readBoolOrNull(offset) ?? true) as P;
-    case 9:
-      return (reader.readBoolOrNull(offset) ?? true) as P;
-    case 10:
-      return (reader.readDateTimeOrNull(offset)) as P;
-    case 11:
-      return (reader.readStringOrNull(offset) ?? 'fr') as P;
-    case 12:
-      return (reader.readLongOrNull(offset) ?? 12) as P;
-    case 13:
-      return (reader.readLongOrNull(offset) ?? 30) as P;
-    case 14:
       return (reader.readString(offset)) as P;
-    case 15:
-      return (reader.readLongOrNull(offset) ?? 6) as P;
-    case 16:
+    case 7:
+      return (reader.readLongOrNull(offset) ?? 19) as P;
+    case 8:
+      return (reader.readLongOrNull(offset) ?? 30) as P;
+    case 9:
+      return (reader.readString(offset)) as P;
+    case 10:
       return (reader.readBoolOrNull(offset) ?? true) as P;
+    case 11:
+      return (reader.readDateTime(offset)) as P;
+    case 12:
+      return (reader.readBoolOrNull(offset) ?? true) as P;
+    case 13:
+      return (reader.readBoolOrNull(offset) ?? true) as P;
+    case 14:
+      return (reader.readDateTimeOrNull(offset)) as P;
+    case 15:
+      return (reader.readStringOrNull(offset) ?? 'fr') as P;
+    case 16:
+      return (reader.readLongOrNull(offset) ?? 12) as P;
     case 17:
-      return (reader.readDoubleOrNull(offset) ?? 1.0) as P;
+      return (reader.readLongOrNull(offset) ?? 30) as P;
     case 18:
+      return (reader.readString(offset)) as P;
+    case 19:
+      return (reader.readLongOrNull(offset) ?? 6) as P;
+    case 20:
+      return (reader.readBoolOrNull(offset) ?? true) as P;
+    case 21:
+      return (reader.readDoubleOrNull(offset) ?? 1.0) as P;
+    case 22:
       return (_AppSettingsthemeModeValueEnumMap[
               reader.readByteOrNull(offset)] ??
           ThemeMode.system) as P;
-    case 19:
+    case 23:
       return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -612,6 +648,264 @@ extension AppSettingsQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'breakfastTime',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      dailyReminderEnabledEqualTo(bool value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'dailyReminderEnabled',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      dailyReminderHourEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'dailyReminderHour',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      dailyReminderHourGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'dailyReminderHour',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      dailyReminderHourLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'dailyReminderHour',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      dailyReminderHourBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'dailyReminderHour',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      dailyReminderMinuteEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'dailyReminderMinute',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      dailyReminderMinuteGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'dailyReminderMinute',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      dailyReminderMinuteLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'dailyReminderMinute',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      dailyReminderMinuteBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'dailyReminderMinute',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      dailyReminderTimeEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'dailyReminderTime',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      dailyReminderTimeGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'dailyReminderTime',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      dailyReminderTimeLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'dailyReminderTime',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      dailyReminderTimeBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'dailyReminderTime',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      dailyReminderTimeStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'dailyReminderTime',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      dailyReminderTimeEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'dailyReminderTime',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      dailyReminderTimeContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'dailyReminderTime',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      dailyReminderTimeMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'dailyReminderTime',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      dailyReminderTimeIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'dailyReminderTime',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      dailyReminderTimeIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'dailyReminderTime',
         value: '',
       ));
     });
@@ -1849,6 +2143,62 @@ extension AppSettingsQuerySortBy
     });
   }
 
+  QueryBuilder<AppSettings, AppSettings, QAfterSortBy>
+      sortByDailyReminderEnabled() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dailyReminderEnabled', Sort.asc);
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterSortBy>
+      sortByDailyReminderEnabledDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dailyReminderEnabled', Sort.desc);
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterSortBy>
+      sortByDailyReminderHour() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dailyReminderHour', Sort.asc);
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterSortBy>
+      sortByDailyReminderHourDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dailyReminderHour', Sort.desc);
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterSortBy>
+      sortByDailyReminderMinute() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dailyReminderMinute', Sort.asc);
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterSortBy>
+      sortByDailyReminderMinuteDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dailyReminderMinute', Sort.desc);
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterSortBy>
+      sortByDailyReminderTime() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dailyReminderTime', Sort.asc);
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterSortBy>
+      sortByDailyReminderTimeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dailyReminderTime', Sort.desc);
+    });
+  }
+
   QueryBuilder<AppSettings, AppSettings, QAfterSortBy> sortByDinnerHour() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'dinnerHour', Sort.asc);
@@ -2106,6 +2456,62 @@ extension AppSettingsQuerySortThenBy
     });
   }
 
+  QueryBuilder<AppSettings, AppSettings, QAfterSortBy>
+      thenByDailyReminderEnabled() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dailyReminderEnabled', Sort.asc);
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterSortBy>
+      thenByDailyReminderEnabledDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dailyReminderEnabled', Sort.desc);
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterSortBy>
+      thenByDailyReminderHour() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dailyReminderHour', Sort.asc);
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterSortBy>
+      thenByDailyReminderHourDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dailyReminderHour', Sort.desc);
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterSortBy>
+      thenByDailyReminderMinute() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dailyReminderMinute', Sort.asc);
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterSortBy>
+      thenByDailyReminderMinuteDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dailyReminderMinute', Sort.desc);
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterSortBy>
+      thenByDailyReminderTime() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dailyReminderTime', Sort.asc);
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterSortBy>
+      thenByDailyReminderTimeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'dailyReminderTime', Sort.desc);
+    });
+  }
+
   QueryBuilder<AppSettings, AppSettings, QAfterSortBy> thenByDinnerHour() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'dinnerHour', Sort.asc);
@@ -2357,6 +2763,35 @@ extension AppSettingsQueryWhereDistinct
     });
   }
 
+  QueryBuilder<AppSettings, AppSettings, QDistinct>
+      distinctByDailyReminderEnabled() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'dailyReminderEnabled');
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QDistinct>
+      distinctByDailyReminderHour() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'dailyReminderHour');
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QDistinct>
+      distinctByDailyReminderMinute() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'dailyReminderMinute');
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QDistinct> distinctByDailyReminderTime(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'dailyReminderTime',
+          caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<AppSettings, AppSettings, QDistinct> distinctByDinnerHour() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'dinnerHour');
@@ -2490,6 +2925,33 @@ extension AppSettingsQueryProperty
   QueryBuilder<AppSettings, String, QQueryOperations> breakfastTimeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'breakfastTime');
+    });
+  }
+
+  QueryBuilder<AppSettings, bool, QQueryOperations>
+      dailyReminderEnabledProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'dailyReminderEnabled');
+    });
+  }
+
+  QueryBuilder<AppSettings, int, QQueryOperations> dailyReminderHourProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'dailyReminderHour');
+    });
+  }
+
+  QueryBuilder<AppSettings, int, QQueryOperations>
+      dailyReminderMinuteProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'dailyReminderMinute');
+    });
+  }
+
+  QueryBuilder<AppSettings, String, QQueryOperations>
+      dailyReminderTimeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'dailyReminderTime');
     });
   }
 
