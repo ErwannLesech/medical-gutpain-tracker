@@ -9,6 +9,7 @@ import '../../shared/widgets/widgets.dart';
 import '../../shared/theme/colors.dart';
 import 'meals_provider.dart';
 import 'meal_form_screen.dart';
+import 'shopping_list_screen.dart';
 
 /// Écran principal des repas avec calendrier
 class MealsScreen extends ConsumerStatefulWidget {
@@ -54,6 +55,11 @@ class _MealsScreenState extends ConsumerState<MealsScreen> {
                         ),
                       ],
                     ),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.shopping_cart_outlined),
+                    tooltip: 'Liste de courses',
+                    onPressed: () => _navigateToShoppingList(context),
                   ),
                   IconButton(
                     icon: Icon(
@@ -259,6 +265,14 @@ class _MealsScreenState extends ConsumerState<MealsScreen> {
         builder: (context) => MealFormScreen(
           meal: meal,
         ),
+      ),
+    );
+  }
+
+  void _navigateToShoppingList(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const ShoppingListScreen(),
       ),
     );
   }

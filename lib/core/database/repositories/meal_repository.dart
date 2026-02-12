@@ -214,4 +214,26 @@ class MealRepository {
 
     return Map.fromEntries(sortedEntries.take(limit));
   }
+
+  /// Récupère tous les aliments des repas à venir (du jour actuel au futur)
+  Future<List<String>> getFutureFoods({DateTime? fromDate}) async {
+    final startDate = fromDate ?? DateTime.now();
+    final startOfDay = DateTime(startDate.year, startDate.month, startDate.day);
+
+    final meals = await _isar.meals
+        .where()
+        .filter()
+        .plannedDateTimeGreaterThan(startOfDay)
+        .sortByPlannedDateTime()
+        .findAll();
+
+    // Collecte tous les aliments uniques
+    final allFoods = <String>{};
+    for (final meal in meals) {
+      allFoods.addAll(meal.foods);
+    }
+
+    final foodList = allFoods.toList()..sort();
+    return foodList;
+  }
 }
