@@ -9,6 +9,7 @@ import '../core/utils/haptic_service.dart';
 import '../shared/theme/colors.dart';
 import '../shared/widgets/widgets.dart';
 import 'meals/meals_screen.dart';
+import 'meals/shopping_list_screen.dart';
 import 'pain/pain_screen.dart';
 import 'pain/pain_form_screen.dart';
 import 'daily/daily_screen.dart';
@@ -146,12 +147,34 @@ class _DashboardTab extends ConsumerWidget {
   Widget _buildQuickActions(BuildContext context, WidgetRef ref) {
     return Column(
       children: [
-        // Première ligne : Journal du jour
-        _buildJournalCard(context, ref),
+        // Première ligne : Journal et Douleur
+        Row(
+          children: [
+            Expanded(
+              child: _buildJournalCard(context, ref),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: _QuickActionCard(
+                emoji: '⚠️',
+                label: 'Douleur',
+                color: WakyColors.error,
+                onTap: () {
+                  HapticService.medium();
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const PainFormScreen(),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
         
         const SizedBox(height: 12),
         
-        // Deuxième ligne : Repas et Douleur
+        // Deuxième ligne : Repas et Liste de courses
         Row(
           children: [
             Expanded(
@@ -172,14 +195,14 @@ class _DashboardTab extends ConsumerWidget {
             const SizedBox(width: 12),
             Expanded(
               child: _QuickActionCard(
-                emoji: '⚠️',
-                label: 'Douleur',
-                color: WakyColors.error,
+                emoji: '🛒',
+                label: 'Liste de courses',
+                color: WakyColors.success,
                 onTap: () {
                   HapticService.medium();
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => const PainFormScreen(),
+                      builder: (context) => const ShoppingListScreen(),
                     ),
                   );
                 },

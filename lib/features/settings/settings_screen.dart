@@ -203,10 +203,10 @@ class SettingsScreen extends ConsumerWidget {
                     if (settings?.dailyReminderEnabled == true) ...[
                       const Divider(height: 1),
                       ListTile(
-                        leading: const SizedBox(width: 40),
+                        leading: const Icon(Icons.access_time),
                         title: const Text('Heure du rappel'),
                         subtitle: Text(settings?.dailyReminderTime ?? '20:00'),
-                        trailing: const Icon(Icons.access_time),
+                        trailing: const Icon(Icons.chevron_right),
                         onTap: () => _showTimePicker(
                           context,
                           ref,

@@ -40,6 +40,7 @@ dependencies:
   
   # Notifications
   flutter_local_notifications: ^18.0.0
+  flutter_timezone: ^3.0.1
   timezone: ^0.9.0
   
   # Haptic Feedback
@@ -54,6 +55,9 @@ dev_dependencies:
   isar_generator: ^3.1.0+1
   build_runner: ^2.4.9
   riverpod_generator: ^2.4.0
+  
+  # Launcher Icons
+  flutter_launcher_icons: ^0.13.1
 
 flutter:
   uses-material-design: true
@@ -73,3 +77,10 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/cats_optimized/
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "AppIcons/playstore.png"
+  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_foreground: "AppIcons/playstore.png"
