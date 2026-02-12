@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:file_picker/file_picker.dart';
 
 import '../../core/models/app_settings.dart' as models;
 import '../../core/utils/haptic_service.dart';
@@ -259,6 +260,14 @@ class SettingsScreen extends ConsumerWidget {
                       ),
                       trailing: const Icon(Icons.chevron_right),
                       onTap: () => _backupData(context, ref),
+                    ),
+                    const Divider(height: 1),
+                    ListTile(
+                      leading: const Icon(Icons.restore, color: WakyColors.primary),
+                      title: const Text('Restaurer les données'),
+                      subtitle: const Text('Importer depuis une sauvegarde'),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: () => _restoreData(context, ref),
                     ),
                   ],
                 ),
@@ -770,5 +779,122 @@ class SettingsScreen extends ConsumerWidget {
 
   String _formatTime(int hour, int minute) {
     return '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}';
+  }
+
+  /// Restaure les données depuis un fichier JSON
+  Future<void> _restoreData(BuildContext context, WidgetRef ref) async {
+    try {
+      // Sélectionner un fichier JSON
+      final result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['json'],
+      );
+
+      if (result == null || result.files.single.path == null) {
+        return; // L'utilisateur a annulé
+      }
+
+      HapticService.medium();
+
+      // Afficher une confirmation
+      if (context.mounted) {
+        final confirm = await showDialog<bool>(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('⚠️ Attention'),
+            content: const Text(
+              'Cette action va fusionner les données importées avec vos données actuelles.\n\n'
+              'Les données avec le même ID seront écrasées.\n\n'
+              'Voulez-vous continuer ?',
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: const Text('Annuler'),
+              ),
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                style: TextButton.styleFrom(foregroundColor: WakyColors.primary),
+                child: const Text('Importer'),
+              ),
+            ],
+          ),
+        );
+
+        if (confirm != true) return;
+      }
+
+      // Afficher un indicateur de chargement
+      if (context.mounted) {
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => const Center(
+            child: Card(
+              child: Padding(
+                padding: EdgeInsets.all(24),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    CircularProgressIndicator(),
+                    SizedBox(height: 16),
+                    Text('Importation en cours...'),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      }
+
+      // Lire le fichier
+      final file = File(result.files.single.path!);
+      final jsonString = await file.readAsString();
+      final jsonData = jsonDecode(jsonString) as Map<String, dynamic>;
+
+      // Importer les données
+      final dbService = ref.read(databaseServiceProvider);
+      await dbService.importFromJson(jsonData);
+
+      // Invalider tous les providers pour forcer le rechargement
+      ref.invalidate(dailyReportProvider);
+      ref.invalidate(todayReportProvider);
+      ref.invalidate(recentReportsProvider);
+      ref.invalidate(consecutiveDaysProvider);
+      ref.invalidate(wellbeingStatsProvider);
+      ref.invalidate(allAchievementsProvider);
+      ref.invalidate(upcomingMealsCountProvider);
+      ref.invalidate(appSettingsNotifierProvider);
+
+      HapticService.success();
+
+      // Fermer le dialogue de chargement
+      if (context.mounted) {
+        Navigator.of(context).pop();
+      }
+
+      // Afficher un message de succès
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('✅ Données importées avec succès !'),
+            backgroundColor: WakyColors.success,
+            duration: Duration(seconds: 3),
+          ),
+        );
+      }
+    } catch (e) {
+      // Fermer le dialogue de chargement en cas d'erreur
+      if (context.mounted) {
+        Navigator.of(context).pop();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('❌ Erreur lors de l\'importation : $e'),
+            backgroundColor: WakyColors.error,
+            duration: const Duration(seconds: 5),
+          ),
+        );
+      }
+    }
   }
 }
