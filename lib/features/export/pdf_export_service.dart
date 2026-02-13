@@ -470,9 +470,9 @@ class PdfExportService {
         for (int i = events.indexOf(event) - 1; i >= 0 && previousMeals.length < 2; i--) {
           if (events[i].type == 'meal') {
             final meal = events[i].data as Meal;
-            // Vérifier que le repas est dans les 6 heures avant la douleur
+            // Vérifier que le repas est dans les 30 heures avant la douleur
             final delay = pain.dateTime.difference(meal.consumedDateTime ?? meal.plannedDateTime);
-            if (delay.inHours <= 6 && delay.inMinutes >= 0) {
+            if (delay.inHours <= 30 && delay.inMinutes >= 0) {
               previousMeals.add(meal);
             }
           }
@@ -486,6 +486,11 @@ class PdfExportService {
           // Si déjà rouge, ne pas écraser
           if (mealColors[previousMeals[1].id] != PdfColors.red) {
             mealColors[previousMeals[1].id] = PdfColors.orange;
+          }
+          if (previousMeals.length > 2) {
+            if (mealColors[previousMeals[2].id] != PdfColors.red && mealColors[previousMeals[2].id] != PdfColors.orange) {
+              mealColors[previousMeals[2].id] = PdfColors.yellow;
+            }
           }
         }
       }
