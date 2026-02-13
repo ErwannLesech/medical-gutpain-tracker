@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
@@ -22,7 +23,7 @@ void main() async {
   // Initialize timezone
   tz.initializeTimeZones();
   
-  // Récupère le nom de timezone via dart:io, sans package externe
+  // Récupère le nom de timezone via DateTime.now().timeZoneName
   final String timezoneName = DateTime.now().timeZoneName;
   try {
     tz.setLocalLocation(tz.getLocation(timezoneName));
@@ -50,14 +51,18 @@ void main() async {
   await databaseService.initialize();
   
   // Initialize notification service
-  final notificationService = NotificationService();
-  try {
-    await notificationService.initialize();
-    await notificationService.requestPermissions();
-  } catch (e) {
-    // Si les notifications ne fonctionnent pas, l'app continue quand même
-    debugPrint('⚠️ Erreur lors de l\'initialisation des notifications: $e');
-  }
+  final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  
+  const androidInit = AndroidInitializationSettings('@mipmap/ic_launcher');
+  const initSettings = InitializationSettings(android: androidInit);
+  
+  await flutterLocalNotificationsPlugin.initialize(initSettings);
+  
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+      ?.requestNotificationsPermission();
+  
+  NotificationService.init(flutterLocalNotificationsPlugin);
   
   runApp(
     ProviderScope(

@@ -1,10 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- Permissions pour les notifications -->
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
-    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
-    <uses-permission android:name="android.permission.USE_EXACT_ALARM"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
+    <!-- Android 13+ : permission pour les notifications -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <!-- Nécessaire pour les alarmes exactes sur Android 12+ -->
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM"/>
     
     <application
         android:label="waky_gut"
@@ -43,6 +44,7 @@
             </intent-filter>
         </receiver>
 
+        <!-- OBLIGATOIRE : déclenche les notifications schedulées -->
         <receiver
             android:name="com.dexterous.flutterlocalnotifications.ActionBroadcastReceiver"
             android:exported="false"/>

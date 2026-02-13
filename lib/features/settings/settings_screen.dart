@@ -673,14 +673,12 @@ class SettingsScreen extends ConsumerWidget {
     models.AppSettings? settings,
   ) async {
     try {
-      final notificationService = NotificationService();
-      
       if (enabled) {
         // Activer la notification
         final hour = settings?.dailyReminderHour ?? 20;
         final minute = settings?.dailyReminderMinute ?? 0;
         
-        await notificationService.scheduleDailyNotification(
+        await NotificationService.scheduleDailyNotification(
           title: 'Rappel WakyGut',
           body: 'N\'oubliez pas de remplir votre journal du jour ! 📝',
           hour: hour,
@@ -703,7 +701,7 @@ class SettingsScreen extends ConsumerWidget {
         }
       } else {
         // Désactiver la notification
-        await notificationService.cancelDailyNotification();
+        await NotificationService.cancelDailyNotification();
         
         await ref.read(appSettingsNotifierProvider.notifier).updateSettings(
           (settings ?? models.AppSettings()).copyWith(
@@ -739,10 +737,8 @@ class SettingsScreen extends ConsumerWidget {
     models.AppSettings? settings,
   ) async {
     try {
-      final notificationService = NotificationService();
-      
       // Reprogrammer la notification avec la nouvelle heure
-      await notificationService.scheduleDailyNotification(
+      await NotificationService.scheduleDailyNotification(
         title: 'Rappel WakyGut',
         body: 'N\'oubliez pas de remplir votre journal du jour ! 📝',
         hour: time.hour,
