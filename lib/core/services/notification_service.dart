@@ -20,6 +20,8 @@ class NotificationService {
       channelDescription: 'Notification quotidienne pour remplir le journal',
       importance: Importance.max,
       priority: Priority.high,
+      icon: 'ic_notification',
+      // backgroundColor: Colors.orange,
     );
   }
 
