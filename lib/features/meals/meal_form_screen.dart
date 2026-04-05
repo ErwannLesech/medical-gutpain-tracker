@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 import '../../core/models/models.dart';
-import '../../core/database/repositories/repositories.dart';
 import '../../core/services/providers.dart';
 import '../../core/utils/haptic_service.dart';
 import '../../shared/widgets/widgets.dart';
@@ -77,18 +76,20 @@ class _MealFormScreenState extends ConsumerState<MealFormScreen> {
 
   Future<void> _copyPreviousMeal() async {
     final repository = ref.read(mealRepositoryProvider);
-    // Récupérer les 20 derniers repas pour trouver le dernier avec un titre
-    final recentMeals = await repository.getRecent(limit: 20);
-    
-    // Filtrer pour trouver le dernier repas qui a un titre
-    // Et exclure le repas actuel si on est en mode édition
+    final targetDateTime = _plannedDateTime;
+
+    // Récupérer les repas les plus récents et garder uniquement celui
+    // qui précède chronologiquement la date/heure en cours de saisie.
+    final recentMeals = await repository.getAll();
+    recentMeals.sort((a, b) => b.plannedDateTime.compareTo(a.plannedDateTime));
     final mealsWithTitle = recentMeals.where((meal) {
-      // Exclure le repas actuel en mode édition
       if (_isEditing && meal.id == widget.meal?.id) {
         return false;
       }
-      // Ne garder que les repas avec un titre
-      return meal.title != null && meal.title!.isNotEmpty;
+
+      final hasTitle = meal.title != null && meal.title!.isNotEmpty;
+      final isBeforeCurrentMeal = meal.plannedDateTime.isBefore(targetDateTime);
+      return hasTitle && isBeforeCurrentMeal;
     }).toList();
     
     if (mealsWithTitle.isEmpty) {
