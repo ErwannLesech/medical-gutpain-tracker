@@ -58,14 +58,38 @@ class CatRewardService {
       return null;
     }
 
-    // Tirage aléatoire d'un chat
-    final catIndex = _random.nextInt(allCats.length);
-    final cat = allCats[catIndex];
+    // Tirage pondéré : plus la collection est grande, plus on favorise un nouveau chat.
+    final discoveredIds = await _repository.getDiscoveredCatIds();
+    final discoveredCats = allCats
+        .where((cat) => discoveredIds.contains(cat.id))
+        .toList();
+    final undiscoveredCats = allCats
+        .where((cat) => !discoveredIds.contains(cat.id))
+        .toList();
+
+    late final CatData cat;
+
+    if (undiscoveredCats.isEmpty) {
+      cat = allCats[_random.nextInt(allCats.length)];
+    } else if (discoveredCats.isEmpty) {
+      cat = undiscoveredCats[_random.nextInt(undiscoveredCats.length)];
+    } else {
+      final discoveredRatio = discoveredCats.length / allCats.length;
+      final newCatChance = (0.55 + (0.40 * discoveredRatio)).clamp(0.55, 0.95);
+      final shouldPickNew = _random.nextDouble() < newCatChance;
+
+      final pool = shouldPickNew ? undiscoveredCats : discoveredCats;
+      cat = pool[_random.nextInt(pool.length)];
+
+      debugPrint(
+        '🐱 Tirage pondéré | découverts: ${discoveredCats.length}/${allCats.length} | chance nouveau: ${(newCatChance * 100).toStringAsFixed(0)}%',
+      );
+    }
 
     debugPrint('🐱 Tirage du chat #${cat.id} (${cat.name})');
 
     // Vérifie si le chat est déjà découvert
-    final isAlreadyDiscovered = await _repository.getByCatId(cat.id) != null;
+    final isAlreadyDiscovered = discoveredIds.contains(cat.id);
     DiscoveredCat? newDiscoveredCat;
 
     if (!isAlreadyDiscovered) {
