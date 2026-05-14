@@ -8,3 +8,4 @@ export 'food_item.dart';
 export 'app_settings.dart';
 export 'achievement.dart';
 export 'discovered_cat.dart';
+export 'discovered_food_card.dart';

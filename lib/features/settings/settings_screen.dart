@@ -15,6 +15,8 @@ import '../../shared/theme/colors.dart';
 import '../export/export_screen.dart';
 import '../daily/daily_provider.dart';
 import '../home/home_provider.dart';
+import '../meals/meals_provider.dart';
+import '../pain/pain_provider.dart';
 
 /// Écran des paramètres
 class SettingsScreen extends ConsumerWidget {
@@ -858,6 +860,13 @@ class SettingsScreen extends ConsumerWidget {
       ref.invalidate(recentReportsProvider);
       ref.invalidate(consecutiveDaysProvider);
       ref.invalidate(wellbeingStatsProvider);
+      ref.invalidate(painEventsProvider);
+      ref.invalidate(recentPainEventsProvider);
+      ref.invalidate(weeklyPainEventsCountProvider);
+      ref.invalidate(painStatsProvider);
+      ref.invalidate(mealsProvider);
+      ref.invalidate(suggestedFoodsProvider);
+      ref.invalidate(problematicFoodsProvider);
       ref.invalidate(allAchievementsProvider);
       ref.invalidate(upcomingMealsCountProvider);
       ref.invalidate(appSettingsNotifierProvider);

@@ -6,6 +6,7 @@ import '../../core/services/achievement_service.dart';
 import '../../shared/theme/colors.dart';
 import '../../shared/widgets/widgets.dart';
 import 'cat_gallery_screen.dart';
+import 'food_gallery_screen.dart';
 import 'home_provider.dart';
 
 /// Écran de la galerie des achievements
@@ -40,6 +41,22 @@ class AchievementsScreen extends ConsumerWidget {
               ),
             ),
 
+            // Carte de la galerie de plats
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                child: FoodGalleryPreviewCard(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const FoodGalleryScreen(),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+
             // En-tête avec statistiques
             SliverToBoxAdapter(
               child: Padding(
@@ -47,7 +64,7 @@ class AchievementsScreen extends ConsumerWidget {
                 child: stats.when(
                   data: (data) => _buildStatsHeader(context, data),
                   loading: () => const Center(child: CircularProgressIndicator()),
-                  error: (_, __) => const SizedBox.shrink(),
+                  error: (_, _) => const SizedBox.shrink(),
                 ),
               ),
             ),
@@ -121,7 +138,7 @@ class AchievementsScreen extends ConsumerWidget {
                 return _buildLockedBadgesList(context, lockedBadges);
               },
               loading: () => const SliverToBoxAdapter(child: SizedBox.shrink()),
-              error: (_, __) => const SliverToBoxAdapter(child: SizedBox.shrink()),
+              error: (_, _) => const SliverToBoxAdapter(child: SizedBox.shrink()),
             ),
 
             const SliverToBoxAdapter(child: SizedBox(height: 100)),

@@ -143,7 +143,7 @@ class AppSettings {
       lastBackupDate: lastBackupDate ?? this.lastBackupDate,
     );
     copy.id = id;
-    copy.firstUseDate = this.firstUseDate;
+    copy.firstUseDate = firstUseDate;
     return copy;
   }
 }

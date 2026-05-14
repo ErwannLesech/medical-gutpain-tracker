@@ -5,6 +5,7 @@ import '../database/repositories/repositories.dart';
 import '../models/models.dart';
 import 'achievement_service.dart';
 import 'cat_reward_service.dart';
+import 'food_reward_service.dart';
 
 /// Provider du service de base de données
 final databaseServiceProvider = Provider<DatabaseService>((ref) {
@@ -118,10 +119,22 @@ final discoveredCatRepositoryProvider = Provider<DiscoveredCatRepository>((ref) 
   return DiscoveredCatRepository(db: ref.watch(databaseServiceProvider));
 });
 
+/// Provider du repository des cartes de plats decouvertes
+final discoveredFoodCardRepositoryProvider = Provider<DiscoveredFoodCardRepository>((ref) {
+  return DiscoveredFoodCardRepository(db: ref.watch(databaseServiceProvider));
+});
+
 /// Provider du service de récompense de chats
 final catRewardServiceProvider = Provider<CatRewardService>((ref) {
   return CatRewardService(
     repository: ref.watch(discoveredCatRepositoryProvider),
+  );
+});
+
+/// Provider du service de recompense de plats
+final foodRewardServiceProvider = Provider<FoodRewardService>((ref) {
+  return FoodRewardService(
+    repository: ref.watch(discoveredFoodCardRepositoryProvider),
   );
 });
 
@@ -146,5 +159,31 @@ final discoveredCatsProvider = FutureProvider<List<DiscoveredCatWithData>>((ref)
 /// Provider pour vérifier si un tirage peut être fait pour une date
 final canDrawForDateProvider = FutureProvider.family<bool, DateTime>((ref, date) async {
   final service = ref.watch(catRewardServiceProvider);
+  return service.canDrawForDate(date);
+});
+
+// ==================== FOOD CARD REWARD PROVIDERS ====================
+
+/// Provider des statistiques de la galerie de plats
+final foodCardGalleryStatsProvider = FutureProvider<FoodCardGalleryStats>((ref) async {
+  final service = ref.watch(foodRewardServiceProvider);
+  return service.getGalleryStats();
+});
+
+/// Provider de toutes les cartes avec leur statut
+final allFoodCardsWithStatusProvider = FutureProvider<List<FoodCardWithStatus>>((ref) async {
+  final service = ref.watch(foodRewardServiceProvider);
+  return service.getAllCardsWithStatus();
+});
+
+/// Provider des cartes decouvertes avec leurs donnees
+final discoveredFoodCardsProvider = FutureProvider<List<DiscoveredFoodCardWithData>>((ref) async {
+  final service = ref.watch(foodRewardServiceProvider);
+  return service.getDiscoveredCardsWithData();
+});
+
+/// Provider pour verifier si un tirage peut etre fait pour une date
+final canDrawFoodCardForDateProvider = FutureProvider.family<bool, DateTime>((ref, date) async {
+  final service = ref.watch(foodRewardServiceProvider);
   return service.canDrawForDate(date);
 });

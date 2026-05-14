@@ -52,6 +52,11 @@ class CatRewardService {
   /// Effectue un tirage de chat pour une date donnée
   /// Retourne null si un tirage a déjà été effectué pour cette date
   Future<CatDrawResult?> drawCatForDate(DateTime date) async {
+    if (await isCollectionComplete()) {
+      debugPrint('🐱 Collection completee, tirage bloque.');
+      return null;
+    }
+
     // Vérifie si un tirage a déjà été effectué pour cette date
     if (await _repository.hasDrawnForDate(date)) {
       debugPrint('🐱 Tirage déjà effectué pour cette date: $date');
@@ -106,7 +111,17 @@ class CatRewardService {
 
   /// Vérifie si un tirage peut être effectué pour une date
   Future<bool> canDrawForDate(DateTime date) async {
+    if (await isCollectionComplete()) {
+      return false;
+    }
+
     return !await _repository.hasDrawnForDate(date);
+  }
+
+  /// Verifie si la collection est completee
+  Future<bool> isCollectionComplete() async {
+    final discoveredCount = await _repository.getDiscoveredCount();
+    return discoveredCount >= allCats.length;
   }
 
   /// Récupère tous les chats avec leur état de découverte

@@ -48,6 +48,8 @@ class DatabaseService {
         AchievementSchema,
         DiscoveredCatSchema,
         CatDrawRecordSchema,
+        DiscoveredFoodCardSchema,
+        FoodCardDrawRecordSchema,
       ],
       directory: dir.path,
       name: 'wakygut_db',
@@ -82,6 +84,8 @@ class DatabaseService {
     final achievements = await isar.achievements.where().findAll();
     final discoveredCats = await isar.discoveredCats.where().findAll();
     final catDrawRecords = await isar.catDrawRecords.where().findAll();
+    final discoveredFoodCards = await isar.discoveredFoodCards.where().findAll();
+    final foodCardDrawRecords = await isar.foodCardDrawRecords.where().findAll();
 
     return {
       'exportDate': DateTime.now().toIso8601String(),
@@ -94,6 +98,10 @@ class DatabaseService {
       'achievements': achievements.map((a) => _achievementToJson(a)).toList(),
       'discoveredCats': discoveredCats.map((c) => _discoveredCatToJson(c)).toList(),
       'catDrawRecords': catDrawRecords.map((r) => _catDrawRecordToJson(r)).toList(),
+      'discoveredFoodCards':
+          discoveredFoodCards.map((c) => _discoveredFoodCardToJson(c)).toList(),
+      'foodCardDrawRecords':
+          foodCardDrawRecords.map((r) => _foodCardDrawRecordToJson(r)).toList(),
     };
   }
 
@@ -104,6 +112,7 @@ class DatabaseService {
     'consumedDateTime': meal.consumedDateTime?.toIso8601String(),
     'type': meal.type.index,
     'status': meal.status.index,
+    'title': meal.title,
     'foods': meal.foods,
     'notes': meal.notes,
     'quantity': meal.quantity,
@@ -117,6 +126,7 @@ class DatabaseService {
     'intensity': event.intensity,
     'isUsual': event.isUsual,
     'description': event.description,
+    'otherMomentDescription': event.otherMomentDescription,
     'symptomsIndexes': event.symptomsIndexes,
     'digestiveState': event.digestiveState.index,
     'location': event.location.index,
@@ -194,6 +204,19 @@ class DatabaseService {
     'wasDuplicate': record.wasDuplicate,
   };
 
+  Map<String, dynamic> _discoveredFoodCardToJson(DiscoveredFoodCard card) => {
+    'id': card.id,
+    'foodCardId': card.foodCardId,
+    'discoveredAt': card.discoveredAt.toIso8601String(),
+  };
+
+  Map<String, dynamic> _foodCardDrawRecordToJson(FoodCardDrawRecord record) => {
+    'id': record.id,
+    'drawnAt': record.drawnAt.toIso8601String(),
+    'foodCardId': record.drawnFoodCardId,
+    'wasDuplicate': record.wasDuplicate,
+  };
+
   /// Importe des données depuis un JSON (restauration de backup)
   Future<void> importFromJson(Map<String, dynamic> jsonData) async {
     await isar.writeTxn(() async {
@@ -258,6 +281,22 @@ class DatabaseService {
             .toList();
         await isar.catDrawRecords.putAll(catDrawRecords);
       }
+
+      // Importer les cartes de plats decouvertes
+      if (jsonData['discoveredFoodCards'] != null) {
+        final discoveredCards = (jsonData['discoveredFoodCards'] as List)
+            .map((c) => _jsonToDiscoveredFoodCard(c as Map<String, dynamic>))
+            .toList();
+        await isar.discoveredFoodCards.putAll(discoveredCards);
+      }
+
+      // Importer les tirages de cartes de plats
+      if (jsonData['foodCardDrawRecords'] != null) {
+        final drawRecords = (jsonData['foodCardDrawRecords'] as List)
+            .map((r) => _jsonToFoodCardDrawRecord(r as Map<String, dynamic>))
+            .toList();
+        await isar.foodCardDrawRecords.putAll(drawRecords);
+      }
     });
 
     debugPrint('✅ Données importées avec succès');
@@ -274,6 +313,7 @@ class DatabaseService {
         ? DateTime.parse(json['consumedDateTime'] as String) 
         : null;
     meal.status = MealStatus.values[json['status'] as int];
+    meal.title = json['title'] as String?;
     meal.foods = (json['foods'] as List?)?.cast<String>() ?? [];
     meal.notes = json['notes'] as String?;
     meal.quantity = json['quantity'] as int? ?? 2;
@@ -290,6 +330,7 @@ class DatabaseService {
     painEvent.id = json['id'] as int;
     painEvent.isUsual = json['isUsual'] as bool;
     painEvent.description = json['description'] as String?;
+    painEvent.otherMomentDescription = json['otherMomentDescription'] as String?;
     painEvent.symptomsIndexes = (json['symptomsIndexes'] as List?)?.cast<int>() ?? [];
     painEvent.digestiveState = DigestiveState.values[json['digestiveState'] as int];
     painEvent.location = PainLocation.values[json['location'] as int];
@@ -384,6 +425,27 @@ class DatabaseService {
       drawnAt: DateTime.parse(json['drawnAt'] as String),
       reportDate: DateTime.parse(json['drawnAt'] as String), // Utiliser la même date
       drawnCatId: (json['catId'] as String?) ?? 'unknown',
+      wasDuplicate: (json['wasDuplicate'] as bool?) ?? false,
+    );
+    record.id = (json['id'] as num).toInt();
+    return record;
+  }
+
+  DiscoveredFoodCard _jsonToDiscoveredFoodCard(Map<String, dynamic> json) {
+    final card = DiscoveredFoodCard(
+      foodCardId: json['foodCardId'] as String,
+      discoveredAt: DateTime.parse(json['discoveredAt'] as String),
+      reportDate: DateTime.parse(json['discoveredAt'] as String),
+    );
+    card.id = json['id'] as int;
+    return card;
+  }
+
+  FoodCardDrawRecord _jsonToFoodCardDrawRecord(Map<String, dynamic> json) {
+    final record = FoodCardDrawRecord(
+      drawnAt: DateTime.parse(json['drawnAt'] as String),
+      reportDate: DateTime.parse(json['drawnAt'] as String),
+      drawnFoodCardId: (json['foodCardId'] as String?) ?? 'unknown',
       wasDuplicate: (json['wasDuplicate'] as bool?) ?? false,
     );
     record.id = (json['id'] as num).toInt();

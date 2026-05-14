@@ -44,7 +44,12 @@ class _DailyFormScreenState extends ConsumerState<DailyFormScreen> {
     try {
       // Vérifie si c'est la première création du rapport pour cette date
       final catService = ref.read(catRewardServiceProvider);
+      final foodService = ref.read(foodRewardServiceProvider);
       final canDrawCat = await catService.canDrawForDate(_editingReport.date);
+      final isCatCollectionComplete = await catService.isCollectionComplete();
+      final canDrawFood = isCatCollectionComplete
+          ? await foodService.canDrawForDate(_editingReport.date)
+          : false;
       
       final success = await ref
           .read(dailyReportProvider.notifier)
@@ -53,17 +58,26 @@ class _DailyFormScreenState extends ConsumerState<DailyFormScreen> {
       if (success && mounted) {
         HapticService.success();
         
-        // Tirage de chat si c'est la première sauvegarde du jour
+        // Tirage de chat si c'est la premiere sauvegarde du jour
         if (canDrawCat) {
           final catResult = await catService.drawCatForDate(_editingReport.date);
           if (catResult != null && mounted) {
-            // Invalider les providers pour rafraîchir les données
+            // Invalider les providers pour rafraichir les donnees
             ref.invalidate(catGalleryStatsProvider);
             ref.invalidate(allCatsWithStatusProvider);
             ref.invalidate(discoveredCatsProvider);
-            
-            // Afficher le dialog de récompense
+
+            // Afficher le dialog de recompense
             await CatDrawResultDialog.show(context, catResult);
+          }
+        } else if (canDrawFood) {
+          final foodResult = await foodService.drawFoodCardForDate(_editingReport.date);
+          if (foodResult != null && mounted) {
+            ref.invalidate(foodCardGalleryStatsProvider);
+            ref.invalidate(allFoodCardsWithStatusProvider);
+            ref.invalidate(discoveredFoodCardsProvider);
+
+            await FoodCardDrawResultDialog.show(context, foodResult);
           }
         }
         
