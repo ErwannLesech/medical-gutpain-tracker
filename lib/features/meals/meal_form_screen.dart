@@ -77,18 +77,21 @@ class _MealFormScreenState extends ConsumerState<MealFormScreen> {
 
   Future<void> _copyPreviousMeal() async {
     final repository = ref.read(mealRepositoryProvider);
-    // Récupérer les 20 derniers repas pour trouver le dernier avec un titre
-    final recentMeals = await repository.getRecent(limit: 20);
+    // Récupérer les 50 derniers repas pour trouver le dernier AVANT la date actuelle
+    final recentMeals = await repository.getRecent(limit: 50);
     
-    // Filtrer pour trouver le dernier repas qui a un titre
-    // Et exclure le repas actuel si on est en mode édition
+    // Filtrer pour trouver le dernier repas qui a un titre ET qui est AVANT la date/heure actuelle
     final mealsWithTitle = recentMeals.where((meal) {
       // Exclure le repas actuel en mode édition
       if (_isEditing && meal.id == widget.meal?.id) {
         return false;
       }
       // Ne garder que les repas avec un titre
-      return meal.title != null && meal.title!.isNotEmpty;
+      if (meal.title == null || meal.title!.isEmpty) {
+        return false;
+      }
+      // Ne garder que les repas AVANT la date/heure actuelle
+      return meal.plannedDateTime.isBefore(_plannedDateTime);
     }).toList();
     
     if (mealsWithTitle.isEmpty) {

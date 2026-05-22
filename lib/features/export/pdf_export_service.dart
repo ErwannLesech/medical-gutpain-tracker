@@ -17,6 +17,7 @@ class _ChronologicalEvent {
     required this.dateTime,
     required this.type,
     required this.data,
+    this.highlightColor,
   });
 }
 
