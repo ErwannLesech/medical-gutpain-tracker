@@ -25,12 +25,10 @@ class FoodItemRepository {
     final normalizedName = name.trim().toLowerCase();
     var item = await getByName(normalizedName);
     
-    if (item == null) {
-      item = FoodItem(
+    item ??= FoodItem(
         name: normalizedName,
         category: category ?? FoodCategory.other,
       );
-    }
     
     item.incrementConsumption();
     await save(item);

@@ -17,7 +17,6 @@ class _ChronologicalEvent {
     required this.dateTime,
     required this.type,
     required this.data,
-    this.highlightColor,
   });
 }
 
@@ -178,7 +177,7 @@ class PdfExportService {
                         _tableCell(
                           DateFormat('dd/MM/yyyy').format(report.date),
                         ),
-                        _tableCell('${report.statusName}'),
+                        _tableCell(report.statusName),
                         _tableCell('${report.stressLevel}/5'),
                         _tableCell('${report.fatigueLevel}/5'),
                         _tableCell('${report.hoursSlept.toStringAsFixed(1)}h'),
@@ -245,7 +244,7 @@ class PdfExportService {
                             meal.consumedDateTime ?? meal.plannedDateTime,
                           ),
                         ),
-                        _tableCell('${meal.typeName}'),
+                        _tableCell(meal.typeName),
                         _tableCell(_getQuantityText(meal.quantity)),
                         pw.Padding(
                           padding: const pw.EdgeInsets.all(4),
@@ -564,7 +563,7 @@ class PdfExportService {
                 pw.Container(
                   width: 60,
                   child: pw.Text(
-                    '${meal.typeName}',
+                    meal.typeName,
                     style: pw.TextStyle(
                       fontSize: 9,
                       color: highlightColor != null ? PdfColors.white : PdfColors.black,

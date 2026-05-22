@@ -358,7 +358,7 @@ class _DashboardTab extends ConsumerWidget {
                   subtitle: 'jours',
                   color: WakyColors.success,
                 ),
-                error: (_, __) => const _ProgressCard(
+                error: (_, _) => const _ProgressCard(
                   emoji: '🔥',
                   title: 'Série de jours',
                   value: '0',
@@ -390,7 +390,7 @@ class _DashboardTab extends ConsumerWidget {
                   subtitle: 'repas',
                   color: WakyColors.primary,
                 ),
-                error: (_, __) => const _ProgressCard(
+                error: (_, _) => const _ProgressCard(
                   emoji: '🗓️',
                   title: 'Repas prévus',
                   value: '0',
@@ -529,7 +529,7 @@ class _DashboardTab extends ConsumerWidget {
         );
       },
       loading: () => const SizedBox.shrink(),
-      error: (_, __) => const SizedBox.shrink(),
+      error: (_, _) => const SizedBox.shrink(),
     );
   }
 

@@ -30,7 +30,7 @@ class CatGalleryScreen extends ConsumerWidget {
                 child: statsAsync.when(
                   data: (stats) => _buildStatsHeader(context, stats),
                   loading: () => const Center(child: CircularProgressIndicator()),
-                  error: (_, __) => const SizedBox.shrink(),
+                  error: (_, _) => const SizedBox.shrink(),
                 ),
               ),
             ),
@@ -303,7 +303,7 @@ class CatGalleryPreviewCard extends ConsumerWidget {
                 height: 20,
                 child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
               ),
-              error: (_, __) => const Text('Erreur'),
+              error: (_, _) => const Text('Erreur'),
             ),
 
             const SizedBox(height: 12),
@@ -332,7 +332,7 @@ class CatGalleryPreviewCard extends ConsumerWidget {
                               width: 40,
                               height: 40,
                               fit: BoxFit.cover,
-                              errorBuilder: (_, __, ___) => Container(
+                              errorBuilder: (_, _, _) => Container(
                                 width: 40,
                                 height: 40,
                                 color: Colors.grey.shade200,
@@ -363,7 +363,7 @@ class CatGalleryPreviewCard extends ConsumerWidget {
                 );
               },
               loading: () => const SizedBox.shrink(),
-              error: (_, __) => const SizedBox.shrink(),
+              error: (_, _) => const SizedBox.shrink(),
             ),
           ],
         ),

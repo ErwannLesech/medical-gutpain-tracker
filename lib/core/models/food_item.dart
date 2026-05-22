@@ -171,7 +171,7 @@ class FoodItem {
       lastConsumed: lastConsumed ?? this.lastConsumed,
     );
     copy.id = id;
-    copy.createdAt = this.createdAt;
+    copy.createdAt = createdAt;
     return copy;
   }
 }

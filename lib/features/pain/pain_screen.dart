@@ -129,7 +129,7 @@ class PainScreen extends ConsumerWidget {
                                   icon: Icons.warning_amber,
                                   color: WakyColors.warning,
                                 ),
-                                error: (_, __) => const StatCard(
+                                error: (_, _) => const StatCard(
                                   title: 'Événements',
                                   value: '-',
                                   icon: Icons.warning_amber,
@@ -159,7 +159,7 @@ class PainScreen extends ConsumerWidget {
                                   value: '-',
                                   icon: Icons.show_chart,
                                 ),
-                                error: (_, __) => const StatCard(
+                                error: (_, _) => const StatCard(
                                   title: 'Intensité moy.',
                                   value: '-',
                                   icon: Icons.show_chart,

@@ -238,7 +238,7 @@ class PainEvent {
       delayFromMealMinutes: delayFromMealMinutes ?? this.delayFromMealMinutes,
     );
     copy.id = id;
-    copy.createdAt = this.createdAt;
+    copy.createdAt = createdAt;
     copy.updatedAt = DateTime.now();
     return copy;
   }

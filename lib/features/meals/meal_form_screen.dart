@@ -283,7 +283,7 @@ class _MealFormScreenState extends ConsumerState<MealFormScreen> {
                   });
                 },
               ),
-              error: (_, __) => FoodInputField(
+              error: (_, _) => FoodInputField(
                 foods: _foods,
                 suggestions: const [],
                 onChanged: (foods) {

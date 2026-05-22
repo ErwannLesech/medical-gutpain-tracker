@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/services.dart';
 
-import '../../shared/widgets/widgets.dart';
 import '../../shared/theme/colors.dart';
 import 'shopping_list_provider.dart';
 
