@@ -8,6 +8,7 @@ import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
 import 'core/database/database_service.dart';
+import 'core/database/repositories/repositories.dart';
 import 'core/models/app_settings.dart' as settings;
 import 'core/services/providers.dart';
 import 'core/services/notification_service.dart';
@@ -63,6 +64,21 @@ void main() async {
       ?.requestNotificationsPermission();
   
   NotificationService.init(flutterLocalNotificationsPlugin);
+  
+  // Restaurer les notifications sauvegardées si elles étaient activées
+  try {
+    final appSettingsRepo = AppSettingsRepository(db: databaseService);
+    final savedSettings = await appSettingsRepo.get();
+    if (savedSettings != null) {
+      await NotificationService.restoreSavedNotification(
+        enabled: savedSettings.dailyReminderEnabled,
+        hour: savedSettings.dailyReminderHour,
+        minute: savedSettings.dailyReminderMinute,
+      );
+    }
+  } catch (e) {
+    // Ignorer les erreurs lors de la restauration des notifications
+  }
   
   runApp(
     ProviderScope(

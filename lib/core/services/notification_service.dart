@@ -74,4 +74,24 @@ class NotificationService {
   static Future<void> cancelDailyNotification() async {
     await _plugin.cancel(_dailyNotificationId);
   }
+
+  /// Restaure la notification journalière au démarrage si elle était activée
+  static Future<void> restoreSavedNotification({
+    required bool enabled,
+    required int hour,
+    required int minute,
+  }) async {
+    if (enabled) {
+      try {
+        await scheduleDailyNotification(
+          title: 'Rappel WakyGut',
+          body: 'N\'oubliez pas de remplir votre journal du jour ! 📝',
+          hour: hour,
+          minute: minute,
+        );
+      } catch (e) {
+        // Ignorer les erreurs lors de la restauration
+      }
+    }
+  }
 }
