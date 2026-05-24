@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 
+import '../../core/models/models.dart';
 import '../../shared/theme/colors.dart';
 import 'shopping_list_provider.dart';
 
@@ -120,64 +122,158 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
 
         // Liste des aliments
         Expanded(
-          child: ListView.builder(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            itemCount: foods.length,
-            itemBuilder: (context, index) {
-              final entry = foods.entries.toList()[index];
-              final food = entry.key;
-              final count = entry.value;
-              
-              return Card(
-                margin: const EdgeInsets.only(bottom: 8),
-                child: ListTile(
-                  leading: Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: WakyColors.success.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(8),
+          child: Consumer(builder: (context, ref, _) {
+            final checkedItems = ref.watch(shoppingListProvider).checkedItems;
+            
+            return ListView.builder(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              itemCount: foods.length,
+              itemBuilder: (context, index) {
+                final entry = foods.entries.toList()[index];
+                final food = entry.key;
+                final count = entry.value;
+                final isChecked = checkedItems.contains(food);
+                
+                return Card(
+                  margin: const EdgeInsets.only(bottom: 8),
+                  child: ListTile(
+                    leading: Checkbox(
+                      value: isChecked,
+                      onChanged: (_) {
+                        ref.read(shoppingListProvider.notifier).toggleCheckedItem(food);
+                      },
                     ),
-                    child: Center(
-                      child: Text(
-                        '${index + 1}',
-                        style: TextStyle(
-                          color: WakyColors.success,
-                          fontWeight: FontWeight.bold,
-                        ),
+                    title: Text(
+                      food,
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        decoration: isChecked ? TextDecoration.lineThrough : TextDecoration.none,
+                        color: isChecked ? Colors.grey : null,
                       ),
                     ),
-                  ),
-                  title: Text(
-                    food,
-                    style: Theme.of(context).textTheme.bodyLarge,
-                  ),
-                  trailing: count > 1
-                      ? Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 6,
-                          ),
-                          decoration: BoxDecoration(
-                            color: WakyColors.warning.withValues(alpha: 0.2),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Text(
-                            '×$count',
-                            style: TextStyle(
-                              color: WakyColors.warning,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if (count > 1)
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 6,
+                            ),
+                            decoration: BoxDecoration(
+                              color: WakyColors.warning.withValues(alpha: 0.2),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Text(
+                              '×$count',
+                              style: TextStyle(
+                                color: WakyColors.warning,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                              ),
                             ),
                           ),
-                        )
-                      : null,
-                ),
-              );
-            },
-          ),
+                        const SizedBox(width: 8),
+                        IconButton(
+                          icon: Icon(
+                            Icons.restaurant_menu,
+                            color: WakyColors.primary,
+                            size: 20,
+                          ),
+                          tooltip: 'Voir les repas',
+                          onPressed: () => _showMealsDialog(context, ref, food),
+                          padding: EdgeInsets.zero,
+                          constraints: const BoxConstraints(),
+                        ),
+                      ],
+                    ),
+                    onTap: () {
+                      ref.read(shoppingListProvider.notifier).toggleCheckedItem(food);
+                    },
+                  ),
+                );
+              },
+            );
+          }),
         ),
       ],
+    );
+  }
+
+  Future<void> _showMealsDialog(BuildContext context, WidgetRef ref, String food) async {
+    final notifier = ref.read(shoppingListProvider.notifier);
+    final meals = await notifier.getMealsForFood(food);
+
+    if (!context.mounted) return;
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Repas contenant "$food"'),
+        content: meals.isEmpty
+            ? const Text('Aucun repas futur ne contient cet aliment.')
+            : SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: meals.map((meal) {
+                    return Card(
+                      margin: const EdgeInsets.only(bottom: 12),
+                      child: Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  meal.typeEmoji,
+                                  style: const TextStyle(fontSize: 20),
+                                ),
+                                const SizedBox(width: 8),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        meal.displayName,
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                      Text(
+                                        DateFormat('EEE d MMM à HH:mm', 'fr_FR')
+                                            .format(meal.plannedDateTime),
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            if (meal.foods.isNotEmpty) ...[
+                              const SizedBox(height: 8),
+                              Text(
+                                'Aliments: ${meal.foods.join(", ")}',
+                                style: const TextStyle(fontSize: 12),
+                              ),
+                            ],
+                          ],
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Fermer'),
+          ),
+        ],
+      ),
     );
   }
 
