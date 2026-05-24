@@ -15,12 +15,14 @@ class CatDrawResultDialog extends StatefulWidget {
   });
 
   /// Affiche le dialog de résultat de tirage
-  static Future<void> show(BuildContext context, CatDrawResult result) {
-    return showDialog(
+  /// Retourne true si l'utilisateur a cliqué "Voir ma galerie", false sinon
+  static Future<bool> show(BuildContext context, CatDrawResult result) async {
+    final result_ = await showDialog<bool>(
       context: context,
       barrierDismissible: false,
       builder: (context) => CatDrawResultDialog(result: result),
     );
+    return result_ ?? false;
   }
 
   @override
@@ -366,19 +368,11 @@ class _CatDrawResultDialogState extends State<CatDrawResultDialog>
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
-                // Fermer le dialog d'abord
-                Navigator.of(context).pop();
-                // Naviguer vers la galerie de chats après un court délai
+                // Retourner true si l'utilisateur veut voir la galerie
                 if (isNew) {
-                  Future.delayed(const Duration(milliseconds: 100), () {
-                    if (context.mounted) {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => const AchievementsScreen(),
-                        ),
-                      );
-                    }
-                  });
+                  Navigator.of(context).pop(true);
+                } else {
+                  Navigator.of(context).pop(false);
                 }
               },
               style: ElevatedButton.styleFrom(

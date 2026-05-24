@@ -15,12 +15,14 @@ class FoodCardDrawResultDialog extends StatefulWidget {
   });
 
   /// Affiche le dialog de resultat de tirage
-  static Future<void> show(BuildContext context, FoodCardDrawResult result) {
-    return showDialog(
+  /// Retourne true si l'utilisateur a cliqué "Voir ma galerie", false sinon
+  static Future<bool> show(BuildContext context, FoodCardDrawResult result) async {
+    final result_ = await showDialog<bool>(
       context: context,
       barrierDismissible: false,
       builder: (context) => FoodCardDrawResultDialog(result: result),
     );
+    return result_ ?? false;
   }
 
   @override
@@ -329,17 +331,11 @@ class _FoodCardDrawResultDialogState extends State<FoodCardDrawResultDialog>
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  // Retourner true si l'utilisateur veut voir la galerie
                   if (isNew) {
-                    Future.delayed(const Duration(milliseconds: 100), () {
-                      if (context.mounted) {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => const AchievementsScreen(),
-                          ),
-                        );
-                      }
-                    });
+                    Navigator.of(context).pop(true);
+                  } else {
+                    Navigator.of(context).pop(false);
                   }
                 },
                 style: ElevatedButton.styleFrom(

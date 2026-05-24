@@ -9,6 +9,8 @@ import '../../shared/widgets/widgets.dart';
 import '../../shared/theme/colors.dart';
 import 'daily_provider.dart';
 import '../home/home_provider.dart';
+import '../home/cat_gallery_screen.dart';
+import '../home/food_gallery_screen.dart';
 
 /// Écran de formulaire pour créer/éditer un rapport journalier
 class DailyFormScreen extends ConsumerStatefulWidget {
@@ -58,6 +60,8 @@ class _DailyFormScreenState extends ConsumerState<DailyFormScreen> {
       if (success && mounted) {
         HapticService.success();
         
+        bool wantsToSeeGallery = false;
+        
         // Tirage de chat si c'est la premiere sauvegarde du jour
         if (canDrawCat) {
           final catResult = await catService.drawCatForDate(_editingReport.date);
@@ -68,7 +72,7 @@ class _DailyFormScreenState extends ConsumerState<DailyFormScreen> {
             ref.invalidate(discoveredCatsProvider);
 
             // Afficher le dialog de recompense
-            await CatDrawResultDialog.show(context, catResult);
+            wantsToSeeGallery = await CatDrawResultDialog.show(context, catResult);
           }
         } else if (canDrawFood) {
           final foodResult = await foodService.drawFoodCardForDate(_editingReport.date);
@@ -77,7 +81,7 @@ class _DailyFormScreenState extends ConsumerState<DailyFormScreen> {
             ref.invalidate(allFoodCardsWithStatusProvider);
             ref.invalidate(discoveredFoodCardsProvider);
 
-            await FoodCardDrawResultDialog.show(context, foodResult);
+            wantsToSeeGallery = await FoodCardDrawResultDialog.show(context, foodResult);
           }
         }
         
@@ -117,7 +121,25 @@ class _DailyFormScreenState extends ConsumerState<DailyFormScreen> {
               backgroundColor: WakyColors.success,
             ),
           );
-          Navigator.of(context).pop(true);
+          
+          // Si l'utilisateur veut voir la galerie, utiliser pushReplacement
+          if (wantsToSeeGallery) {
+            if (canDrawCat) {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => const CatGalleryScreen(),
+                ),
+              );
+            } else if (canDrawFood) {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => const FoodGalleryScreen(),
+                ),
+              );
+            }
+          } else {
+            Navigator.of(context).pop(true);
+          }
         }
       }
     } catch (e) {
