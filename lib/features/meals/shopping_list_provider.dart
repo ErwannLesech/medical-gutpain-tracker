@@ -5,18 +5,18 @@ import '../../core/services/providers.dart';
 
 /// État de la liste de courses
 class ShoppingListState {
-  final List<String> foods;
+  final Map<String, int> foods; // Map avec aliment -> nombre d'occurrences
   final bool isLoading;
   final String? error;
 
   const ShoppingListState({
-    this.foods = const [],
+    this.foods = const {},
     this.isLoading = false,
     this.error,
   });
 
   ShoppingListState copyWith({
-    List<String>? foods,
+    Map<String, int>? foods,
     bool? isLoading,
     String? error,
   }) {

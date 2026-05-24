@@ -76,7 +76,7 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
     );
   }
 
-  Widget _buildShoppingList(BuildContext context, List<String> foods) {
+  Widget _buildShoppingList(BuildContext context, Map<String, int> foods) {
     return Column(
       children: [
         // En-tête avec info
@@ -124,7 +124,10 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             itemCount: foods.length,
             itemBuilder: (context, index) {
-              final food = foods[index];
+              final entry = foods.entries.toList()[index];
+              final food = entry.key;
+              final count = entry.value;
+              
               return Card(
                 margin: const EdgeInsets.only(bottom: 8),
                 child: ListTile(
@@ -149,6 +152,26 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
                     food,
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
+                  trailing: count > 1
+                      ? Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 6,
+                          ),
+                          decoration: BoxDecoration(
+                            color: WakyColors.warning.withValues(alpha: 0.2),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Text(
+                            '×$count',
+                            style: TextStyle(
+                              color: WakyColors.warning,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                            ),
+                          ),
+                        )
+                      : null,
                 ),
               );
             },
@@ -158,8 +181,15 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
     );
   }
 
-  void _copyToClipboard(BuildContext context, List<String> foods) {
-    final text = foods.join('\n');
+  void _copyToClipboard(BuildContext context, Map<String, int> foods) {
+    final text = foods.entries
+        .map((entry) {
+          final food = entry.key;
+          final count = entry.value;
+          return count > 1 ? '$food ×$count' : food;
+        })
+        .join('\n');
+    
     Clipboard.setData(ClipboardData(text: text));
     
     ScaffoldMessenger.of(context).showSnackBar(

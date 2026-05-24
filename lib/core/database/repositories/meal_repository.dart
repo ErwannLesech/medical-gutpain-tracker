@@ -215,8 +215,8 @@ class MealRepository {
     return Map.fromEntries(sortedEntries.take(limit));
   }
 
-  /// Récupère tous les aliments des repas à venir (du jour actuel au futur)
-  Future<List<String>> getFutureFoods({DateTime? fromDate}) async {
+  /// Récupère tous les aliments des repas à venir avec le nombre d'occurrences
+  Future<Map<String, int>> getFutureFoods({DateTime? fromDate}) async {
     final startDate = fromDate ?? DateTime.now();
     final startOfDay = DateTime(startDate.year, startDate.month, startDate.day);
 
@@ -227,13 +227,18 @@ class MealRepository {
         .sortByPlannedDateTime()
         .findAll();
 
-    // Collecte tous les aliments uniques
-    final allFoods = <String>{};
+    // Compte les occurrences de chaque aliment
+    final foodCount = <String, int>{};
     for (final meal in meals) {
-      allFoods.addAll(meal.foods);
+      for (final food in meal.foods) {
+        foodCount[food] = (foodCount[food] ?? 0) + 1;
+      }
     }
 
-    final foodList = allFoods.toList()..sort();
-    return foodList;
+    // Trie par nom d'aliment
+    final sortedEntries = foodCount.entries.toList()
+      ..sort((a, b) => a.key.compareTo(b.key));
+
+    return Map.fromEntries(sortedEntries);
   }
 }
