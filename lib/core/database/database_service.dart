@@ -50,6 +50,7 @@ class DatabaseService {
         CatDrawRecordSchema,
         DiscoveredFoodCardSchema,
         FoodCardDrawRecordSchema,
+        ShoppingListItemStateSchema,
       ],
       directory: dir.path,
       name: 'wakygut_db',
@@ -86,6 +87,7 @@ class DatabaseService {
     final catDrawRecords = await isar.catDrawRecords.where().findAll();
     final discoveredFoodCards = await isar.discoveredFoodCards.where().findAll();
     final foodCardDrawRecords = await isar.foodCardDrawRecords.where().findAll();
+    final shoppingListStates = await isar.shoppingListItemStates.where().findAll();
 
     return {
       'exportDate': DateTime.now().toIso8601String(),
@@ -97,6 +99,12 @@ class DatabaseService {
       'settings': settings != null ? _settingsToJson(settings) : null,
       'achievements': achievements.map((a) => _achievementToJson(a)).toList(),
       'discoveredCats': discoveredCats.map((c) => _discoveredCatToJson(c)).toList(),
+      'shoppingListStates': shoppingListStates.map((s) => {
+        'id': s.id,
+        'foodName': s.foodName,
+        'isChecked': s.isChecked,
+        'updatedAt': s.updatedAt.toIso8601String(),
+      }).toList(),
       'catDrawRecords': catDrawRecords.map((r) => _catDrawRecordToJson(r)).toList(),
       'discoveredFoodCards':
           discoveredFoodCards.map((c) => _discoveredFoodCardToJson(c)).toList(),

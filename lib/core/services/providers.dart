@@ -42,6 +42,11 @@ final achievementRepositoryProvider = Provider<AchievementRepository>((ref) {
   return AchievementRepository(db: ref.watch(databaseServiceProvider));
 });
 
+/// Provider du repository de l'état de la liste de courses
+final shoppingListStateRepositoryProvider = Provider<ShoppingListStateRepository>((ref) {
+  return ShoppingListStateRepository(db: ref.watch(databaseServiceProvider));
+});
+
 /// Provider du service des achievements
 final achievementServiceProvider = Provider<AchievementService>((ref) {
   return AchievementService(

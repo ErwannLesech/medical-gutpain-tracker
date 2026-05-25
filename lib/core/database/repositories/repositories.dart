@@ -9,3 +9,4 @@ export 'app_settings_repository.dart';
 export 'achievement_repository.dart';
 export 'discovered_cat_repository.dart';
 export 'discovered_food_card_repository.dart';
+export 'shopping_list_state_repository.dart';

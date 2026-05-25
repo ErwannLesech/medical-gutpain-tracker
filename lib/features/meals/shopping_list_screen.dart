@@ -139,8 +139,8 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
                   child: ListTile(
                     leading: Checkbox(
                       value: isChecked,
-                      onChanged: (_) {
-                        ref.read(shoppingListProvider.notifier).toggleCheckedItem(food);
+                      onChanged: (_) async {
+                        await ref.read(shoppingListProvider.notifier).toggleCheckedItem(food);
                       },
                     ),
                     title: Text(
@@ -186,8 +186,8 @@ class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
                         ),
                       ],
                     ),
-                    onTap: () {
-                      ref.read(shoppingListProvider.notifier).toggleCheckedItem(food);
+                    onTap: () async {
+                      await ref.read(shoppingListProvider.notifier).toggleCheckedItem(food);
                     },
                   ),
                 );
