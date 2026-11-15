@@ -1,0 +1,464 @@
+{
+ "id": "arena",
+ "name": "L'arène des champions",
+ "emoji": "🏆",
+ "width": 1497,
+ "height": 1140,
+ "background": [
+  "#F3E4C8",
+  "#E6EEF5"
+ ],
+ "reference": {
+  "x": 30,
+  "y": 163,
+  "w": 1439,
+  "h": 927
+ },
+ "terrain": {
+  "x": 30,
+  "y": 274,
+  "w": 1439,
+  "h": 816
+ },
+ "petSpot": {
+  "x": 653.9,
+  "y": 881.9
+ },
+ "pets": [
+  "cow",
+  "chick",
+  "bee"
+ ],
+ "models": {
+  "wall": {
+   "name": "Muraille",
+   "price": 5
+  },
+  "wall-gate": {
+   "name": "Porte de l'arène",
+   "price": 10
+  },
+  "wall-corner": {
+   "name": "Tourelle d'angle",
+   "price": 5
+  },
+  "banner": {
+   "name": "Étendard",
+   "price": 5
+  },
+  "column": {
+   "name": "Colonne",
+   "price": 6
+  },
+  "column-damaged": {
+   "name": "Colonne brisée",
+   "price": 5
+  },
+  "block": {
+   "name": "Socle",
+   "price": 6
+  },
+  "statue": {
+   "name": "Statue du champion",
+   "price": 16
+  },
+  "trophy": {
+   "name": "Trophée",
+   "price": 12
+  },
+  "character-soldier": {
+   "name": "Soldat",
+   "price": 12
+  },
+  "weapon-rack": {
+   "name": "Râtelier d'armes",
+   "price": 6
+  },
+  "floor-detail": {
+   "name": "Dalle gravée",
+   "price": 3
+  },
+  "bricks": {
+   "name": "Gravats",
+   "price": 3
+  },
+  "tree": {
+   "name": "Cyprès",
+   "price": 6
+  }
+ },
+ "starter": [
+  "floor-detail",
+  "bricks",
+  "tree"
+ ],
+ "slots": [
+  {
+   "id": "tile1",
+   "model": "floor-detail",
+   "x": 780,
+   "y": 498,
+   "w": 214,
+   "h": 115,
+   "ax": 887.2,
+   "ay": 555.9,
+   "requires": []
+  },
+  {
+   "id": "tile2",
+   "model": "floor-detail",
+   "x": 441,
+   "y": 566,
+   "w": 214,
+   "h": 115,
+   "ax": 547.8,
+   "ay": 623.3,
+   "requires": []
+  },
+  {
+   "id": "tile3",
+   "model": "floor-detail",
+   "x": 663,
+   "y": 718,
+   "w": 214,
+   "h": 115,
+   "ax": 770.5,
+   "ay": 775.1,
+   "requires": []
+  },
+  {
+   "id": "corner",
+   "model": "wall-corner",
+   "x": 621,
+   "y": 163,
+   "w": 276,
+   "h": 189,
+   "ax": 706.9,
+   "ay": 325.4,
+   "requires": []
+  },
+  {
+   "id": "wb1",
+   "model": "wall",
+   "x": 705,
+   "y": 208,
+   "w": 277,
+   "h": 220,
+   "ax": 791.8,
+   "ay": 381.6,
+   "requires": []
+  },
+  {
+   "id": "wl1",
+   "model": "wall",
+   "x": 536,
+   "y": 208,
+   "w": 276,
+   "h": 220,
+   "ax": 622,
+   "ay": 381.6,
+   "requires": []
+  },
+  {
+   "id": "wb2",
+   "model": "wall",
+   "x": 812,
+   "y": 264,
+   "w": 276,
+   "h": 220,
+   "ax": 897.8,
+   "ay": 437.8,
+   "requires": []
+  },
+  {
+   "id": "wl2",
+   "model": "wall",
+   "x": 430,
+   "y": 264,
+   "w": 276,
+   "h": 220,
+   "ax": 516,
+   "ay": 437.8,
+   "requires": []
+  },
+  {
+   "id": "column1",
+   "model": "column",
+   "x": 658,
+   "y": 295,
+   "w": 224,
+   "h": 192,
+   "ax": 717.5,
+   "ay": 454.7,
+   "requires": []
+  },
+  {
+   "id": "banner1",
+   "model": "banner",
+   "x": 806,
+   "y": 327,
+   "w": 168,
+   "h": 153,
+   "ax": 848.8,
+   "ay": 463.8,
+   "requires": []
+  },
+  {
+   "id": "wl3",
+   "model": "wall",
+   "x": 324,
+   "y": 321,
+   "w": 276,
+   "h": 219,
+   "ax": 409.9,
+   "ay": 494.1,
+   "requires": []
+  },
+  {
+   "id": "banner3",
+   "model": "banner",
+   "x": 483,
+   "y": 355,
+   "w": 148,
+   "h": 153,
+   "ax": 512,
+   "ay": 491.9,
+   "requires": []
+  },
+  {
+   "id": "wb3",
+   "model": "wall-gate",
+   "x": 918,
+   "y": 321,
+   "w": 276,
+   "h": 219,
+   "ax": 1003.9,
+   "ay": 494.1,
+   "requires": []
+  },
+  {
+   "id": "rack1",
+   "model": "weapon-rack",
+   "x": 354,
+   "y": 467,
+   "w": 137,
+   "h": 108,
+   "ax": 404.6,
+   "ay": 547.4,
+   "requires": []
+  },
+  {
+   "id": "wb4",
+   "model": "wall",
+   "x": 1024,
+   "y": 377,
+   "w": 276,
+   "h": 219,
+   "ax": 1110,
+   "ay": 550.3,
+   "requires": []
+  },
+  {
+   "id": "wl4",
+   "model": "wall",
+   "x": 218,
+   "y": 377,
+   "w": 276,
+   "h": 220,
+   "ax": 303.8,
+   "ay": 550.3,
+   "requires": []
+  },
+  {
+   "id": "banner2",
+   "model": "banner",
+   "x": 1018,
+   "y": 440,
+   "w": 168,
+   "h": 153,
+   "ax": 1060.9,
+   "ay": 576.3,
+   "requires": []
+  },
+  {
+   "id": "wb5",
+   "model": "wall",
+   "x": 1130,
+   "y": 433,
+   "w": 276,
+   "h": 220,
+   "ax": 1216,
+   "ay": 606.5,
+   "requires": []
+  },
+  {
+   "id": "column3",
+   "model": "column-damaged",
+   "x": 276,
+   "y": 517,
+   "w": 153,
+   "h": 139,
+   "ax": 335.7,
+   "ay": 623.3,
+   "requires": []
+  },
+  {
+   "id": "plinth",
+   "model": "block",
+   "x": 652,
+   "y": 502,
+   "w": 266,
+   "h": 179,
+   "ax": 759.9,
+   "ay": 623.3,
+   "requires": []
+  },
+  {
+   "id": "column2",
+   "model": "column",
+   "x": 1019,
+   "y": 486,
+   "w": 224,
+   "h": 192,
+   "ax": 1078.1,
+   "ay": 645.8,
+   "requires": []
+  },
+  {
+   "id": "statue",
+   "model": "statue",
+   "x": 690,
+   "y": 376,
+   "w": 240,
+   "h": 222,
+   "ax": 759.9,
+   "ay": 559.7,
+   "requires": [
+    "plinth"
+   ]
+  },
+  {
+   "id": "bricks1",
+   "model": "bricks",
+   "x": 159,
+   "y": 587,
+   "w": 145,
+   "h": 113,
+   "ax": 219,
+   "ay": 662.7,
+   "requires": []
+  },
+  {
+   "id": "soldier1",
+   "model": "character-soldier",
+   "x": 429,
+   "y": 554,
+   "w": 153,
+   "h": 145,
+   "ax": 465.9,
+   "ay": 669.8,
+   "requires": []
+  },
+  {
+   "id": "rack2",
+   "model": "weapon-rack",
+   "x": 1198,
+   "y": 599,
+   "w": 137,
+   "h": 108,
+   "ax": 1247.8,
+   "ay": 679.5,
+   "requires": []
+  },
+  {
+   "id": "tree1",
+   "model": "tree",
+   "x": 1284,
+   "y": 444,
+   "w": 213,
+   "h": 270,
+   "ax": 1332.7,
+   "ay": 690.8,
+   "requires": []
+  },
+  {
+   "id": "bricks2",
+   "model": "bricks",
+   "x": 940,
+   "y": 620,
+   "w": 151,
+   "h": 111,
+   "ax": 1003.9,
+   "ay": 696.4,
+   "requires": []
+  },
+  {
+   "id": "tree2",
+   "model": "tree",
+   "x": 1146,
+   "y": 518,
+   "w": 254,
+   "h": 269,
+   "ax": 1194.8,
+   "ay": 763.8,
+   "requires": []
+  },
+  {
+   "id": "tree3",
+   "model": "tree",
+   "x": 308,
+   "y": 523,
+   "w": 254,
+   "h": 270,
+   "ax": 356.9,
+   "ay": 769.5,
+   "requires": []
+  },
+  {
+   "id": "soldier2",
+   "model": "character-soldier",
+   "x": 614,
+   "y": 656,
+   "w": 167,
+   "h": 139,
+   "ax": 672.1,
+   "ay": 779.2,
+   "requires": []
+  },
+  {
+   "id": "pedestal",
+   "model": "block",
+   "x": 928,
+   "y": 719,
+   "w": 160,
+   "h": 108,
+   "ax": 993.3,
+   "ay": 791.9,
+   "requires": []
+  },
+  {
+   "id": "trophy",
+   "model": "trophy",
+   "x": 956,
+   "y": 672,
+   "w": 124,
+   "h": 102,
+   "ax": 993.3,
+   "ay": 753.8,
+   "requires": [
+    "pedestal"
+   ]
+  },
+  {
+   "id": "tree4",
+   "model": "tree",
+   "x": 743,
+   "y": 731,
+   "w": 254,
+   "h": 270,
+   "ax": 791.8,
+   "ay": 977.4,
+   "requires": []
+  }
+ ]
+}

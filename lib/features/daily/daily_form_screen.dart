@@ -9,6 +9,10 @@ import '../../shared/widgets/widgets.dart';
 import '../../shared/theme/colors.dart';
 import 'daily_provider.dart';
 import '../home/home_provider.dart';
+import '../home/cat_gallery_screen.dart';
+import '../home/food_gallery_screen.dart';
+import '../scenes/scene_puzzle_screen.dart';
+import '../scenes/scene_widgets.dart';
 
 /// Écran de formulaire pour créer/éditer un rapport journalier
 class DailyFormScreen extends ConsumerStatefulWidget {
@@ -50,7 +54,12 @@ class _DailyFormScreenState extends ConsumerState<DailyFormScreen> {
       final canDrawFood = isCatCollectionComplete
           ? await foodService.canDrawForDate(_editingReport.date)
           : false;
-      
+      // Les deux collections terminées : une pièce de scène à la place
+      final sceneService = ref.read(sceneServiceProvider);
+      final canDrawPiece = isCatCollectionComplete &&
+          await foodService.isCollectionComplete() &&
+          await sceneService.canDrawForDate(_editingReport.date);
+
       final success = await ref
           .read(dailyReportProvider.notifier)
           .saveReport(_editingReport);
@@ -58,9 +67,17 @@ class _DailyFormScreenState extends ConsumerState<DailyFormScreen> {
       if (success && mounted) {
         HapticService.success();
         
+        bool wantsToSeeGallery = false;
+        final coinService = ref.read(coinServiceProvider);
+        // Catcoins : uniquement via les doublons du tirage
+        int coinsEarned = 0;
+
         // Tirage de chat si c'est la premiere sauvegarde du jour
         if (canDrawCat) {
           final catResult = await catService.drawCatForDate(_editingReport.date);
+          if (catResult != null && !catResult.isNewDiscovery) {
+            coinsEarned += await coinService.awardDuplicate('cat', _editingReport.date);
+          }
           if (catResult != null && mounted) {
             // Invalider les providers pour rafraichir les donnees
             ref.invalidate(catGalleryStatsProvider);
@@ -68,16 +85,27 @@ class _DailyFormScreenState extends ConsumerState<DailyFormScreen> {
             ref.invalidate(discoveredCatsProvider);
 
             // Afficher le dialog de recompense
-            await CatDrawResultDialog.show(context, catResult);
+            wantsToSeeGallery = await CatDrawResultDialog.show(context, catResult);
           }
         } else if (canDrawFood) {
           final foodResult = await foodService.drawFoodCardForDate(_editingReport.date);
+          if (foodResult != null && !foodResult.isNewDiscovery) {
+            coinsEarned += await coinService.awardDuplicate('food', _editingReport.date);
+          }
           if (foodResult != null && mounted) {
             ref.invalidate(foodCardGalleryStatsProvider);
             ref.invalidate(allFoodCardsWithStatusProvider);
             ref.invalidate(discoveredFoodCardsProvider);
 
-            await FoodCardDrawResultDialog.show(context, foodResult);
+            wantsToSeeGallery = await FoodCardDrawResultDialog.show(context, foodResult);
+          }
+        } else if (canDrawPiece) {
+          final pieceResult = await sceneService.drawForDate(_editingReport.date);
+          ref.invalidate(currentSceneProvider);
+          ref.invalidate(scenesProvider);
+          coinsEarned += pieceResult?.coins ?? 0;
+          if (pieceResult != null && mounted) {
+            wantsToSeeGallery = await ScenePieceDrawDialog.show(context, pieceResult);
           }
         }
         
@@ -112,12 +140,48 @@ class _DailyFormScreenState extends ConsumerState<DailyFormScreen> {
         
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Journal enregistré avec succès !'),
+            SnackBar(
+              content: Row(
+                children: [
+                  const Expanded(child: Text('Journal enregistré avec succès !')),
+                  if (coinsEarned > 0)
+                    CoinGainLabel(
+                      amount: coinsEarned,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                ],
+              ),
               backgroundColor: WakyColors.success,
             ),
           );
-          Navigator.of(context).pop(true);
+          
+          // Si l'utilisateur veut voir la galerie, utiliser pushReplacement
+          if (wantsToSeeGallery) {
+            if (canDrawCat) {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => const CatGalleryScreen(),
+                ),
+              );
+            } else if (canDrawFood) {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => const FoodGalleryScreen(),
+                ),
+              );
+            } else if (canDrawPiece) {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => const ScenePuzzleScreen(),
+                ),
+              );
+            }
+          } else {
+            Navigator.of(context).pop(true);
+          }
         }
       }
     } catch (e) {

@@ -1,0 +1,197 @@
+{
+ "ppu": 150,
+ "pets": [
+  {
+   "id": "tiger",
+   "name": "Tigre",
+   "w": 187,
+   "h": 190,
+   "ax": 62.9,
+   "ay": 160.8
+  },
+  {
+   "id": "cat",
+   "name": "Chat",
+   "w": 184,
+   "h": 188,
+   "ax": 61.6,
+   "ay": 158.4
+  },
+  {
+   "id": "dog",
+   "name": "Chien",
+   "w": 184,
+   "h": 154,
+   "ax": 55.7,
+   "ay": 124.5
+  },
+  {
+   "id": "bunny",
+   "name": "Lapin",
+   "w": 202,
+   "h": 159,
+   "ax": 57.1,
+   "ay": 131.8
+  },
+  {
+   "id": "fox",
+   "name": "Renard",
+   "w": 184,
+   "h": 180,
+   "ax": 65.4,
+   "ay": 139.2
+  },
+  {
+   "id": "panda",
+   "name": "Panda",
+   "w": 188,
+   "h": 160,
+   "ax": 56,
+   "ay": 132.2
+  },
+  {
+   "id": "koala",
+   "name": "Koala",
+   "w": 227,
+   "h": 149,
+   "ax": 81.5,
+   "ay": 122.1
+  },
+  {
+   "id": "lion",
+   "name": "Lion",
+   "w": 215,
+   "h": 191,
+   "ax": 76.3,
+   "ay": 162.7
+  },
+  {
+   "id": "penguin",
+   "name": "Pingouin",
+   "w": 217,
+   "h": 149,
+   "ax": 91.3,
+   "ay": 122
+  },
+  {
+   "id": "polar",
+   "name": "Ours polaire",
+   "w": 184,
+   "h": 153,
+   "ax": 55.4,
+   "ay": 124.3
+  },
+  {
+   "id": "monkey",
+   "name": "Singe",
+   "w": 216,
+   "h": 180,
+   "ax": 80.2,
+   "ay": 152.8
+  },
+  {
+   "id": "elephant",
+   "name": "Éléphant",
+   "w": 208,
+   "h": 164,
+   "ax": 77,
+   "ay": 125
+  },
+  {
+   "id": "giraffe",
+   "name": "Girafe",
+   "w": 200,
+   "h": 152,
+   "ax": 72,
+   "ay": 122.8
+  },
+  {
+   "id": "deer",
+   "name": "Cerf",
+   "w": 225,
+   "h": 169,
+   "ax": 68.7,
+   "ay": 138.7
+  },
+  {
+   "id": "beaver",
+   "name": "Castor",
+   "w": 184,
+   "h": 176,
+   "ax": 62.8,
+   "ay": 145.3
+  },
+  {
+   "id": "pig",
+   "name": "Cochon",
+   "w": 184,
+   "h": 153,
+   "ax": 55.8,
+   "ay": 123.6
+  },
+  {
+   "id": "hog",
+   "name": "Sanglier",
+   "w": 187,
+   "h": 160,
+   "ax": 57.3,
+   "ay": 127.5
+  },
+  {
+   "id": "cow",
+   "name": "Vache",
+   "w": 199,
+   "h": 153,
+   "ax": 69.8,
+   "ay": 123.6
+  },
+  {
+   "id": "chick",
+   "name": "Poussin",
+   "w": 217,
+   "h": 149,
+   "ax": 88.8,
+   "ay": 120.7
+  },
+  {
+   "id": "parrot",
+   "name": "Perroquet",
+   "w": 217,
+   "h": 181,
+   "ax": 94,
+   "ay": 147.9
+  },
+  {
+   "id": "bee",
+   "name": "Abeille",
+   "w": 213,
+   "h": 180,
+   "ax": 57.5,
+   "ay": 152.1
+  },
+  {
+   "id": "caterpillar",
+   "name": "Chenille",
+   "w": 188,
+   "h": 150,
+   "ax": 60.1,
+   "ay": 120.9
+  },
+  {
+   "id": "crab",
+   "name": "Crabe",
+   "w": 252,
+   "h": 150,
+   "ax": 99,
+   "ay": 119.2
+  },
+  {
+   "id": "fish",
+   "name": "Poisson",
+   "w": 202,
+   "h": 163,
+   "ax": 73.4,
+   "ay": 134.1
+  }
+ ]
+}

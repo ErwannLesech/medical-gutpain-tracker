@@ -7,3 +7,4 @@ export 'sliders.dart';
 export 'inputs.dart';
 export 'cat_widgets.dart';
 export 'food_widgets.dart';
+export 'coin_widgets.dart';

@@ -1,0 +1,562 @@
+{
+ "id": "forest",
+ "name": "La forêt des archers",
+ "emoji": "🌲",
+ "width": 1740,
+ "height": 1521,
+ "background": [
+  "#CDEBD3",
+  "#F3E7C9"
+ ],
+ "reference": {
+  "x": 28,
+  "y": 212,
+  "w": 1673,
+  "h": 1254
+ },
+ "terrain": {
+  "x": 28,
+  "y": 526,
+  "w": 1673,
+  "h": 940
+ },
+ "petSpot": {
+  "x": 970.5,
+  "y": 1302.8
+ },
+ "pets": [
+  "fox",
+  "deer",
+  "beaver"
+ ],
+ "models": {
+  "tree": {
+   "name": "Sapin",
+   "price": 8
+  },
+  "tree-high": {
+   "name": "Grand sapin",
+   "price": 10
+  },
+  "rocks-high": {
+   "name": "Falaise",
+   "price": 10
+  },
+  "rocks-low": {
+   "name": "Rochers",
+   "price": 8
+  },
+  "rocks-ramp": {
+   "name": "Éboulis",
+   "price": 8
+  },
+  "building-structure": {
+   "name": "Charpente",
+   "price": 12
+  },
+  "building-platform": {
+   "name": "Plancher",
+   "price": 12
+  },
+  "building-roof": {
+   "name": "Toit",
+   "price": 20
+  },
+  "bridge": {
+   "name": "Pont de corde",
+   "price": 10
+  },
+  "ladder": {
+   "name": "Échelle",
+   "price": 6
+  },
+  "flag": {
+   "name": "Fanion",
+   "price": 6
+  },
+  "tent": {
+   "name": "Tente",
+   "price": 18
+  },
+  "target": {
+   "name": "Cible",
+   "price": 6
+  },
+  "character-archer": {
+   "name": "L'archer",
+   "price": 15
+  },
+  "stones": {
+   "name": "Souches",
+   "price": 5
+  },
+  "fence": {
+   "name": "Barrière de corde",
+   "price": 5
+  },
+  "plant": {
+   "name": "Pousse",
+   "price": 4
+  },
+  "patch-dirt": {
+   "name": "Chemin de terre",
+   "price": 4
+  },
+  "patch-grass": {
+   "name": "Touffe d'herbe",
+   "price": 4
+  },
+  "platform": {
+   "name": "Îlot d'herbe",
+   "price": 8
+  }
+ },
+ "starter": [
+  "tree",
+  "patch-dirt",
+  "plant"
+ ],
+ "slots": [
+  {
+   "id": "path1",
+   "model": "patch-dirt",
+   "x": 625,
+   "y": 964,
+   "w": 193,
+   "h": 107,
+   "ax": 721.3,
+   "ay": 1019,
+   "requires": []
+  },
+  {
+   "id": "path2",
+   "model": "patch-dirt",
+   "x": 657,
+   "y": 1049,
+   "w": 193,
+   "h": 106,
+   "ax": 753.1,
+   "ay": 1103.3,
+   "requires": []
+  },
+  {
+   "id": "path3",
+   "model": "patch-dirt",
+   "x": 863,
+   "y": 1074,
+   "w": 194,
+   "h": 106,
+   "ax": 959.9,
+   "ay": 1128.6,
+   "requires": []
+  },
+  {
+   "id": "tree1",
+   "model": "tree",
+   "x": 732,
+   "y": 386,
+   "w": 255,
+   "h": 253,
+   "ax": 800.8,
+   "ay": 605.8,
+   "requires": []
+  },
+  {
+   "id": "rocks3",
+   "model": "rocks-low",
+   "x": 534,
+   "y": 592,
+   "w": 240,
+   "h": 167,
+   "ax": 631.1,
+   "ay": 707,
+   "requires": []
+  },
+  {
+   "id": "tree2",
+   "model": "tree-high",
+   "x": 976,
+   "y": 439,
+   "w": 319,
+   "h": 323,
+   "ax": 1044.8,
+   "ay": 735.1,
+   "requires": []
+  },
+  {
+   "id": "cliff1",
+   "model": "rocks-high",
+   "x": 640,
+   "y": 584,
+   "w": 245,
+   "h": 231,
+   "ax": 737.2,
+   "ay": 699.6,
+   "requires": []
+  },
+  {
+   "id": "rocks1",
+   "model": "rocks-low",
+   "x": 746,
+   "y": 704,
+   "w": 240,
+   "h": 167,
+   "ax": 843.3,
+   "ay": 819.4,
+   "requires": []
+  },
+  {
+   "id": "rocks2",
+   "model": "rocks-ramp",
+   "x": 534,
+   "y": 729,
+   "w": 182,
+   "h": 142,
+   "ax": 631.1,
+   "ay": 819.4,
+   "requires": []
+  },
+  {
+   "id": "tree6",
+   "model": "tree-high",
+   "x": 329,
+   "y": 524,
+   "w": 319,
+   "h": 322,
+   "ax": 397.8,
+   "ay": 819.4,
+   "requires": []
+  },
+  {
+   "id": "cliff2",
+   "model": "rocks-high",
+   "x": 640,
+   "y": 457,
+   "w": 245,
+   "h": 231,
+   "ax": 737.2,
+   "ay": 572.4,
+   "requires": [
+    "cliff1"
+   ]
+  },
+  {
+   "id": "isle",
+   "model": "platform",
+   "x": 770,
+   "y": 665,
+   "w": 178,
+   "h": 138,
+   "ax": 843.3,
+   "ay": 753.3,
+   "requires": [
+    "rocks1"
+   ]
+  },
+  {
+   "id": "towerL",
+   "model": "building-structure",
+   "x": 630,
+   "y": 324,
+   "w": 319,
+   "h": 242,
+   "ax": 737.2,
+   "ay": 508.8,
+   "requires": [
+    "cliff2"
+   ]
+  },
+  {
+   "id": "tree3",
+   "model": "tree",
+   "x": 1154,
+   "y": 645,
+   "w": 257,
+   "h": 252,
+   "ax": 1225.1,
+   "ay": 864.4,
+   "requires": []
+  },
+  {
+   "id": "deckL",
+   "model": "building-platform",
+   "x": 619,
+   "y": 263,
+   "w": 274,
+   "h": 182,
+   "ax": 737.2,
+   "ay": 381.6,
+   "requires": [
+    "towerL"
+   ]
+  },
+  {
+   "id": "flagL",
+   "model": "flag",
+   "x": 723,
+   "y": 212,
+   "w": 115,
+   "h": 118,
+   "ax": 751.8,
+   "ay": 319.7,
+   "requires": [
+    "deckL"
+   ]
+  },
+  {
+   "id": "towerC",
+   "model": "building-structure",
+   "x": 821,
+   "y": 747,
+   "w": 319,
+   "h": 242,
+   "ax": 928.1,
+   "ay": 931.8,
+   "requires": []
+  },
+  {
+   "id": "grass1",
+   "model": "patch-grass",
+   "x": 375,
+   "y": 877,
+   "w": 176,
+   "h": 100,
+   "ax": 461.4,
+   "ay": 931.8,
+   "requires": []
+  },
+  {
+   "id": "target1",
+   "model": "target",
+   "x": 422,
+   "y": 841,
+   "w": 122,
+   "h": 92,
+   "ax": 459.5,
+   "ay": 912.8,
+   "requires": [
+    "grass1"
+   ]
+  },
+  {
+   "id": "tree7",
+   "model": "tree",
+   "x": 171,
+   "y": 718,
+   "w": 253,
+   "h": 254,
+   "ax": 238.7,
+   "ay": 937.5,
+   "requires": []
+  },
+  {
+   "id": "plant1",
+   "model": "plant",
+   "x": 647,
+   "y": 896,
+   "w": 78,
+   "h": 56,
+   "ax": 689.5,
+   "ay": 940.3,
+   "requires": []
+  },
+  {
+   "id": "deckC",
+   "model": "building-platform",
+   "x": 810,
+   "y": 686,
+   "w": 274,
+   "h": 182,
+   "ax": 928.1,
+   "ay": 804.6,
+   "requires": [
+    "towerC"
+   ]
+  },
+  {
+   "id": "flagC",
+   "model": "flag",
+   "x": 914,
+   "y": 635,
+   "w": 115,
+   "h": 118,
+   "ax": 942.7,
+   "ay": 742.7,
+   "requires": [
+    "deckC"
+   ]
+  },
+  {
+   "id": "ladderC",
+   "model": "ladder",
+   "x": 828,
+   "y": 823,
+   "w": 169,
+   "h": 161,
+   "ax": 862.5,
+   "ay": 966.6,
+   "requires": []
+  },
+  {
+   "id": "tree4",
+   "model": "tree-high",
+   "x": 1390,
+   "y": 692,
+   "w": 318,
+   "h": 323,
+   "ax": 1458.4,
+   "ay": 988,
+   "requires": []
+  },
+  {
+   "id": "target2",
+   "model": "target",
+   "x": 388,
+   "y": 952,
+   "w": 123,
+   "h": 91,
+   "ax": 429,
+   "ay": 1023.5,
+   "requires": []
+  },
+  {
+   "id": "towerR",
+   "model": "building-structure",
+   "x": 1069,
+   "y": 879,
+   "w": 319,
+   "h": 242,
+   "ax": 1176.3,
+   "ay": 1063.4,
+   "requires": []
+  },
+  {
+   "id": "deckR",
+   "model": "building-platform",
+   "x": 1058,
+   "y": 818,
+   "w": 274,
+   "h": 181,
+   "ax": 1176.3,
+   "ay": 936.2,
+   "requires": [
+    "towerR"
+   ]
+  },
+  {
+   "id": "bridge",
+   "model": "bridge",
+   "x": 962,
+   "y": 754,
+   "w": 225,
+   "h": 153,
+   "ax": 1052.3,
+   "ay": 860.2,
+   "requires": [
+    "deckC",
+    "deckR"
+   ]
+  },
+  {
+   "id": "plant2",
+   "model": "plant",
+   "x": 954,
+   "y": 1022,
+   "w": 79,
+   "h": 53,
+   "ax": 997.1,
+   "ay": 1052.7,
+   "requires": []
+  },
+  {
+   "id": "archer",
+   "model": "character-archer",
+   "x": 554,
+   "y": 977,
+   "w": 149,
+   "h": 130,
+   "ax": 598.4,
+   "ay": 1082.7,
+   "requires": []
+  },
+  {
+   "id": "fence1",
+   "model": "fence",
+   "x": 361,
+   "y": 1024,
+   "w": 169,
+   "h": 117,
+   "ax": 429.6,
+   "ay": 1106.1,
+   "requires": []
+  },
+  {
+   "id": "roofR",
+   "model": "building-roof",
+   "x": 1048,
+   "y": 745,
+   "w": 330,
+   "h": 234,
+   "ax": 1176.3,
+   "ay": 917.1,
+   "requires": [
+    "deckR"
+   ]
+  },
+  {
+   "id": "tree5",
+   "model": "tree",
+   "x": 1284,
+   "y": 903,
+   "w": 254,
+   "h": 253,
+   "ax": 1352.4,
+   "ay": 1122.9,
+   "requires": []
+  },
+  {
+   "id": "fence2",
+   "model": "fence",
+   "x": 478,
+   "y": 1086,
+   "w": 169,
+   "h": 117,
+   "ax": 546.3,
+   "ay": 1167.9,
+   "requires": []
+  },
+  {
+   "id": "stones",
+   "model": "stones",
+   "x": 579,
+   "y": 1117,
+   "w": 158,
+   "h": 109,
+   "ax": 650.5,
+   "ay": 1180.8,
+   "requires": []
+  },
+  {
+   "id": "plant3",
+   "model": "plant",
+   "x": 1126,
+   "y": 1145,
+   "w": 75,
+   "h": 56,
+   "ax": 1158.4,
+   "ay": 1185.1,
+   "requires": []
+  },
+  {
+   "id": "tent",
+   "model": "tent",
+   "x": 854,
+   "y": 1051,
+   "w": 278,
+   "h": 195,
+   "ax": 949.3,
+   "ay": 1190.4,
+   "requires": []
+  }
+ ]
+}

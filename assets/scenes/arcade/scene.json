@@ -1,0 +1,506 @@
+{
+ "id": "arcade",
+ "name": "La salle d'arcade",
+ "emoji": "🕹️",
+ "width": 1420,
+ "height": 983,
+ "background": [
+  "#E3DAF5",
+  "#F7E3EC"
+ ],
+ "reference": {
+  "x": 48,
+  "y": 32,
+  "w": 1344,
+  "h": 902
+ },
+ "terrain": {
+  "x": 48,
+  "y": 168,
+  "w": 1344,
+  "h": 766
+ },
+ "petSpot": {
+  "x": 587.5,
+  "y": 714.3
+ },
+ "pets": [
+  "panda",
+  "koala",
+  "pig"
+ ],
+ "models": {
+  "wall": {
+   "name": "Mur",
+   "price": 5
+  },
+  "wall-window": {
+   "name": "Vitrine",
+   "price": 7
+  },
+  "wall-door-rotate": {
+   "name": "Porte d'entrée",
+   "price": 8
+  },
+  "wall-corner": {
+   "name": "Angle",
+   "price": 4
+  },
+  "floor": {
+   "name": "Moquette",
+   "price": 3
+  },
+  "column": {
+   "name": "Pilier néon",
+   "price": 6
+  },
+  "arcade-machine": {
+   "name": "Borne d'arcade",
+   "price": 8
+  },
+  "pinball": {
+   "name": "Flipper",
+   "price": 10
+  },
+  "claw-machine": {
+   "name": "Machine à pinces",
+   "price": 12
+  },
+  "dance-machine": {
+   "name": "Dance machine",
+   "price": 14
+  },
+  "basketball-game": {
+   "name": "Panier de basket",
+   "price": 12
+  },
+  "air-hockey": {
+   "name": "Air hockey",
+   "price": 14
+  },
+  "vending-machine": {
+   "name": "Distributeur",
+   "price": 8
+  },
+  "gambling-machine": {
+   "name": "Machine à sous",
+   "price": 8
+  },
+  "ticket-machine": {
+   "name": "Machine à tickets",
+   "price": 6
+  },
+  "cash-register": {
+   "name": "Comptoir",
+   "price": 8
+  },
+  "prizes": {
+   "name": "Étagère à lots",
+   "price": 8
+  },
+  "prize-wheel": {
+   "name": "Roue des prix",
+   "price": 8
+  },
+  "character-employee": {
+   "name": "La vendeuse",
+   "price": 12
+  },
+  "character-gamer": {
+   "name": "Le joueur",
+   "price": 12
+  }
+ },
+ "starter": [
+  "floor",
+  "arcade-machine",
+  "wall"
+ ],
+ "slots": [
+  {
+   "id": "rug1",
+   "model": "floor",
+   "x": 502,
+   "y": 463,
+   "w": 214,
+   "h": 118,
+   "ax": 608.7,
+   "ay": 523.2,
+   "requires": []
+  },
+  {
+   "id": "rug2",
+   "model": "floor",
+   "x": 608,
+   "y": 519,
+   "w": 214,
+   "h": 118,
+   "ax": 714.8,
+   "ay": 579.4,
+   "requires": []
+  },
+  {
+   "id": "rug3",
+   "model": "floor",
+   "x": 396,
+   "y": 519,
+   "w": 214,
+   "h": 118,
+   "ax": 502.6,
+   "ay": 579.4,
+   "requires": []
+  },
+  {
+   "id": "rug4",
+   "model": "floor",
+   "x": 501,
+   "y": 575,
+   "w": 215,
+   "h": 118,
+   "ax": 608.7,
+   "ay": 635.6,
+   "requires": []
+  },
+  {
+   "id": "wc",
+   "model": "wall-corner",
+   "x": 575,
+   "y": 32,
+   "w": 233,
+   "h": 217,
+   "ax": 640.5,
+   "ay": 202.8,
+   "requires": []
+  },
+  {
+   "id": "wb1",
+   "model": "wall",
+   "x": 660,
+   "y": 77,
+   "w": 271,
+   "h": 217,
+   "ax": 746.6,
+   "ay": 247.8,
+   "requires": []
+  },
+  {
+   "id": "wl1",
+   "model": "wall",
+   "x": 491,
+   "y": 77,
+   "w": 270,
+   "h": 217,
+   "ax": 576.9,
+   "ay": 247.8,
+   "requires": []
+  },
+  {
+   "id": "arcade1",
+   "model": "arcade-machine",
+   "x": 616,
+   "y": 170,
+   "w": 162,
+   "h": 135,
+   "ax": 664.4,
+   "ay": 280.1,
+   "requires": []
+  },
+  {
+   "id": "wb2",
+   "model": "wall-window",
+   "x": 766,
+   "y": 133,
+   "w": 272,
+   "h": 217,
+   "ax": 852.7,
+   "ay": 304,
+   "requires": []
+  },
+  {
+   "id": "wl2",
+   "model": "wall-window",
+   "x": 385,
+   "y": 133,
+   "w": 271,
+   "h": 217,
+   "ax": 470.8,
+   "ay": 304,
+   "requires": []
+  },
+  {
+   "id": "arcade2",
+   "model": "arcade-machine",
+   "x": 669,
+   "y": 198,
+   "w": 162,
+   "h": 135,
+   "ax": 717.4,
+   "ay": 308.2,
+   "requires": []
+  },
+  {
+   "id": "vend1",
+   "model": "vending-machine",
+   "x": 496,
+   "y": 213,
+   "w": 173,
+   "h": 146,
+   "ax": 546.4,
+   "ay": 332.8,
+   "requires": []
+  },
+  {
+   "id": "pinball1",
+   "model": "pinball",
+   "x": 735,
+   "y": 222,
+   "w": 191,
+   "h": 156,
+   "ax": 783.7,
+   "ay": 351.8,
+   "requires": []
+  },
+  {
+   "id": "wb3",
+   "model": "wall",
+   "x": 872,
+   "y": 190,
+   "w": 272,
+   "h": 216,
+   "ax": 958.7,
+   "ay": 360.2,
+   "requires": []
+  },
+  {
+   "id": "wl3",
+   "model": "wall",
+   "x": 278,
+   "y": 190,
+   "w": 272,
+   "h": 216,
+   "ax": 364.8,
+   "ay": 360.2,
+   "requires": []
+  },
+  {
+   "id": "slot1",
+   "model": "gambling-machine",
+   "x": 425,
+   "y": 260,
+   "w": 146,
+   "h": 135,
+   "ax": 474.8,
+   "ay": 369.3,
+   "requires": []
+  },
+  {
+   "id": "claw",
+   "model": "claw-machine",
+   "x": 806,
+   "y": 268,
+   "w": 202,
+   "h": 159,
+   "ax": 873.9,
+   "ay": 393.9,
+   "requires": []
+  },
+  {
+   "id": "slot2",
+   "model": "gambling-machine",
+   "x": 361,
+   "y": 294,
+   "w": 146,
+   "h": 135,
+   "ax": 411.1,
+   "ay": 403.1,
+   "requires": []
+  },
+  {
+   "id": "wb4",
+   "model": "wall-door-rotate",
+   "x": 979,
+   "y": 246,
+   "w": 271,
+   "h": 217,
+   "ax": 1064.8,
+   "ay": 416.4,
+   "requires": []
+  },
+  {
+   "id": "wl4",
+   "model": "wall",
+   "x": 172,
+   "y": 246,
+   "w": 271,
+   "h": 217,
+   "ax": 258.7,
+   "ay": 416.4,
+   "requires": []
+  },
+  {
+   "id": "column1",
+   "model": "column",
+   "x": 565,
+   "y": 282,
+   "w": 213,
+   "h": 181,
+   "ax": 619.3,
+   "ay": 438.9,
+   "requires": []
+  },
+  {
+   "id": "ticket",
+   "model": "ticket-machine",
+   "x": 290,
+   "y": 316,
+   "w": 152,
+   "h": 146,
+   "ax": 331.4,
+   "ay": 443.7,
+   "requires": []
+  },
+  {
+   "id": "wb5",
+   "model": "wall",
+   "x": 1085,
+   "y": 302,
+   "w": 271,
+   "h": 217,
+   "ax": 1170.9,
+   "ay": 472.6,
+   "requires": []
+  },
+  {
+   "id": "wl5",
+   "model": "wall-window",
+   "x": 66,
+   "y": 302,
+   "w": 271,
+   "h": 217,
+   "ax": 152.6,
+   "ay": 472.6,
+   "requires": []
+  },
+  {
+   "id": "pinball2",
+   "model": "pinball",
+   "x": 191,
+   "y": 366,
+   "w": 151,
+   "h": 155,
+   "ax": 258.7,
+   "ay": 495.1,
+   "requires": []
+  },
+  {
+   "id": "dance",
+   "model": "dance-machine",
+   "x": 986,
+   "y": 361,
+   "w": 249,
+   "h": 199,
+   "ax": 1064.8,
+   "ay": 517.6,
+   "requires": []
+  },
+  {
+   "id": "wb6",
+   "model": "wall-window",
+   "x": 1191,
+   "y": 358,
+   "w": 229,
+   "h": 217,
+   "ax": 1276.9,
+   "ay": 528.8,
+   "requires": []
+  },
+  {
+   "id": "column2",
+   "model": "column",
+   "x": 820,
+   "y": 417,
+   "w": 212,
+   "h": 180,
+   "ax": 873.9,
+   "ay": 573.8,
+   "requires": []
+  },
+  {
+   "id": "basket",
+   "model": "basketball-game",
+   "x": 1095,
+   "y": 432,
+   "w": 236,
+   "h": 182,
+   "ax": 1170.2,
+   "ay": 574.1,
+   "requires": []
+  },
+  {
+   "id": "hockey",
+   "model": "air-hockey",
+   "x": 523,
+   "y": 491,
+   "w": 201,
+   "h": 129,
+   "ax": 608.7,
+   "ay": 576.2,
+   "requires": []
+  },
+  {
+   "id": "gamer",
+   "model": "character-gamer",
+   "x": 327,
+   "y": 473,
+   "w": 149,
+   "h": 141,
+   "ax": 358.3,
+   "ay": 584.7,
+   "requires": []
+  },
+  {
+   "id": "prizes",
+   "model": "prizes",
+   "x": 1016,
+   "y": 521,
+   "w": 183,
+   "h": 169,
+   "ax": 1080.7,
+   "ay": 655.3,
+   "requires": []
+  },
+  {
+   "id": "counter",
+   "model": "cash-register",
+   "x": 761,
+   "y": 612,
+   "w": 165,
+   "h": 110,
+   "ax": 831.4,
+   "ay": 686.2,
+   "requires": []
+  },
+  {
+   "id": "employee",
+   "model": "character-employee",
+   "x": 835,
+   "y": 617,
+   "w": 159,
+   "h": 117,
+   "ax": 885.6,
+   "ay": 714.9,
+   "requires": []
+  },
+  {
+   "id": "wheel",
+   "model": "prize-wheel",
+   "x": 809,
+   "y": 683,
+   "w": 149,
+   "h": 129,
+   "ax": 842.1,
+   "ay": 793,
+   "requires": []
+  }
+ ]
+}

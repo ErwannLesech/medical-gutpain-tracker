@@ -5,6 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 import '../core/models/models.dart';
+import '../core/services/coin_service.dart';
+import '../core/services/monthly_recap_service.dart';
+import '../core/services/providers.dart';
 import '../core/utils/haptic_service.dart';
 import '../shared/theme/colors.dart';
 import '../shared/widgets/widgets.dart';
@@ -18,6 +21,8 @@ import 'daily/daily_form_screen.dart';
 import 'settings/settings_screen.dart';
 import 'home/home_provider.dart';
 import 'home/achievements_screen.dart';
+import 'recap/monthly_recap_screen.dart';
+import 'scenes/current_scene_button.dart';
 
 /// Écran d'accueil / Dashboard
 class HomeScreen extends ConsumerStatefulWidget {
@@ -57,6 +62,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             ref.invalidate(consecutiveDaysProvider);
             ref.invalidate(upcomingMealsCountProvider);
             ref.invalidate(allAchievementsProvider);
+            ref.invalidate(recapSeenProvider);
           }
         },
         destinations: const [
@@ -104,9 +110,19 @@ class _DashboardTab extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Salutation
-              _buildGreeting(context),
-              
+              // Salutation + solde de Catcoins
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(child: _buildGreeting(context)),
+                  const SizedBox(width: 8),
+                  const CoinBalanceChip(),
+                ],
+              ),
+
+              // Bilan mensuel (2 derniers / 2 premiers jours du mois)
+              const _MonthlyRecapBanner(),
+
               const SizedBox(height: 24),
 
               // Actions rapides (avec journal du jour)
@@ -132,6 +148,10 @@ class _DashboardTab extends ConsumerWidget {
               _buildProgressStats(context, ref),
 
               const SizedBox(height: 24),
+
+              // Raccourci vers la scène en cours, au-dessus des collections
+              const CurrentSceneButton(),
+              const SizedBox(height: 12),
 
               // Badge le plus récent
               _buildLatestBadge(context, ref),
@@ -204,6 +224,7 @@ class _DashboardTab extends ConsumerWidget {
             ),
           ],
         ),
+
       ],
     );
   }
@@ -735,3 +756,77 @@ class _QuickActionCard extends StatelessWidget {
     );
   }
 }
+
+/// Bannière du bilan mensuel, visible les 2 derniers jours du mois
+/// et les 2 premiers jours du mois suivant
+class _MonthlyRecapBanner extends ConsumerWidget {
+  const _MonthlyRecapBanner();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final month = recapMonthInWindow(DateTime.now());
+    if (month == null) return const SizedBox.shrink();
+
+    final seen = ref.watch(recapSeenProvider(month)).valueOrNull ?? false;
+    final monthName = DateFormat.MMMM('fr_FR').format(month.start);
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 20),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(16),
+          onTap: () async {
+            HapticService.medium();
+            await MonthlyRecapScreen.open(context, month);
+            ref.invalidate(recapSeenProvider(month));
+          },
+          child: Ink(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              gradient: seen ? null : WakyColors.kpopGradient,
+              color: seen ? WakyColors.primary.withValues(alpha: 0.08) : null,
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Row(
+              children: [
+                Text(seen ? '📊' : '✨', style: const TextStyle(fontSize: 32)),
+                const SizedBox(width: 14),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        seen
+                            ? 'Revoir ton bilan de $monthName'
+                            : 'Ton bilan de $monthName est prêt !',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          color: seen ? null : Colors.white,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      if (seen)
+                        Text(
+                          'Ton mois en un coup d\'œil',
+                          style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey),
+                        )
+                      else
+                        Text(
+                          '1 minute pour revivre ton mois · +${CoinRewards.monthlyRecap} Catcoins',
+                          style: TextStyle(color: Colors.white.withValues(alpha: 0.9), fontSize: 13),
+                        ),
+                    ],
+                  ),
+                ),
+                Icon(Icons.chevron_right, color: seen ? WakyColors.primary : Colors.white),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+

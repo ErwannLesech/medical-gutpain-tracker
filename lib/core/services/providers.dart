@@ -6,6 +6,9 @@ import '../models/models.dart';
 import 'achievement_service.dart';
 import 'cat_reward_service.dart';
 import 'food_reward_service.dart';
+import 'coin_service.dart';
+import 'monthly_recap_service.dart';
+import 'scene_service.dart';
 
 /// Provider du service de base de données
 final databaseServiceProvider = Provider<DatabaseService>((ref) {
@@ -40,6 +43,11 @@ final appSettingsRepositoryProvider = Provider<AppSettingsRepository>((ref) {
 /// Provider du repository des achievements
 final achievementRepositoryProvider = Provider<AchievementRepository>((ref) {
   return AchievementRepository(db: ref.watch(databaseServiceProvider));
+});
+
+/// Provider du repository de l'état de la liste de courses
+final shoppingListStateRepositoryProvider = Provider<ShoppingListStateRepository>((ref) {
+  return ShoppingListStateRepository(db: ref.watch(databaseServiceProvider));
 });
 
 /// Provider du service des achievements
@@ -186,4 +194,68 @@ final discoveredFoodCardsProvider = FutureProvider<List<DiscoveredFoodCardWithDa
 final canDrawFoodCardForDateProvider = FutureProvider.family<bool, DateTime>((ref, date) async {
   final service = ref.watch(foodRewardServiceProvider);
   return service.canDrawForDate(date);
+});
+
+// ==================== CATCOINS ====================
+
+final coinRepositoryProvider = Provider<CoinRepository>((ref) {
+  return CoinRepository(db: ref.watch(databaseServiceProvider));
+});
+
+final coinServiceProvider = Provider<CoinService>((ref) {
+  return CoinService(coinRepo: ref.watch(coinRepositoryProvider));
+});
+
+/// Solde de Catcoins en temps réel
+final coinBalanceProvider = StreamProvider<int>((ref) {
+  return ref.watch(coinServiceProvider).watchBalance();
+});
+
+// ==================== BILAN MENSUEL ====================
+
+final monthlyRecapServiceProvider = Provider<MonthlyRecapService>((ref) {
+  return MonthlyRecapService(
+    dailyRepo: ref.watch(dailyReportRepositoryProvider),
+    painRepo: ref.watch(painEventRepositoryProvider),
+    mealRepo: ref.watch(mealRepositoryProvider),
+    catRepo: ref.watch(discoveredCatRepositoryProvider),
+    foodCardRepo: ref.watch(discoveredFoodCardRepositoryProvider),
+    settingsRepo: ref.watch(appSettingsRepositoryProvider),
+    coinService: ref.watch(coinServiceProvider),
+  );
+});
+
+/// Le bilan de ce mois a-t-il déjà été consulté jusqu'au bout ?
+final recapSeenProvider = FutureProvider.family<bool, RecapMonth>((ref, month) {
+  return ref.watch(coinServiceProvider).isRecapSeen(month.year, month.month);
+});
+
+// ==================== SCÈNES PUZZLE ====================
+
+final scenePieceRepositoryProvider = Provider<ScenePieceRepository>((ref) {
+  return ScenePieceRepository();
+});
+
+final sceneServiceProvider = Provider<SceneService>((ref) {
+  return SceneService(
+    repository: ref.watch(scenePieceRepositoryProvider),
+    coinService: ref.watch(coinServiceProvider),
+  );
+});
+
+/// Collection des scènes (débloquées ou « ? »)
+final scenesProvider = FutureProvider<List<SceneStatus>>((ref) {
+  return ref.watch(sceneServiceProvider).allScenes();
+});
+
+/// Scène en cours
+/// (offre au passage les pièces de départ de la scène, une seule fois)
+final currentSceneProvider = FutureProvider<SceneOverview>((ref) async {
+  final service = ref.watch(sceneServiceProvider);
+  final current = await service.currentScene();
+  if (current.allDone || current.state.placedCount > 0 || current.state.inventoryCount > 0) {
+    return current;
+  }
+  await service.ensureStarterPieces(current.def.id);
+  return service.currentScene();
 });

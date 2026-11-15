@@ -78,7 +78,33 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/cats_optimized/
-    - assets/food/
+    # Scènes puzzle (rendues depuis les kits Kenney par tool/scene_render)
+    - assets/scenes/forest/
+    - assets/scenes/forest/slots/
+    - assets/scenes/forest/icons/
+    - assets/scenes/holiday/
+    - assets/scenes/holiday/slots/
+    - assets/scenes/holiday/icons/
+    - assets/scenes/pirate/
+    - assets/scenes/pirate/slots/
+    - assets/scenes/pirate/icons/
+    - assets/scenes/arcade/
+    - assets/scenes/arcade/slots/
+    - assets/scenes/arcade/icons/
+    - assets/scenes/dungeon/
+    - assets/scenes/dungeon/slots/
+    - assets/scenes/dungeon/icons/
+    - assets/scenes/platformer/
+    - assets/scenes/platformer/slots/
+    - assets/scenes/platformer/icons/
+    - assets/scenes/arena/
+    - assets/scenes/arena/slots/
+    - assets/scenes/arena/icons/
+    - assets/scenes/fantasy/
+    - assets/scenes/fantasy/slots/
+    - assets/scenes/fantasy/icons/
+    - assets/scenes/pets/
+    - assets/scenes/pets/icons/
     - assets/food_cards_optimized/
 
 flutter_launcher_icons:

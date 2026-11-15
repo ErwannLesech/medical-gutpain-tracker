@@ -1,0 +1,563 @@
+{
+ "id": "dungeon",
+ "name": "Le donjon secret",
+ "emoji": "🗝️",
+ "width": 1545,
+ "height": 1068,
+ "background": [
+  "#DCD8EE",
+  "#F2E6DA"
+ ],
+ "reference": {
+  "x": 89,
+  "y": 23,
+  "w": 1418,
+  "h": 972
+ },
+ "terrain": {
+  "x": 89,
+  "y": 186,
+  "w": 1418,
+  "h": 809
+ },
+ "petSpot": {
+  "x": 840.6,
+  "y": 872.5
+ },
+ "pets": [
+  "cat",
+  "dog",
+  "hog"
+ ],
+ "models": {
+  "wall": {
+   "name": "Mur de pierre",
+   "price": 6
+  },
+  "wall-half": {
+   "name": "Mur fissuré",
+   "price": 6
+  },
+  "wall-narrow": {
+   "name": "Mur à créneaux",
+   "price": 6
+  },
+  "wall-opening": {
+   "name": "Passage voûté",
+   "price": 10
+  },
+  "gate": {
+   "name": "Grille",
+   "price": 8
+  },
+  "column": {
+   "name": "Colonne",
+   "price": 8
+  },
+  "stairs": {
+   "name": "Escalier",
+   "price": 10
+  },
+  "floor-detail": {
+   "name": "Dalle usée",
+   "price": 3
+  },
+  "table": {
+   "name": "Table",
+   "price": 8
+  },
+  "chair": {
+   "name": "Chaise",
+   "price": 4
+  },
+  "potion": {
+   "name": "Potion",
+   "price": 5
+  },
+  "barrel": {
+   "name": "Tonneau",
+   "price": 4
+  },
+  "pot": {
+   "name": "Jarre",
+   "price": 4
+  },
+  "chest": {
+   "name": "Coffre",
+   "price": 12
+  },
+  "coin": {
+   "name": "Pièce d'or",
+   "price": 3
+  },
+  "key": {
+   "name": "Clé",
+   "price": 6
+  },
+  "trap": {
+   "name": "Piège à pointes",
+   "price": 6
+  },
+  "banner": {
+   "name": "Bannière",
+   "price": 5
+  },
+  "character-human": {
+   "name": "L'aventurier",
+   "price": 15
+  },
+  "character-orc": {
+   "name": "L'orc",
+   "price": 15
+  },
+  "wood-structure": {
+   "name": "Étai en bois",
+   "price": 8
+  },
+  "rocks": {
+   "name": "Éboulis",
+   "price": 6
+  },
+  "stones": {
+   "name": "Cailloux",
+   "price": 4
+  }
+ },
+ "starter": [
+  "barrel",
+  "coin",
+  "floor-detail"
+ ],
+ "slots": [
+  {
+   "id": "floor1",
+   "model": "floor-detail",
+   "x": 628,
+   "y": 388,
+   "w": 214,
+   "h": 115,
+   "ax": 734.6,
+   "ay": 445.4,
+   "requires": []
+  },
+  {
+   "id": "floor2",
+   "model": "floor-detail",
+   "x": 945,
+   "y": 444,
+   "w": 215,
+   "h": 115,
+   "ax": 1052.8,
+   "ay": 501.6,
+   "requires": []
+  },
+  {
+   "id": "floor3",
+   "model": "floor-detail",
+   "x": 734,
+   "y": 669,
+   "w": 214,
+   "h": 115,
+   "ax": 840.6,
+   "ay": 726.4,
+   "requires": []
+  },
+  {
+   "id": "w1",
+   "model": "wall",
+   "x": 627,
+   "y": 23,
+   "w": 329,
+   "h": 255,
+   "ax": 734.6,
+   "ay": 220.5,
+   "requires": []
+  },
+  {
+   "id": "w2",
+   "model": "wall-narrow",
+   "x": 733,
+   "y": 95,
+   "w": 314,
+   "h": 239,
+   "ax": 840.6,
+   "ay": 276.7,
+   "requires": []
+  },
+  {
+   "id": "l1",
+   "model": "wall-half",
+   "x": 521,
+   "y": 105,
+   "w": 314,
+   "h": 229,
+   "ax": 628.5,
+   "ay": 276.7,
+   "requires": []
+  },
+  {
+   "id": "barrel1",
+   "model": "barrel",
+   "x": 689,
+   "y": 213,
+   "w": 120,
+   "h": 99,
+   "ax": 729.3,
+   "ay": 290.8,
+   "requires": []
+  },
+  {
+   "id": "barrel2",
+   "model": "barrel",
+   "x": 625,
+   "y": 247,
+   "w": 120,
+   "h": 99,
+   "ax": 665.6,
+   "ay": 324.5,
+   "requires": []
+  },
+  {
+   "id": "w3",
+   "model": "wall",
+   "x": 839,
+   "y": 136,
+   "w": 330,
+   "h": 254,
+   "ax": 946.7,
+   "ay": 332.9,
+   "requires": []
+  },
+  {
+   "id": "l2",
+   "model": "wall",
+   "x": 415,
+   "y": 135,
+   "w": 329,
+   "h": 255,
+   "ax": 522.4,
+   "ay": 332.9,
+   "requires": []
+  },
+  {
+   "id": "banner1",
+   "model": "banner",
+   "x": 855,
+   "y": 233,
+   "w": 161,
+   "h": 141,
+   "ax": 891,
+   "ay": 362.4,
+   "requires": [
+    "w3"
+   ]
+  },
+  {
+   "id": "banner3",
+   "model": "banner",
+   "x": 542,
+   "y": 233,
+   "w": 161,
+   "h": 141,
+   "ax": 578.1,
+   "ay": 362.4,
+   "requires": [
+    "l2"
+   ]
+  },
+  {
+   "id": "w4",
+   "model": "wall-half",
+   "x": 945,
+   "y": 217,
+   "w": 308,
+   "h": 230,
+   "ax": 1052.8,
+   "ay": 389.1,
+   "requires": []
+  },
+  {
+   "id": "l3",
+   "model": "wall-narrow",
+   "x": 309,
+   "y": 207,
+   "w": 314,
+   "h": 240,
+   "ax": 416.4,
+   "ay": 389.1,
+   "requires": []
+  },
+  {
+   "id": "column1",
+   "model": "column",
+   "x": 689,
+   "y": 225,
+   "w": 206,
+   "h": 189,
+   "ax": 734.6,
+   "ay": 389.1,
+   "requires": []
+  },
+  {
+   "id": "l4",
+   "model": "wall",
+   "x": 203,
+   "y": 248,
+   "w": 329,
+   "h": 255,
+   "ax": 310.3,
+   "ay": 445.4,
+   "requires": []
+  },
+  {
+   "id": "w5",
+   "model": "wall-opening",
+   "x": 1051,
+   "y": 263,
+   "w": 314,
+   "h": 240,
+   "ax": 1156.2,
+   "ay": 446.8,
+   "requires": []
+  },
+  {
+   "id": "pot",
+   "model": "pot",
+   "x": 356,
+   "y": 391,
+   "w": 113,
+   "h": 84,
+   "ax": 400.5,
+   "ay": 459.4,
+   "requires": []
+  },
+  {
+   "id": "gate",
+   "model": "gate",
+   "x": 1051,
+   "y": 351,
+   "w": 182,
+   "h": 152,
+   "ax": 1105.8,
+   "ay": 473.5,
+   "requires": [
+    "w5"
+   ]
+  },
+  {
+   "id": "w6",
+   "model": "wall",
+   "x": 1157,
+   "y": 304,
+   "w": 330,
+   "h": 255,
+   "ax": 1264.9,
+   "ay": 501.6,
+   "requires": []
+  },
+  {
+   "id": "chair1",
+   "model": "chair",
+   "x": 619,
+   "y": 447,
+   "w": 98,
+   "h": 99,
+   "ax": 655,
+   "ay": 526.8,
+   "requires": []
+  },
+  {
+   "id": "banner2",
+   "model": "banner",
+   "x": 1173,
+   "y": 402,
+   "w": 161,
+   "h": 140,
+   "ax": 1209.2,
+   "ay": 531.1,
+   "requires": [
+    "w6"
+   ]
+  },
+  {
+   "id": "support",
+   "model": "wood-structure",
+   "x": 182,
+   "y": 365,
+   "w": 323,
+   "h": 242,
+   "ax": 294.4,
+   "ay": 549.3,
+   "requires": []
+  },
+  {
+   "id": "w7",
+   "model": "wall-narrow",
+   "x": 1264,
+   "y": 376,
+   "w": 281,
+   "h": 239,
+   "ax": 1371,
+   "ay": 557.8,
+   "requires": []
+  },
+  {
+   "id": "table",
+   "model": "table",
+   "x": 650,
+   "y": 483,
+   "w": 180,
+   "h": 120,
+   "ax": 724,
+   "ay": 563.4,
+   "requires": []
+  },
+  {
+   "id": "potion",
+   "model": "potion",
+   "x": 687,
+   "y": 454,
+   "w": 79,
+   "h": 72,
+   "ax": 713.4,
+   "ay": 512.1,
+   "requires": [
+    "table"
+   ]
+  },
+  {
+   "id": "rocks",
+   "model": "rocks",
+   "x": 160,
+   "y": 459,
+   "w": 240,
+   "h": 167,
+   "ax": 257.3,
+   "ay": 574.6,
+   "requires": []
+  },
+  {
+   "id": "key",
+   "model": "key",
+   "x": 715,
+   "y": 515,
+   "w": 62,
+   "h": 35,
+   "ax": 739.9,
+   "ay": 543,
+   "requires": [
+    "table"
+   ]
+  },
+  {
+   "id": "chair2",
+   "model": "chair",
+   "x": 758,
+   "y": 532,
+   "w": 118,
+   "h": 85,
+   "ax": 792.9,
+   "ay": 599.9,
+   "requires": []
+  },
+  {
+   "id": "hero",
+   "model": "character-human",
+   "x": 444,
+   "y": 518,
+   "w": 152,
+   "h": 111,
+   "ax": 500.5,
+   "ay": 612.5,
+   "requires": []
+  },
+  {
+   "id": "column2",
+   "model": "column",
+   "x": 1113,
+   "y": 449,
+   "w": 206,
+   "h": 190,
+   "ax": 1158.8,
+   "ay": 614,
+   "requires": []
+  },
+  {
+   "id": "trap",
+   "model": "trap",
+   "x": 644,
+   "y": 592,
+   "w": 155,
+   "h": 104,
+   "ax": 718.7,
+   "ay": 656.1,
+   "requires": []
+  },
+  {
+   "id": "stairs",
+   "model": "stairs",
+   "x": 1055,
+   "y": 565,
+   "w": 304,
+   "h": 185,
+   "ax": 1158.8,
+   "ay": 692.7,
+   "requires": []
+  },
+  {
+   "id": "stones",
+   "model": "stones",
+   "x": 377,
+   "y": 625,
+   "w": 142,
+   "h": 107,
+   "ax": 448.2,
+   "ay": 698.3,
+   "requires": []
+  },
+  {
+   "id": "orc",
+   "model": "character-orc",
+   "x": 541,
+   "y": 629,
+   "w": 150,
+   "h": 118,
+   "ax": 597.5,
+   "ay": 733.2,
+   "requires": []
+  },
+  {
+   "id": "coin1",
+   "model": "coin",
+   "x": 809,
+   "y": 723,
+   "w": 61,
+   "h": 45,
+   "ax": 830,
+   "ay": 760.1,
+   "requires": []
+  },
+  {
+   "id": "chest",
+   "model": "chest",
+   "x": 883,
+   "y": 693,
+   "w": 112,
+   "h": 101,
+   "ax": 925.5,
+   "ay": 771.3,
+   "requires": []
+  },
+  {
+   "id": "coin2",
+   "model": "coin",
+   "x": 811,
+   "y": 764,
+   "w": 48,
+   "h": 49,
+   "ax": 824.7,
+   "ay": 802.3,
+   "requires": []
+  }
+ ]
+}

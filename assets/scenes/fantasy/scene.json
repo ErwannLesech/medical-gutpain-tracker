@@ -1,0 +1,570 @@
+{
+ "id": "fantasy",
+ "name": "Le bourg du royaume",
+ "emoji": "🏰",
+ "width": 1622,
+ "height": 1382,
+ "background": [
+  "#DDEBD5",
+  "#F3EAD6"
+ ],
+ "reference": {
+  "x": 55,
+  "y": 343,
+  "w": 1525,
+  "h": 978
+ },
+ "terrain": {
+  "x": 55,
+  "y": 460,
+  "w": 1525,
+  "h": 861
+ },
+ "petSpot": {
+  "x": 817.4,
+  "y": 1118.2
+ },
+ "pets": [
+  "lion",
+  "elephant",
+  "giraffe"
+ ],
+ "models": {
+  "wall-door": {
+   "name": "Mur avec porte",
+   "price": 8
+  },
+  "wall-paint-window": {
+   "name": "Mur peint à fenêtre",
+   "price": 8
+  },
+  "wall-paint": {
+   "name": "Mur peint",
+   "price": 6
+  },
+  "wall-window": {
+   "name": "Mur à fenêtre",
+   "price": 6
+  },
+  "roof-edge": {
+   "name": "Pignon de toit",
+   "price": 8
+  },
+  "roof": {
+   "name": "Toit d'ardoise",
+   "price": 8
+  },
+  "tower-base": {
+   "name": "Base de tour",
+   "price": 10
+  },
+  "tower": {
+   "name": "Étage de tour",
+   "price": 8
+  },
+  "tower-paint": {
+   "name": "Tour peinte",
+   "price": 8
+  },
+  "tower-top": {
+   "name": "Créneaux de tour",
+   "price": 10
+  },
+  "wall-fortified": {
+   "name": "Rempart",
+   "price": 6
+  },
+  "wall-fortified-door": {
+   "name": "Porte du rempart",
+   "price": 10
+  },
+  "battlement": {
+   "name": "Créneau",
+   "price": 4
+  },
+  "water": {
+   "name": "Bassin",
+   "price": 4
+  },
+  "tree-large": {
+   "name": "Chêne",
+   "price": 8
+  },
+  "tree-shrub": {
+   "name": "Arbuste",
+   "price": 4
+  },
+  "barrels": {
+   "name": "Tonneaux",
+   "price": 4
+  },
+  "detail-crate": {
+   "name": "Caisse",
+   "price": 3
+  },
+  "fence-wood": {
+   "name": "Barrière",
+   "price": 3
+  },
+  "overhang-round-railing": {
+   "name": "Kiosque",
+   "price": 10
+  },
+  "column": {
+   "name": "Pilier",
+   "price": 4
+  }
+ },
+ "starter": [
+  "tree-shrub",
+  "fence-wood",
+  "detail-crate"
+ ],
+ "slots": [
+  {
+   "id": "tree1",
+   "model": "tree-large",
+   "x": 672,
+   "y": 343,
+   "w": 291,
+   "h": 237,
+   "ax": 764.3,
+   "ay": 539.3,
+   "requires": []
+  },
+  {
+   "id": "tree4",
+   "model": "tree-large",
+   "x": 472,
+   "y": 404,
+   "w": 310,
+   "h": 263,
+   "ax": 562.8,
+   "ay": 623.6,
+   "requires": []
+  },
+  {
+   "id": "h-back1",
+   "model": "wall-paint",
+   "x": 752,
+   "y": 473,
+   "w": 319,
+   "h": 242,
+   "ax": 859.8,
+   "ay": 657.3,
+   "requires": []
+  },
+  {
+   "id": "tree2",
+   "model": "tree-large",
+   "x": 980,
+   "y": 429,
+   "w": 278,
+   "h": 261,
+   "ax": 1050.7,
+   "ay": 657.3,
+   "requires": []
+  },
+  {
+   "id": "barrels1",
+   "model": "barrels",
+   "x": 562,
+   "y": 622,
+   "w": 147,
+   "h": 115,
+   "ax": 610.6,
+   "ay": 710.7,
+   "requires": []
+  },
+  {
+   "id": "h-door",
+   "model": "wall-door",
+   "x": 646,
+   "y": 529,
+   "w": 319,
+   "h": 242,
+   "ax": 753.7,
+   "ay": 713.6,
+   "requires": []
+  },
+  {
+   "id": "h-back2",
+   "model": "wall-window",
+   "x": 858,
+   "y": 529,
+   "w": 319,
+   "h": 242,
+   "ax": 965.9,
+   "ay": 713.6,
+   "requires": []
+  },
+  {
+   "id": "h-roof1",
+   "model": "roof-edge",
+   "x": 699,
+   "y": 427,
+   "w": 271,
+   "h": 189,
+   "ax": 806.8,
+   "ay": 558.2,
+   "requires": [
+    "h-door",
+    "h-back1"
+   ]
+  },
+  {
+   "id": "fence1",
+   "model": "fence-wood",
+   "x": 408,
+   "y": 671,
+   "w": 149,
+   "h": 103,
+   "ax": 467.4,
+   "ay": 741.7,
+   "requires": []
+  },
+  {
+   "id": "h-win",
+   "model": "wall-paint-window",
+   "x": 752,
+   "y": 585,
+   "w": 319,
+   "h": 242,
+   "ax": 859.8,
+   "ay": 769.8,
+   "requires": []
+  },
+  {
+   "id": "r1",
+   "model": "wall-fortified",
+   "x": 949,
+   "y": 599,
+   "w": 318,
+   "h": 242,
+   "ax": 1056,
+   "ay": 783.8,
+   "requires": []
+  },
+  {
+   "id": "h-roof2",
+   "model": "roof-edge",
+   "x": 805,
+   "y": 455,
+   "w": 224,
+   "h": 217,
+   "ax": 912.8,
+   "ay": 614.4,
+   "requires": [
+    "h-win",
+    "h-back2"
+   ]
+  },
+  {
+   "id": "fence2",
+   "model": "fence-wood",
+   "x": 302,
+   "y": 728,
+   "w": 149,
+   "h": 102,
+   "ax": 361.3,
+   "ay": 797.9,
+   "requires": []
+  },
+  {
+   "id": "pond1",
+   "model": "water",
+   "x": 329,
+   "y": 756,
+   "w": 223,
+   "h": 126,
+   "ax": 435.5,
+   "ay": 826,
+   "requires": []
+  },
+  {
+   "id": "crate1",
+   "model": "detail-crate",
+   "x": 791,
+   "y": 774,
+   "w": 93,
+   "h": 72,
+   "ax": 822.7,
+   "ay": 828.8,
+   "requires": []
+  },
+  {
+   "id": "r2",
+   "model": "wall-fortified-door",
+   "x": 1055,
+   "y": 655,
+   "w": 318,
+   "h": 242,
+   "ax": 1162.1,
+   "ay": 840,
+   "requires": []
+  },
+  {
+   "id": "crate2",
+   "model": "detail-crate",
+   "x": 827,
+   "y": 787,
+   "w": 96,
+   "h": 74,
+   "ax": 859.8,
+   "ay": 842.8,
+   "requires": []
+  },
+  {
+   "id": "shrub3",
+   "model": "tree-shrub",
+   "x": 116,
+   "y": 741,
+   "w": 153,
+   "h": 135,
+   "ax": 170.4,
+   "ay": 842.8,
+   "requires": []
+  },
+  {
+   "id": "fence3",
+   "model": "fence-wood",
+   "x": 195,
+   "y": 784,
+   "w": 150,
+   "h": 102,
+   "ax": 255.2,
+   "ay": 854.1,
+   "requires": []
+  },
+  {
+   "id": "b1",
+   "model": "battlement",
+   "x": 938,
+   "y": 602,
+   "w": 165,
+   "h": 116,
+   "ax": 1008.3,
+   "ay": 681.9,
+   "requires": [
+    "r1"
+   ]
+  },
+  {
+   "id": "pond2",
+   "model": "water",
+   "x": 435,
+   "y": 812,
+   "w": 222,
+   "h": 127,
+   "ax": 541.6,
+   "ay": 882.2,
+   "requires": []
+  },
+  {
+   "id": "pond3",
+   "model": "water",
+   "x": 222,
+   "y": 812,
+   "w": 223,
+   "h": 126,
+   "ax": 329.5,
+   "ay": 882.2,
+   "requires": []
+  },
+  {
+   "id": "t-base",
+   "model": "tower-base",
+   "x": 1190,
+   "y": 731,
+   "w": 264,
+   "h": 213,
+   "ax": 1273.5,
+   "ay": 899,
+   "requires": []
+  },
+  {
+   "id": "shrub1",
+   "model": "tree-shrub",
+   "x": 1366,
+   "y": 818,
+   "w": 181,
+   "h": 127,
+   "ax": 1443.2,
+   "ay": 899,
+   "requires": []
+  },
+  {
+   "id": "b2",
+   "model": "battlement",
+   "x": 1044,
+   "y": 658,
+   "w": 165,
+   "h": 116,
+   "ax": 1114.4,
+   "ay": 738.1,
+   "requires": [
+    "r2"
+   ]
+  },
+  {
+   "id": "pond4",
+   "model": "water",
+   "x": 328,
+   "y": 868,
+   "w": 223,
+   "h": 127,
+   "ax": 435.5,
+   "ay": 938.4,
+   "requires": []
+  },
+  {
+   "id": "t-mid",
+   "model": "tower",
+   "x": 1197,
+   "y": 604,
+   "w": 257,
+   "h": 209,
+   "ax": 1273.5,
+   "ay": 771.8,
+   "requires": [
+    "t-base"
+   ]
+  },
+  {
+   "id": "col1",
+   "model": "column",
+   "x": 880,
+   "y": 816,
+   "w": 149,
+   "h": 152,
+   "ax": 902.2,
+   "ay": 955.2,
+   "requires": []
+  },
+  {
+   "id": "tree5",
+   "model": "tree-large",
+   "x": 313,
+   "y": 755,
+   "w": 292,
+   "h": 255,
+   "ax": 393.1,
+   "ay": 972.1,
+   "requires": []
+  },
+  {
+   "id": "t-mid2",
+   "model": "tower-paint",
+   "x": 1197,
+   "y": 476,
+   "w": 257,
+   "h": 210,
+   "ax": 1273.5,
+   "ay": 644.6,
+   "requires": [
+    "t-mid"
+   ]
+  },
+  {
+   "id": "col2",
+   "model": "column",
+   "x": 996,
+   "y": 877,
+   "w": 149,
+   "h": 153,
+   "ax": 1018.9,
+   "ay": 1017.1,
+   "requires": []
+  },
+  {
+   "id": "col3",
+   "model": "column",
+   "x": 763,
+   "y": 877,
+   "w": 149,
+   "h": 153,
+   "ax": 785.6,
+   "ay": 1017.1,
+   "requires": []
+  },
+  {
+   "id": "tree3",
+   "model": "tree-large",
+   "x": 1113,
+   "y": 783,
+   "w": 281,
+   "h": 272,
+   "ax": 1199.2,
+   "ay": 1017.1,
+   "requires": []
+  },
+  {
+   "id": "shrub2",
+   "model": "tree-shrub",
+   "x": 454,
+   "y": 952,
+   "w": 180,
+   "h": 128,
+   "ax": 531,
+   "ay": 1033.9,
+   "requires": []
+  },
+  {
+   "id": "t-top",
+   "model": "tower-top",
+   "x": 1182,
+   "y": 435,
+   "w": 204,
+   "h": 131,
+   "ax": 1273.5,
+   "ay": 517.4,
+   "requires": [
+    "t-mid2"
+   ]
+  },
+  {
+   "id": "col4",
+   "model": "column",
+   "x": 880,
+   "y": 939,
+   "w": 149,
+   "h": 152,
+   "ax": 902.2,
+   "ay": 1078.9,
+   "requires": []
+  },
+  {
+   "id": "kiosk",
+   "model": "overhang-round-railing",
+   "x": 788,
+   "y": 778,
+   "w": 269,
+   "h": 173,
+   "ax": 902.2,
+   "ay": 889.9,
+   "requires": []
+  },
+  {
+   "id": "barrels2",
+   "model": "barrels",
+   "x": 981,
+   "y": 984,
+   "w": 147,
+   "h": 115,
+   "ax": 1029.5,
+   "ay": 1073.3,
+   "requires": []
+  },
+  {
+   "id": "shrub4",
+   "model": "tree-shrub",
+   "x": 596,
+   "y": 1011,
+   "w": 185,
+   "h": 134,
+   "ax": 668.9,
+   "ay": 1107,
+   "requires": []
+  }
+ ]
+}

@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import '../data/food_card_data.dart';
 import '../database/repositories/discovered_food_card_repository.dart';
 import '../models/discovered_food_card.dart';
+import 'collection_draw.dart';
 
 /// Resultat d'un tirage de carte de plat
 class FoodCardDrawResult {
@@ -52,17 +53,24 @@ class FoodRewardService {
   /// Effectue un tirage de carte pour une date donnee
   /// Retourne null si un tirage a deja ete effectue pour cette date
   Future<FoodCardDrawResult?> drawFoodCardForDate(DateTime date) async {
+    if (await isCollectionComplete()) return null;
     if (await _repository.hasDrawnForDate(date)) {
       debugPrint('🍽️ Tirage deja effectue pour cette date: $date');
       return null;
     }
 
-    final cardIndex = _random.nextInt(allFoodCards.length);
-    final card = allFoodCards[cardIndex];
+    // Tirage avec probabilité minimale de nouveauté
+    final discoveredIds = await _repository.getDiscoveredFoodCardIds();
+    final card = drawWithPity<FoodCardData>(
+      allItems: allFoodCards,
+      discoveredIds: discoveredIds,
+      idOf: (c) => c.id,
+      random: _random,
+    );
 
     debugPrint('🍽️ Tirage de la carte #${card.id} (${card.name})');
 
-    final isAlreadyDiscovered = await _repository.getByFoodCardId(card.id) != null;
+    final isAlreadyDiscovered = discoveredIds.contains(card.id);
     DiscoveredFoodCard? newDiscoveredCard;
 
     if (!isAlreadyDiscovered) {
@@ -100,8 +108,16 @@ class FoodRewardService {
   }
 
   /// Verifie si un tirage peut etre effectue pour une date
+  /// (plus de tirage une fois la collection complete : place aux scenes)
   Future<bool> canDrawForDate(DateTime date) async {
+    if (await isCollectionComplete()) return false;
     return !await _repository.hasDrawnForDate(date);
+  }
+
+  /// Verifie si la collection est completee
+  Future<bool> isCollectionComplete() async {
+    final discoveredCount = await _repository.getDiscoveredCount();
+    return discoveredCount >= allFoodCards.length;
   }
 
   /// Recupere toutes les cartes avec leur etat de decouverte
