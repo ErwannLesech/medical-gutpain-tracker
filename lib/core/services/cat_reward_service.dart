@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import '../data/cat_data.dart';
 import '../database/repositories/discovered_cat_repository.dart';
 import '../models/discovered_cat.dart';
+import 'collection_draw.dart';
 
 /// Résultat d'un tirage de chat
 class CatDrawResult {
@@ -63,14 +64,19 @@ class CatRewardService {
       return null;
     }
 
-    // Tirage aléatoire d'un chat
-    final catIndex = _random.nextInt(allCats.length);
-    final cat = allCats[catIndex];
+    // Tirage aléatoire d'un chat (avec probabilité minimale de nouveauté)
+    final discoveredIds = await _repository.getDiscoveredCatIds();
+    final cat = drawWithPity<CatData>(
+      allItems: allCats,
+      discoveredIds: discoveredIds,
+      idOf: (c) => c.id,
+      random: _random,
+    );
 
     debugPrint('🐱 Tirage du chat #${cat.id} (${cat.name})');
 
     // Vérifie si le chat est déjà découvert
-    final isAlreadyDiscovered = await _repository.getByCatId(cat.id) != null;
+    final isAlreadyDiscovered = discoveredIds.contains(cat.id);
     DiscoveredCat? newDiscoveredCat;
 
     if (!isAlreadyDiscovered) {
