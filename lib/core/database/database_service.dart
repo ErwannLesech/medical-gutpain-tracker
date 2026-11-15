@@ -51,6 +51,8 @@ class DatabaseService {
         DiscoveredFoodCardSchema,
         FoodCardDrawRecordSchema,
         ShoppingListItemStateSchema,
+        CoinTransactionSchema,
+        ScenePieceSchema,
       ],
       directory: dir.path,
       name: 'wakygut_db',
@@ -88,6 +90,8 @@ class DatabaseService {
     final discoveredFoodCards = await isar.discoveredFoodCards.where().findAll();
     final foodCardDrawRecords = await isar.foodCardDrawRecords.where().findAll();
     final shoppingListStates = await isar.shoppingListItemStates.where().findAll();
+    final coinTransactions = await isar.coinTransactions.where().findAll();
+    final scenePieces = await isar.scenePieces.where().findAll();
 
     return {
       'exportDate': DateTime.now().toIso8601String(),
@@ -110,6 +114,22 @@ class DatabaseService {
           discoveredFoodCards.map((c) => _discoveredFoodCardToJson(c)).toList(),
       'foodCardDrawRecords':
           foodCardDrawRecords.map((r) => _foodCardDrawRecordToJson(r)).toList(),
+      'coinTransactions': coinTransactions.map((t) => {
+        'id': t.id,
+        'amount': t.amount,
+        'reason': t.reason.index,
+        'refKey': t.refKey,
+        'createdAt': t.createdAt.toIso8601String(),
+      }).toList(),
+      'scenePieces': scenePieces.map((p) => {
+        'id': p.id,
+        'sceneId': p.sceneId,
+        'modelId': p.modelId,
+        'slotId': p.slotId,
+        'source': p.source.index,
+        'refKey': p.refKey,
+        'acquiredAt': p.acquiredAt.toIso8601String(),
+      }).toList(),
     };
   }
 
@@ -304,6 +324,40 @@ class DatabaseService {
             .map((r) => _jsonToFoodCardDrawRecord(r as Map<String, dynamic>))
             .toList();
         await isar.foodCardDrawRecords.putAll(drawRecords);
+      }
+
+      // Importer les Catcoins
+      if (jsonData['coinTransactions'] != null) {
+        final transactions = (jsonData['coinTransactions'] as List).map((t) {
+          final json = t as Map<String, dynamic>;
+          final reasonIndex = json['reason'] as int;
+          return CoinTransaction(
+            amount: json['amount'] as int,
+            reason: reasonIndex >= 0 && reasonIndex < CoinReason.values.length
+                ? CoinReason.values[reasonIndex]
+                : CoinReason.dailyJournal,
+            refKey: json['refKey'] as String,
+            createdAt: DateTime.parse(json['createdAt'] as String),
+          )..id = (json['id'] as num).toInt();
+        }).toList();
+        // putAllByRefKey : remplace un mouvement existant de même clé au lieu d'échouer
+        await isar.coinTransactions.putAllByRefKey(transactions);
+      }
+
+      // Importer les pièces de scènes
+      if (jsonData['scenePieces'] != null) {
+        final pieces = (jsonData['scenePieces'] as List).map((p) {
+          final json = p as Map<String, dynamic>;
+          return ScenePiece(
+            sceneId: json['sceneId'] as String,
+            modelId: json['modelId'] as String,
+            slotId: json['slotId'] as String?,
+            source: ScenePieceSource.values[json['source'] as int],
+            refKey: json['refKey'] as String,
+            acquiredAt: DateTime.parse(json['acquiredAt'] as String),
+          )..id = (json['id'] as num).toInt();
+        }).toList();
+        await isar.scenePieces.putAllByRefKey(pieces);
       }
     });
 

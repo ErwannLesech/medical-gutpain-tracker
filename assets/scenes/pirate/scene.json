@@ -1,0 +1,400 @@
+{
+ "id": "pirate",
+ "name": "L'île au trésor",
+ "emoji": "🏴‍☠️",
+ "width": 1566,
+ "height": 1294,
+ "background": [
+  "#CDEFF7",
+  "#FBEBD3"
+ ],
+ "reference": {
+  "x": 65,
+  "y": 315,
+  "w": 1460,
+  "h": 928
+ },
+ "terrain": {
+  "x": 65,
+  "y": 411,
+  "w": 1460,
+  "h": 832
+ },
+ "petSpot": {
+  "x": 678.3,
+  "y": 886.8
+ },
+ "pets": [
+  "tiger",
+  "monkey",
+  "parrot"
+ ],
+ "models": {
+  "palm-detailed-straight": {
+   "name": "Palmier",
+   "price": 10
+  },
+  "palm-detailed-bend": {
+   "name": "Palmier penché",
+   "price": 10
+  },
+  "rocks-sand-c": {
+   "name": "Rocher",
+   "price": 8
+  },
+  "rocks-sand-a": {
+   "name": "Falaise de sable",
+   "price": 10
+  },
+  "grass-plant": {
+   "name": "Buisson",
+   "price": 4
+  },
+  "grass-patch": {
+   "name": "Herbes folles",
+   "price": 4
+  },
+  "structure": {
+   "name": "Charpente",
+   "price": 10
+  },
+  "structure-roof": {
+   "name": "Toit de paille",
+   "price": 12
+  },
+  "structure-platform": {
+   "name": "Ponton",
+   "price": 8
+  },
+  "structure-platform-dock": {
+   "name": "Bout du ponton",
+   "price": 8
+  },
+  "ship-pirate-small": {
+   "name": "Navire pirate",
+   "price": 20
+  },
+  "boat-row-small": {
+   "name": "Barque",
+   "price": 10
+  },
+  "hole": {
+   "name": "Trou du trésor",
+   "price": 6
+  },
+  "chest": {
+   "name": "Coffre au trésor",
+   "price": 15
+  },
+  "tool-shovel": {
+   "name": "Pelle",
+   "price": 4
+  },
+  "barrel": {
+   "name": "Tonneau",
+   "price": 5
+  },
+  "crate": {
+   "name": "Caisse",
+   "price": 5
+  },
+  "crate-bottles": {
+   "name": "Caisse de bouteilles",
+   "price": 6
+  },
+  "cannon": {
+   "name": "Canon",
+   "price": 12
+  },
+  "flag-pirate": {
+   "name": "Drapeau pirate",
+   "price": 8
+  }
+ },
+ "starter": [
+  "barrel",
+  "grass-plant",
+  "tool-shovel"
+ ],
+ "slots": [
+  {
+   "id": "rock-back",
+   "model": "rocks-sand-a",
+   "x": 559,
+   "y": 331,
+   "w": 308,
+   "h": 210,
+   "ax": 704.8,
+   "ay": 473.4,
+   "requires": []
+  },
+  {
+   "id": "grass4",
+   "model": "grass-patch",
+   "x": 569,
+   "y": 465,
+   "w": 82,
+   "h": 52,
+   "ax": 604.4,
+   "ay": 498.8,
+   "requires": []
+  },
+  {
+   "id": "palm1",
+   "model": "palm-detailed-straight",
+   "x": 776,
+   "y": 315,
+   "w": 279,
+   "h": 240,
+   "ax": 848,
+   "ay": 527.1,
+   "requires": []
+  },
+  {
+   "id": "rock1",
+   "model": "rocks-sand-c",
+   "x": 399,
+   "y": 456,
+   "w": 221,
+   "h": 183,
+   "ax": 492.7,
+   "ay": 577.6,
+   "requires": []
+  },
+  {
+   "id": "hut",
+   "model": "structure",
+   "x": 588,
+   "y": 437,
+   "w": 261,
+   "h": 193,
+   "ax": 678.3,
+   "ay": 583.3,
+   "requires": []
+  },
+  {
+   "id": "crate1",
+   "model": "crate",
+   "x": 488,
+   "y": 536,
+   "w": 110,
+   "h": 83,
+   "ax": 529.8,
+   "ay": 594.6,
+   "requires": []
+  },
+  {
+   "id": "crate2",
+   "model": "crate-bottles",
+   "x": 500,
+   "y": 505,
+   "w": 97,
+   "h": 80,
+   "ax": 535.1,
+   "ay": 563,
+   "requires": [
+    "crate1"
+   ]
+  },
+  {
+   "id": "palm2",
+   "model": "palm-detailed-bend",
+   "x": 937,
+   "y": 405,
+   "w": 260,
+   "h": 242,
+   "ax": 1010.2,
+   "ay": 614.4,
+   "requires": []
+  },
+  {
+   "id": "hut-roof",
+   "model": "structure-roof",
+   "x": 583,
+   "y": 317,
+   "w": 275,
+   "h": 215,
+   "ax": 678.3,
+   "ay": 485.4,
+   "requires": [
+    "hut"
+   ]
+  },
+  {
+   "id": "grass1",
+   "model": "grass-plant",
+   "x": 363,
+   "y": 612,
+   "w": 72,
+   "h": 49,
+   "ax": 394.1,
+   "ay": 644.9,
+   "requires": []
+  },
+  {
+   "id": "barrel1",
+   "model": "barrel",
+   "x": 652,
+   "y": 586,
+   "w": 108,
+   "h": 89,
+   "ax": 688.9,
+   "ay": 656.4,
+   "requires": []
+  },
+  {
+   "id": "palm3",
+   "model": "palm-detailed-bend",
+   "x": 197,
+   "y": 459,
+   "w": 296,
+   "h": 240,
+   "ax": 275.2,
+   "ay": 664.5,
+   "requires": []
+  },
+  {
+   "id": "grass2",
+   "model": "grass-patch",
+   "x": 871,
+   "y": 653,
+   "w": 85,
+   "h": 53,
+   "ax": 912.1,
+   "ay": 684.5,
+   "requires": []
+  },
+  {
+   "id": "palm4",
+   "model": "palm-detailed-straight",
+   "x": 942,
+   "y": 487,
+   "w": 304,
+   "h": 249,
+   "ax": 1028.3,
+   "ay": 701.4,
+   "requires": []
+  },
+  {
+   "id": "hole",
+   "model": "hole",
+   "x": 464,
+   "y": 707,
+   "w": 143,
+   "h": 90,
+   "ax": 529.2,
+   "ay": 752,
+   "requires": []
+  },
+  {
+   "id": "shovel",
+   "model": "tool-shovel",
+   "x": 404,
+   "y": 620,
+   "w": 117,
+   "h": 115,
+   "ax": 423.7,
+   "ay": 729.5,
+   "requires": []
+  },
+  {
+   "id": "flag",
+   "model": "flag-pirate",
+   "x": 295,
+   "y": 640,
+   "w": 135,
+   "h": 102,
+   "ax": 331.7,
+   "ay": 735.1,
+   "requires": []
+  },
+  {
+   "id": "cannon",
+   "model": "cannon",
+   "x": 822,
+   "y": 693,
+   "w": 128,
+   "h": 85,
+   "ax": 870.3,
+   "ay": 752.5,
+   "requires": []
+  },
+  {
+   "id": "chest",
+   "model": "chest",
+   "x": 498,
+   "y": 755,
+   "w": 109,
+   "h": 93,
+   "ax": 540.4,
+   "ay": 825,
+   "requires": []
+  },
+  {
+   "id": "barrel2",
+   "model": "barrel",
+   "x": 753,
+   "y": 786,
+   "w": 108,
+   "h": 89,
+   "ax": 789.7,
+   "ay": 855.9,
+   "requires": []
+  },
+  {
+   "id": "grass3",
+   "model": "grass-plant",
+   "x": 487,
+   "y": 824,
+   "w": 78,
+   "h": 49,
+   "ax": 518.7,
+   "ay": 857.6,
+   "requires": []
+  },
+  {
+   "id": "dock1",
+   "model": "structure-platform",
+   "x": 828,
+   "y": 816,
+   "w": 220,
+   "h": 139,
+   "ax": 922.3,
+   "ay": 906.7,
+   "requires": []
+  },
+  {
+   "id": "dock2",
+   "model": "structure-platform-dock",
+   "x": 735,
+   "y": 852,
+   "w": 226,
+   "h": 152,
+   "ax": 828.9,
+   "ay": 956.1,
+   "requires": []
+  },
+  {
+   "id": "ship",
+   "model": "ship-pirate-small",
+   "x": 895,
+   "y": 596,
+   "w": 516,
+   "h": 477,
+   "ax": 1043.2,
+   "ay": 1002.9,
+   "requires": []
+  },
+  {
+   "id": "boat",
+   "model": "boat-row-small",
+   "x": 582,
+   "y": 955,
+   "w": 150,
+   "h": 97,
+   "ax": 659.7,
+   "ay": 1018.4,
+   "requires": []
+  }
+ ]
+}

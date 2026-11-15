@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/models/achievement.dart';
 import '../../core/services/achievement_service.dart';
+import '../../core/services/providers.dart';
+import '../scenes/scene_gallery_screen.dart';
 import '../../shared/theme/colors.dart';
 import '../../shared/widgets/widgets.dart';
 import 'cat_gallery_screen.dart';
@@ -25,6 +27,21 @@ class AchievementsScreen extends ConsumerWidget {
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
+            // Collection de scènes (la collection en cours, en premier)
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                child: SceneGalleryPreviewCard(
+                  onTap: () async {
+                    await Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => const SceneGalleryScreen()),
+                    );
+                    ref.invalidate(scenesProvider);
+                  },
+                ),
+              ),
+            ),
+
             // Carte de la galerie de chats
             SliverToBoxAdapter(
               child: Padding(

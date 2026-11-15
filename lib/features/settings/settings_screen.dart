@@ -13,6 +13,8 @@ import '../../core/services/notification_service.dart';
 import '../../shared/widgets/widgets.dart';
 import '../../shared/theme/colors.dart';
 import '../export/export_screen.dart';
+import '../recap/monthly_recap_screen.dart';
+import '../../core/services/monthly_recap_service.dart';
 import '../daily/daily_provider.dart';
 import '../home/home_provider.dart';
 import '../meals/meals_provider.dart';
@@ -237,6 +239,17 @@ class SettingsScreen extends ConsumerWidget {
                 padding: const EdgeInsets.all(0),
                 child: Column(
                   children: [
+                    ListTile(
+                      leading: const Icon(Icons.auto_awesome, color: WakyColors.primary),
+                      title: const Text('Revoir le dernier bilan mensuel'),
+                      subtitle: const Text('Ton mois en un coup d\'œil'),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: () {
+                        HapticService.light();
+                        MonthlyRecapScreen.open(context, latestRecapMonth(DateTime.now()));
+                      },
+                    ),
+                    const Divider(height: 1),
                     ListTile(
                       leading: const Icon(Icons.picture_as_pdf),
                       title: const Text('Exporter en PDF'),

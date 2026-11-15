@@ -10,3 +10,5 @@ export 'achievement.dart';
 export 'discovered_cat.dart';
 export 'discovered_food_card.dart';
 export 'shopping_list_state.dart';
+export 'coin_transaction.dart';
+export 'scene_piece.dart';

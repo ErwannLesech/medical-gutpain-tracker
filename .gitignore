@@ -43,3 +43,19 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Outil de rendu des scènes (dépendances et sorties de contrôle)
+/tool/scene_render/node_modules/
+/tool/scene_render/out/
+
+# Kits Kenney : seuls le format GLB et la licence servent au rendu des scènes
+/assets/kenney_*/Models/FBX format/
+/assets/kenney_*/Models/OBJ format/
+/assets/kenney_*/Models/Textures/
+/assets/kenney_*/Previews/
+/assets/kenney_*/*.png
+/assets/kenney_*/*.html
+/assets/kenney_*/*.url
+
+# SDK Flutter local (non versionné)
+/flutter/

@@ -1,0 +1,543 @@
+{
+ "id": "platformer",
+ "name": "Le monde des plateformes",
+ "emoji": "⭐",
+ "width": 1568,
+ "height": 1381,
+ "background": [
+  "#D2ECFA",
+  "#F6F0D2"
+ ],
+ "reference": {
+  "x": 37,
+  "y": 153,
+  "w": 1503,
+  "h": 1174
+ },
+ "terrain": {
+  "x": 37,
+  "y": 477,
+  "w": 1503,
+  "h": 850
+ },
+ "petSpot": {
+  "x": 809.8,
+  "y": 1130
+ },
+ "pets": [
+  "crab",
+  "fish",
+  "caterpillar"
+ ],
+ "models": {
+  "block-grass-large-tall": {
+   "name": "Grande colline",
+   "price": 14
+  },
+  "block-grass-large": {
+   "name": "Terrasse",
+   "price": 10
+  },
+  "block-grass": {
+   "name": "Bloc d'herbe",
+   "price": 6
+  },
+  "block-grass-low": {
+   "name": "Marche d'herbe",
+   "price": 4
+  },
+  "door-rotate-large": {
+   "name": "Porte de sortie",
+   "price": 12
+  },
+  "flag": {
+   "name": "Drapeau d'arrivée",
+   "price": 8
+  },
+  "ladder": {
+   "name": "Échelle",
+   "price": 4
+  },
+  "crate-item": {
+   "name": "Caisse mystère",
+   "price": 5
+  },
+  "chest": {
+   "name": "Coffre",
+   "price": 10
+  },
+  "coin-gold": {
+   "name": "Pièce d'or",
+   "price": 3
+  },
+  "star": {
+   "name": "Étoile",
+   "price": 8
+  },
+  "heart": {
+   "name": "Cœur",
+   "price": 5
+  },
+  "pipe": {
+   "name": "Tuyau",
+   "price": 8
+  },
+  "spring": {
+   "name": "Ressort",
+   "price": 6
+  },
+  "block-moving": {
+   "name": "Plateforme volante",
+   "price": 8
+  },
+  "character-oobi": {
+   "name": "Oobi",
+   "price": 12
+  },
+  "character-oodi": {
+   "name": "Oodi",
+   "price": 12
+  },
+  "tree": {
+   "name": "Arbre rond",
+   "price": 8
+  },
+  "tree-pine": {
+   "name": "Sapin",
+   "price": 8
+  },
+  "tree-pine-small": {
+   "name": "Petit sapin",
+   "price": 5
+  },
+  "fence-straight": {
+   "name": "Barrière",
+   "price": 3
+  },
+  "flowers": {
+   "name": "Fleurs",
+   "price": 3
+  },
+  "flowers-tall": {
+   "name": "Grandes fleurs",
+   "price": 4
+  },
+  "mushrooms": {
+   "name": "Champignons",
+   "price": 4
+  },
+  "sign": {
+   "name": "Panneau",
+   "price": 4
+  },
+  "rocks": {
+   "name": "Cailloux",
+   "price": 3
+  }
+ },
+ "starter": [
+  "flowers",
+  "coin-gold",
+  "block-grass-low"
+ ],
+ "slots": [
+  {
+   "id": "hill",
+   "model": "block-grass-large-tall",
+   "x": 584,
+   "y": 287,
+   "w": 612,
+   "h": 464,
+   "ax": 788.6,
+   "ay": 646.6,
+   "requires": []
+  },
+  {
+   "id": "mushrooms",
+   "model": "mushrooms",
+   "x": 477,
+   "y": 636,
+   "w": 101,
+   "h": 62,
+   "ax": 512.8,
+   "ay": 680.3,
+   "requires": []
+  },
+  {
+   "id": "door",
+   "model": "door-rotate-large",
+   "x": 745,
+   "y": 208,
+   "w": 203,
+   "h": 174,
+   "ax": 809.8,
+   "ay": 347.2,
+   "requires": [
+    "hill"
+   ]
+  },
+  {
+   "id": "step1",
+   "model": "block-grass",
+   "x": 436,
+   "y": 561,
+   "w": 293,
+   "h": 224,
+   "ax": 534.1,
+   "ay": 736.5,
+   "requires": []
+  },
+  {
+   "id": "ladder1",
+   "model": "ladder",
+   "x": 692,
+   "y": 591,
+   "w": 170,
+   "h": 164,
+   "ax": 725,
+   "ay": 736.5,
+   "requires": []
+  },
+  {
+   "id": "star",
+   "model": "star",
+   "x": 789,
+   "y": 153,
+   "w": 64,
+   "h": 57,
+   "ax": 809.8,
+   "ay": 200.9,
+   "requires": [
+    "door"
+   ]
+  },
+  {
+   "id": "terrace",
+   "model": "block-grass-large",
+   "x": 807,
+   "y": 533,
+   "w": 505,
+   "h": 336,
+   "ax": 1011.3,
+   "ay": 764.6,
+   "requires": []
+  },
+  {
+   "id": "crate1",
+   "model": "crate-item",
+   "x": 951,
+   "y": 498,
+   "w": 147,
+   "h": 116,
+   "ax": 1000.7,
+   "ay": 586.8,
+   "requires": [
+    "terrace"
+   ]
+  },
+  {
+   "id": "tree2",
+   "model": "tree-pine",
+   "x": 231,
+   "y": 515,
+   "w": 281,
+   "h": 287,
+   "ax": 300.7,
+   "ay": 770.3,
+   "requires": []
+  },
+  {
+   "id": "ladder2",
+   "model": "ladder",
+   "x": 692,
+   "y": 464,
+   "w": 170,
+   "h": 163,
+   "ax": 725,
+   "ay": 609.3,
+   "requires": [
+    "ladder1"
+   ]
+  },
+  {
+   "id": "step2",
+   "model": "block-grass-low",
+   "x": 547,
+   "y": 683,
+   "w": 240,
+   "h": 161,
+   "ax": 645.4,
+   "ay": 795.6,
+   "requires": []
+  },
+  {
+   "id": "coin5",
+   "model": "coin-gold",
+   "x": 502,
+   "y": 518,
+   "w": 94,
+   "h": 75,
+   "ax": 534.1,
+   "ay": 577.5,
+   "requires": [
+    "step1"
+   ]
+  },
+  {
+   "id": "chest",
+   "model": "chest",
+   "x": 1056,
+   "y": 566,
+   "w": 130,
+   "h": 105,
+   "ax": 1106.8,
+   "ay": 643.1,
+   "requires": [
+    "terrace"
+   ]
+  },
+  {
+   "id": "flag",
+   "model": "flag",
+   "x": 778,
+   "y": 341,
+   "w": 136,
+   "h": 135,
+   "ax": 805.1,
+   "ay": 468.4,
+   "requires": [
+    "hill"
+   ]
+  },
+  {
+   "id": "step3",
+   "model": "block-grass-low",
+   "x": 1120,
+   "y": 717,
+   "w": 240,
+   "h": 161,
+   "ax": 1218.2,
+   "ay": 829.3,
+   "requires": []
+  },
+  {
+   "id": "coin1",
+   "model": "coin-gold",
+   "x": 874,
+   "y": 558,
+   "w": 93,
+   "h": 74,
+   "ax": 905.3,
+   "ay": 616.9,
+   "requires": [
+    "terrace"
+   ]
+  },
+  {
+   "id": "flowers1",
+   "model": "flowers",
+   "x": 450,
+   "y": 800,
+   "w": 118,
+   "h": 81,
+   "ax": 493.6,
+   "ay": 849,
+   "requires": []
+  },
+  {
+   "id": "sign",
+   "model": "sign",
+   "x": 666,
+   "y": 780,
+   "w": 123,
+   "h": 92,
+   "ax": 702.7,
+   "ay": 860.8,
+   "requires": []
+  },
+  {
+   "id": "coin2",
+   "model": "coin-gold",
+   "x": 927,
+   "y": 586,
+   "w": 93,
+   "h": 74,
+   "ax": 958.3,
+   "ay": 645,
+   "requires": [
+    "terrace"
+   ]
+  },
+  {
+   "id": "tree4",
+   "model": "tree",
+   "x": 118,
+   "y": 599,
+   "w": 357,
+   "h": 313,
+   "ax": 206.2,
+   "ay": 877.1,
+   "requires": []
+  },
+  {
+   "id": "tree1",
+   "model": "tree",
+   "x": 1290,
+   "y": 602,
+   "w": 278,
+   "h": 318,
+   "ax": 1382.8,
+   "ay": 883.2,
+   "requires": []
+  },
+  {
+   "id": "coin3",
+   "model": "coin-gold",
+   "x": 980,
+   "y": 614,
+   "w": 93,
+   "h": 75,
+   "ax": 1011.3,
+   "ay": 673.1,
+   "requires": [
+    "terrace"
+   ]
+  },
+  {
+   "id": "oobi",
+   "model": "character-oobi",
+   "x": 543,
+   "y": 804,
+   "w": 188,
+   "h": 142,
+   "ax": 609.2,
+   "ay": 923.2,
+   "requires": []
+  },
+  {
+   "id": "rocks",
+   "model": "rocks",
+   "x": 712,
+   "y": 864,
+   "w": 143,
+   "h": 96,
+   "ax": 767.4,
+   "ay": 927.6,
+   "requires": []
+  },
+  {
+   "id": "spring",
+   "model": "spring",
+   "x": 850,
+   "y": 856,
+   "w": 157,
+   "h": 115,
+   "ax": 905.3,
+   "ay": 944.5,
+   "requires": []
+  },
+  {
+   "id": "pipe",
+   "model": "pipe",
+   "x": 1128,
+   "y": 846,
+   "w": 204,
+   "h": 147,
+   "ax": 1202.3,
+   "ay": 955.7,
+   "requires": []
+  },
+  {
+   "id": "fence1",
+   "model": "fence-straight",
+   "x": 353,
+   "y": 898,
+   "w": 159,
+   "h": 114,
+   "ax": 415.3,
+   "ay": 979.3,
+   "requires": []
+  },
+  {
+   "id": "heart",
+   "model": "heart",
+   "x": 881,
+   "y": 780,
+   "w": 78,
+   "h": 68,
+   "ax": 905.3,
+   "ay": 836.4,
+   "requires": [
+    "spring"
+   ]
+  },
+  {
+   "id": "oodi",
+   "model": "character-oodi",
+   "x": 661,
+   "y": 902,
+   "w": 166,
+   "h": 155,
+   "ax": 712,
+   "ay": 1024.1,
+   "requires": []
+  },
+  {
+   "id": "fence2",
+   "model": "fence-straight",
+   "x": 459,
+   "y": 954,
+   "w": 159,
+   "h": 114,
+   "ax": 521.3,
+   "ay": 1035.6,
+   "requires": []
+  },
+  {
+   "id": "tree3",
+   "model": "tree-pine-small",
+   "x": 1100,
+   "y": 861,
+   "w": 197,
+   "h": 201,
+   "ax": 1149.2,
+   "ay": 1040,
+   "requires": []
+  },
+  {
+   "id": "flowers2",
+   "model": "flowers-tall",
+   "x": 834,
+   "y": 996,
+   "w": 120,
+   "h": 97,
+   "ax": 883.9,
+   "ay": 1079.4,
+   "requires": []
+  },
+  {
+   "id": "flyer",
+   "model": "block-moving",
+   "x": 900,
+   "y": 794,
+   "w": 232,
+   "h": 146,
+   "ax": 1000.7,
+   "ay": 885.9,
+   "requires": []
+  },
+  {
+   "id": "coin4",
+   "model": "coin-gold",
+   "x": 969,
+   "y": 757,
+   "w": 93,
+   "h": 74,
+   "ax": 1000.7,
+   "ay": 816,
+   "requires": [
+    "flyer"
+   ]
+  }
+ ]
+}

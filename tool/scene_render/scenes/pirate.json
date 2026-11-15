@@ -1,0 +1,71 @@
+{
+  "id": "pirate",
+  "name": "L'île au trésor",
+  "emoji": "🏴‍☠️",
+  "kit": "assets/kenney_pirate-kit/Models/GLB format",
+  "ppu": 150,
+  "scale": 0.35,
+  "background": ["#CDEFF7", "#FBEBD3"],
+  "terrain": {
+    "center": [0.4, -0.1], "size": [7.6, 6.2], "depth": 0.6,
+    "topColor": "#68c3e3", "sideColor": "#3d8fb6",
+    "island": { "center": [-0.9, -0.35], "size": [5.0, 5.0], "top": 0.2, "color": "#f3cf9f" }
+  },
+  "models": {
+    "palm-detailed-straight": { "name": "Palmier",            "price": 10 },
+    "palm-detailed-bend":     { "name": "Palmier penché",     "price": 10 },
+    "rocks-sand-c":           { "name": "Rocher",             "price": 8 },
+    "rocks-sand-a":           { "name": "Falaise de sable",   "price": 10 },
+    "grass-plant":            { "name": "Buisson",            "price": 4 },
+    "grass-patch":            { "name": "Herbes folles",      "price": 4 },
+    "structure":              { "name": "Charpente",          "price": 10 },
+    "structure-roof":         { "name": "Toit de paille",     "price": 12 },
+    "structure-platform":     { "name": "Ponton",             "price": 8 },
+    "structure-platform-dock":{ "name": "Bout du ponton",     "price": 8 },
+    "ship-pirate-small":      { "name": "Navire pirate",      "price": 20 },
+    "boat-row-small":         { "name": "Barque",             "price": 10 },
+    "hole":                   { "name": "Trou du trésor",     "price": 6 },
+    "chest":                  { "name": "Coffre au trésor",   "price": 15 },
+    "tool-shovel":            { "name": "Pelle",              "price": 4 },
+    "barrel":                 { "name": "Tonneau",            "price": 5 },
+    "crate":                  { "name": "Caisse",             "price": 5 },
+    "crate-bottles":          { "name": "Caisse de bouteilles", "price": 6 },
+    "cannon":                 { "name": "Canon",              "price": 12 },
+    "flag-pirate":            { "name": "Drapeau pirate",     "price": 8 }
+  },
+  "starter": ["barrel", "grass-plant", "tool-shovel"],
+  "petSpot": [0.9, 0.2, 1.5],
+  "pets": ["tiger", "monkey", "parrot"],
+  "pieces": [
+    { "id": "rock-back", "model": "rocks-sand-a", "pos": [-2.6, 0.2, -2.3], "rot": 20 },
+    { "id": "rock1", "model": "rocks-sand-c", "pos": [-2.7, 0.2, -0.3], "rot": 90 },
+    { "id": "palm1", "model": "palm-detailed-straight", "pos": [-1.5, 0.2, -2.5] },
+    { "id": "palm2", "model": "palm-detailed-bend", "pos": [-0.2, 0.2, -2.4], "rot": 200 },
+    { "id": "palm3", "model": "palm-detailed-bend", "pos": [-2.85, 0.2, 1.2], "rot": 60 },
+    { "id": "palm4", "model": "palm-detailed-straight", "pos": [0.9, 0.2, -1.8], "rot": 40 },
+
+    { "id": "hut", "model": "structure", "pos": [-1.8, 0.2, -1.2] },
+    { "id": "hut-roof", "model": "structure-roof", "pos": [-1.8, 0.97, -1.2], "on": "hut" },
+    { "id": "barrel1", "model": "barrel", "pos": [-1.1, 0.2, -0.6] },
+    { "id": "crate1", "model": "crate", "pos": [-2.4, 0.2, -0.4], "rot": 20 },
+    { "id": "crate2", "model": "crate-bottles", "pos": [-2.35, 0.47, -0.4], "rot": 35, "on": "crate1" },
+
+    { "id": "hole", "model": "hole", "pos": [-1.0, 0.2, 1.0] },
+    { "id": "chest", "model": "chest", "pos": [-0.3, 0.2, 1.6], "rot": -30, "after": ["hole"] },
+    { "id": "shovel", "model": "tool-shovel", "pos": [-1.7, 0.2, 1.3], "rot": 30, "after": ["hole"] },
+    { "id": "flag", "model": "flag-pirate", "pos": [-2.2, 0.2, 1.9], "rot": 45 },
+
+    { "id": "cannon", "model": "cannon", "pos": [0.6, 0.2, -0.6], "rot": 90 },
+    { "id": "barrel2", "model": "barrel", "pos": [1.15, 0.2, 0.7] },
+
+    { "id": "dock1", "model": "structure-platform", "pos": [2.0, 0, 0.3] },
+    { "id": "dock2", "model": "structure-platform-dock", "pos": [2.0, 0, 1.18], "after": ["dock1"] },
+    { "id": "ship", "model": "ship-pirate-small", "scale": 0.3, "pos": [3.2, -0.2, 0.3] },
+    { "id": "boat", "model": "boat-row-small", "pos": [1.7, -0.05, 2.5], "rot": 60 },
+
+    { "id": "grass1", "model": "grass-plant", "pos": [-2.6, 0.2, 0.7] },
+    { "id": "grass2", "model": "grass-patch", "pos": [0.2, 0.2, -1.4] },
+    { "id": "grass3", "model": "grass-plant", "pos": [-0.1, 0.2, 2.0], "rot": 90 },
+    { "id": "grass4", "model": "grass-patch", "pos": [-2.9, 0.2, -1.6], "rot": 45 }
+  ]
+}

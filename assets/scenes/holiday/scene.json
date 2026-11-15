@@ -1,0 +1,801 @@
+{
+ "id": "holiday",
+ "name": "Le village de Noël",
+ "emoji": "🎄",
+ "width": 1773,
+ "height": 1352,
+ "background": [
+  "#D6E6F5",
+  "#F4EEF6"
+ ],
+ "reference": {
+  "x": 95,
+  "y": 210,
+  "w": 1588,
+  "h": 1057
+ },
+ "terrain": {
+  "x": 95,
+  "y": 371,
+  "w": 1588,
+  "h": 896
+ },
+ "petSpot": {
+  "x": 920.4,
+  "y": 1119.9
+ },
+ "pets": [
+  "polar",
+  "penguin",
+  "bunny"
+ ],
+ "models": {
+  "cabin-wall": {
+   "name": "Mur en rondins",
+   "price": 6
+  },
+  "cabin-window-a": {
+   "name": "Fenêtre",
+   "price": 8
+  },
+  "cabin-wall-wreath": {
+   "name": "Mur à couronne",
+   "price": 8
+  },
+  "cabin-door-rotate": {
+   "name": "Porte",
+   "price": 10
+  },
+  "cabin-corner-logs": {
+   "name": "Poteau d'angle",
+   "price": 4
+  },
+  "cabin-roof-snow-point": {
+   "name": "Toit enneigé",
+   "price": 12
+  },
+  "cabin-wall-roof-center": {
+   "name": "Pignon",
+   "price": 6
+  },
+  "floor-stone": {
+   "name": "Dalle de pierre",
+   "price": 4
+  },
+  "tree-decorated-snow": {
+   "name": "Sapin de Noël",
+   "price": 20
+  },
+  "present-a-cube": {
+   "name": "Cadeau rouge",
+   "price": 4
+  },
+  "present-b-round": {
+   "name": "Cadeau vert",
+   "price": 4
+  },
+  "present-a-rectangle": {
+   "name": "Grand cadeau",
+   "price": 5
+  },
+  "trainset-rail-detailed-straight": {
+   "name": "Rail",
+   "price": 3
+  },
+  "train-locomotive": {
+   "name": "Locomotive",
+   "price": 12
+  },
+  "train-wagon": {
+   "name": "Wagon",
+   "price": 8
+  },
+  "train-wagon-logs": {
+   "name": "Wagon de bûches",
+   "price": 8
+  },
+  "snowman-hat": {
+   "name": "Bonhomme de neige",
+   "price": 12
+  },
+  "snowman": {
+   "name": "Petit bonhomme",
+   "price": 10
+  },
+  "reindeer": {
+   "name": "Renne",
+   "price": 15
+  },
+  "sled": {
+   "name": "Luge",
+   "price": 6
+  },
+  "lantern": {
+   "name": "Lampadaire",
+   "price": 6
+  },
+  "bench": {
+   "name": "Banc",
+   "price": 6
+  },
+  "rocks-medium": {
+   "name": "Rochers enneigés",
+   "price": 8
+  },
+  "rocks-small": {
+   "name": "Petits rochers",
+   "price": 6
+  },
+  "tree-snow-a": {
+   "name": "Sapin enneigé",
+   "price": 8
+  },
+  "tree-snow-b": {
+   "name": "Sapin givré",
+   "price": 8
+  }
+ },
+ "starter": [
+  "present-a-cube",
+  "trainset-rail-detailed-straight",
+  "tree-snow-a"
+ ],
+ "slots": [
+  {
+   "id": "pathA1",
+   "model": "floor-stone",
+   "x": 511,
+   "y": 627,
+   "w": 214,
+   "h": 115,
+   "ax": 618.1,
+   "ay": 684.3,
+   "requires": []
+  },
+  {
+   "id": "pathA2",
+   "model": "floor-stone",
+   "x": 405,
+   "y": 683,
+   "w": 214,
+   "h": 115,
+   "ax": 512,
+   "ay": 740.5,
+   "requires": []
+  },
+  {
+   "id": "rail1",
+   "model": "trainset-rail-detailed-straight",
+   "x": 330,
+   "y": 815,
+   "w": 88,
+   "h": 50,
+   "ax": 374.1,
+   "ay": 841.7,
+   "requires": []
+  },
+  {
+   "id": "rail2",
+   "model": "trainset-rail-detailed-straight",
+   "x": 383,
+   "y": 843,
+   "w": 88,
+   "h": 51,
+   "ax": 427.2,
+   "ay": 869.8,
+   "requires": []
+  },
+  {
+   "id": "pathB1",
+   "model": "floor-stone",
+   "x": 882,
+   "y": 823,
+   "w": 214,
+   "h": 115,
+   "ax": 989.3,
+   "ay": 881,
+   "requires": []
+  },
+  {
+   "id": "rail3",
+   "model": "trainset-rail-detailed-straight",
+   "x": 436,
+   "y": 872,
+   "w": 88,
+   "h": 50,
+   "ax": 480.2,
+   "ay": 897.9,
+   "requires": []
+  },
+  {
+   "id": "rail4",
+   "model": "trainset-rail-detailed-straight",
+   "x": 489,
+   "y": 900,
+   "w": 88,
+   "h": 50,
+   "ax": 533.2,
+   "ay": 926,
+   "requires": []
+  },
+  {
+   "id": "rail5",
+   "model": "trainset-rail-detailed-straight",
+   "x": 542,
+   "y": 928,
+   "w": 88,
+   "h": 50,
+   "ax": 586.3,
+   "ay": 954.1,
+   "requires": []
+  },
+  {
+   "id": "rail6",
+   "model": "trainset-rail-detailed-straight",
+   "x": 595,
+   "y": 956,
+   "w": 88,
+   "h": 50,
+   "ax": 639.3,
+   "ay": 982.2,
+   "requires": []
+  },
+  {
+   "id": "rocks1",
+   "model": "rocks-medium",
+   "x": 665,
+   "y": 347,
+   "w": 300,
+   "h": 203,
+   "ax": 810,
+   "ay": 476,
+   "requires": []
+  },
+  {
+   "id": "a-back",
+   "model": "cabin-wall",
+   "x": 829,
+   "y": 373,
+   "w": 239,
+   "h": 199,
+   "ax": 899.2,
+   "ay": 535.4,
+   "requires": []
+  },
+  {
+   "id": "a-c4",
+   "model": "cabin-corner-logs",
+   "x": 808,
+   "y": 362,
+   "w": 175,
+   "h": 154,
+   "ax": 846.1,
+   "ay": 504.5,
+   "requires": [
+    "a-back"
+   ]
+  },
+  {
+   "id": "a-left1",
+   "model": "cabin-wall",
+   "x": 723,
+   "y": 373,
+   "w": 239,
+   "h": 199,
+   "ax": 793.1,
+   "ay": 535.4,
+   "requires": []
+  },
+  {
+   "id": "a-right1",
+   "model": "cabin-window-a",
+   "x": 829,
+   "y": 429,
+   "w": 239,
+   "h": 200,
+   "ax": 906.9,
+   "ay": 595.6,
+   "requires": []
+  },
+  {
+   "id": "a-c3",
+   "model": "cabin-corner-logs",
+   "x": 935,
+   "y": 418,
+   "w": 155,
+   "h": 165,
+   "ax": 957.5,
+   "ay": 563.5,
+   "requires": [
+    "a-back",
+    "a-right1"
+   ]
+  },
+  {
+   "id": "a-gable2",
+   "model": "cabin-wall-roof-center",
+   "x": 834,
+   "y": 274,
+   "w": 181,
+   "h": 169,
+   "ax": 899.2,
+   "ay": 408.2,
+   "requires": [
+    "a-back"
+   ]
+  },
+  {
+   "id": "a-left2",
+   "model": "cabin-wall",
+   "x": 617,
+   "y": 429,
+   "w": 239,
+   "h": 199,
+   "ax": 687,
+   "ay": 591.6,
+   "requires": []
+  },
+  {
+   "id": "tree3",
+   "model": "tree-snow-b",
+   "x": 380,
+   "y": 336,
+   "w": 311,
+   "h": 301,
+   "ax": 474.9,
+   "ay": 591.6,
+   "requires": []
+  },
+  {
+   "id": "lantern1",
+   "model": "lantern",
+   "x": 553,
+   "y": 369,
+   "w": 239,
+   "h": 246,
+   "ax": 591.6,
+   "ay": 597.2,
+   "requires": []
+  },
+  {
+   "id": "a-roof2",
+   "model": "cabin-roof-snow-point",
+   "x": 687,
+   "y": 210,
+   "w": 391,
+   "h": 309,
+   "ax": 846.1,
+   "ay": 436.3,
+   "requires": [
+    "a-gable2",
+    "a-left1",
+    "a-right1"
+   ]
+  },
+  {
+   "id": "a-door",
+   "model": "cabin-door-rotate",
+   "x": 617,
+   "y": 486,
+   "w": 239,
+   "h": 198,
+   "ax": 687,
+   "ay": 647.8,
+   "requires": []
+  },
+  {
+   "id": "a-c1",
+   "model": "cabin-corner-logs",
+   "x": 596,
+   "y": 474,
+   "w": 154,
+   "h": 166,
+   "ax": 628.7,
+   "ay": 619.7,
+   "requires": [
+    "a-door"
+   ]
+  },
+  {
+   "id": "tree1",
+   "model": "tree-snow-a",
+   "x": 1032,
+   "y": 371,
+   "w": 298,
+   "h": 293,
+   "ax": 1121.9,
+   "ay": 619.7,
+   "requires": []
+  },
+  {
+   "id": "a-right2",
+   "model": "cabin-wall-wreath",
+   "x": 723,
+   "y": 486,
+   "w": 239,
+   "h": 199,
+   "ax": 799,
+   "ay": 650.9,
+   "requires": []
+  },
+  {
+   "id": "a-gable1",
+   "model": "cabin-wall-roof-center",
+   "x": 622,
+   "y": 387,
+   "w": 181,
+   "h": 169,
+   "ax": 687,
+   "ay": 520.6,
+   "requires": [
+    "a-door"
+   ]
+  },
+  {
+   "id": "a-roof1",
+   "model": "cabin-roof-snow-point",
+   "x": 581,
+   "y": 266,
+   "w": 391,
+   "h": 310,
+   "ax": 740.1,
+   "ay": 492.5,
+   "requires": [
+    "a-gable1",
+    "a-left2",
+    "a-right2",
+    "a-roof2"
+   ]
+  },
+  {
+   "id": "a-c2",
+   "model": "cabin-corner-logs",
+   "x": 702,
+   "y": 542,
+   "w": 175,
+   "h": 154,
+   "ax": 740.1,
+   "ay": 678.7,
+   "requires": [
+    "a-door",
+    "a-right2"
+   ]
+  },
+  {
+   "id": "tree2",
+   "model": "tree-snow-b",
+   "x": 1091,
+   "y": 454,
+   "w": 311,
+   "h": 301,
+   "ax": 1185.6,
+   "ay": 709.6,
+   "requires": []
+  },
+  {
+   "id": "snowman1",
+   "model": "snowman-hat",
+   "x": 354,
+   "y": 528,
+   "w": 243,
+   "h": 209,
+   "ax": 432.5,
+   "ay": 715.2,
+   "requires": []
+  },
+  {
+   "id": "tree5",
+   "model": "tree-snow-a",
+   "x": 122,
+   "y": 506,
+   "w": 296,
+   "h": 291,
+   "ax": 209.7,
+   "ay": 754.6,
+   "requires": []
+  },
+  {
+   "id": "b-back",
+   "model": "cabin-wall",
+   "x": 1147,
+   "y": 654,
+   "w": 240,
+   "h": 199,
+   "ax": 1217.4,
+   "ay": 816.4,
+   "requires": []
+  },
+  {
+   "id": "b-c4",
+   "model": "cabin-corner-logs",
+   "x": 1126,
+   "y": 643,
+   "w": 176,
+   "h": 154,
+   "ax": 1164.3,
+   "ay": 785.5,
+   "requires": [
+    "b-back"
+   ]
+  },
+  {
+   "id": "bench",
+   "model": "bench",
+   "x": 442,
+   "y": 683,
+   "w": 244,
+   "h": 143,
+   "ax": 527.9,
+   "ay": 799.5,
+   "requires": []
+  },
+  {
+   "id": "b-left",
+   "model": "cabin-wall",
+   "x": 1041,
+   "y": 654,
+   "w": 239,
+   "h": 199,
+   "ax": 1111.3,
+   "ay": 816.4,
+   "requires": []
+  },
+  {
+   "id": "lantern2",
+   "model": "lantern",
+   "x": 966,
+   "y": 588,
+   "w": 240,
+   "h": 246,
+   "ax": 1005.2,
+   "ay": 816.4,
+   "requires": []
+  },
+  {
+   "id": "xmas",
+   "model": "tree-decorated-snow",
+   "x": 698,
+   "y": 531,
+   "w": 349,
+   "h": 342,
+   "ax": 793.1,
+   "ay": 827.6,
+   "requires": []
+  },
+  {
+   "id": "gift1",
+   "model": "present-a-cube",
+   "x": 613,
+   "y": 748,
+   "w": 125,
+   "h": 100,
+   "ax": 655.2,
+   "ay": 827.6,
+   "requires": []
+  },
+  {
+   "id": "rocks2",
+   "model": "rocks-small",
+   "x": 1370,
+   "y": 731,
+   "w": 226,
+   "h": 167,
+   "ax": 1484.1,
+   "ay": 831.5,
+   "requires": []
+  },
+  {
+   "id": "b-door",
+   "model": "cabin-door-rotate",
+   "x": 1041,
+   "y": 711,
+   "w": 239,
+   "h": 198,
+   "ax": 1111.3,
+   "ay": 872.6,
+   "requires": []
+  },
+  {
+   "id": "b-c1",
+   "model": "cabin-corner-logs",
+   "x": 1020,
+   "y": 699,
+   "w": 154,
+   "h": 165,
+   "ax": 1053,
+   "ay": 844.5,
+   "requires": [
+    "b-door"
+   ]
+  },
+  {
+   "id": "b-right",
+   "model": "cabin-window-a",
+   "x": 1147,
+   "y": 711,
+   "w": 239,
+   "h": 198,
+   "ax": 1225.1,
+   "ay": 876.7,
+   "requires": []
+  },
+  {
+   "id": "b-c3",
+   "model": "cabin-corner-logs",
+   "x": 1253,
+   "y": 699,
+   "w": 155,
+   "h": 165,
+   "ax": 1275.7,
+   "ay": 844.5,
+   "requires": [
+    "b-back",
+    "b-right"
+   ]
+  },
+  {
+   "id": "b-gable2",
+   "model": "cabin-wall-roof-center",
+   "x": 1152,
+   "y": 555,
+   "w": 182,
+   "h": 169,
+   "ax": 1217.4,
+   "ay": 689.2,
+   "requires": [
+    "b-back"
+   ]
+  },
+  {
+   "id": "wagon2",
+   "model": "train-wagon-logs",
+   "x": 385,
+   "y": 819,
+   "w": 107,
+   "h": 74,
+   "ax": 432.5,
+   "ay": 868,
+   "requires": [
+    "rail1",
+    "rail2"
+   ]
+  },
+  {
+   "id": "gift3",
+   "model": "present-a-rectangle",
+   "x": 643,
+   "y": 822,
+   "w": 134,
+   "h": 89,
+   "ax": 697.6,
+   "ay": 883.8,
+   "requires": []
+  },
+  {
+   "id": "b-gable1",
+   "model": "cabin-wall-roof-center",
+   "x": 1046,
+   "y": 611,
+   "w": 182,
+   "h": 169,
+   "ax": 1111.3,
+   "ay": 745.4,
+   "requires": [
+    "b-door"
+   ]
+  },
+  {
+   "id": "b-roof",
+   "model": "cabin-roof-snow-point",
+   "x": 1006,
+   "y": 491,
+   "w": 390,
+   "h": 309,
+   "ax": 1164.3,
+   "ay": 717.3,
+   "requires": [
+    "b-gable1",
+    "b-gable2",
+    "b-left",
+    "b-right"
+   ]
+  },
+  {
+   "id": "gift2",
+   "model": "present-b-round",
+   "x": 753,
+   "y": 829,
+   "w": 121,
+   "h": 92,
+   "ax": 798.4,
+   "ay": 897.9,
+   "requires": []
+  },
+  {
+   "id": "b-c2",
+   "model": "cabin-corner-logs",
+   "x": 1126,
+   "y": 767,
+   "w": 175,
+   "h": 154,
+   "ax": 1164.3,
+   "ay": 903.5,
+   "requires": [
+    "b-door",
+    "b-right"
+   ]
+  },
+  {
+   "id": "wagon1",
+   "model": "train-wagon",
+   "x": 466,
+   "y": 849,
+   "w": 127,
+   "h": 88,
+   "ax": 515.2,
+   "ay": 911.9,
+   "requires": [
+    "rail3",
+    "rail4"
+   ]
+  },
+  {
+   "id": "tree4",
+   "model": "tree-snow-a",
+   "x": 1312,
+   "y": 686,
+   "w": 294,
+   "h": 290,
+   "ax": 1397.7,
+   "ay": 934.4,
+   "requires": []
+  },
+  {
+   "id": "loco",
+   "model": "train-locomotive",
+   "x": 546,
+   "y": 877,
+   "w": 117,
+   "h": 100,
+   "ax": 596.9,
+   "ay": 955.1,
+   "requires": [
+    "rail5",
+    "rail6"
+   ]
+  },
+  {
+   "id": "snowman2",
+   "model": "snowman",
+   "x": 668,
+   "y": 865,
+   "w": 192,
+   "h": 183,
+   "ax": 718.9,
+   "ay": 1013.1,
+   "requires": []
+  },
+  {
+   "id": "sled",
+   "model": "sled",
+   "x": 1053,
+   "y": 928,
+   "w": 187,
+   "h": 135,
+   "ax": 1132.5,
+   "ay": 1018.7,
+   "requires": []
+  },
+  {
+   "id": "reindeer",
+   "model": "reindeer",
+   "x": 895,
+   "y": 857,
+   "w": 233,
+   "h": 187,
+   "ax": 975.1,
+   "ay": 1020.5,
+   "requires": []
+  }
+ ]
+}

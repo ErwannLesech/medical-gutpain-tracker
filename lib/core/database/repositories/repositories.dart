@@ -10,3 +10,5 @@ export 'achievement_repository.dart';
 export 'discovered_cat_repository.dart';
 export 'discovered_food_card_repository.dart';
 export 'shopping_list_state_repository.dart';
+export 'coin_repository.dart';
+export 'scene_piece_repository.dart';
