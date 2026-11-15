@@ -22,6 +22,7 @@ import 'settings/settings_screen.dart';
 import 'home/home_provider.dart';
 import 'home/achievements_screen.dart';
 import 'recap/monthly_recap_screen.dart';
+import 'scenes/current_scene_button.dart';
 
 /// Écran d'accueil / Dashboard
 class HomeScreen extends ConsumerStatefulWidget {
@@ -147,6 +148,10 @@ class _DashboardTab extends ConsumerWidget {
               _buildProgressStats(context, ref),
 
               const SizedBox(height: 24),
+
+              // Raccourci vers la scène en cours, au-dessus des collections
+              const CurrentSceneButton(),
+              const SizedBox(height: 12),
 
               // Badge le plus récent
               _buildLatestBadge(context, ref),

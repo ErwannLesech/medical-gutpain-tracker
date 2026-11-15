@@ -22,11 +22,30 @@ subprojects {
 }
 
 subprojects {
-    if (name == "isar_flutter_libs") {
-        plugins.withId("com.android.library") {
+    plugins.withId("com.android.library") {
+        if (project.name == "isar_flutter_libs") {
             extensions.configure<LibraryExtension> {
                 if (namespace == null) {
                     namespace = "dev.isar.isar_flutter_libs"
+                }
+            }
+        }
+
+    }
+}
+
+// Certains plugins (isar_flutter_libs, printing...) sont compilés en API 30,
+// mais leurs dépendances AndroidX utilisent android:attr/lStar (API 31) : sans
+// ça, le build release échoue sur verifyReleaseResources (le debug ne vérifie
+// pas ces ressources). On relève l'API une fois le build.gradle du module lu
+// (sinon il écraserait notre valeur) et avant que le plugin Android ne la fige,
+// d'où l'enregistrement ici, depuis le script racine.
+subprojects {
+    if (!state.executed) {
+        afterEvaluate {
+            if (plugins.hasPlugin("com.android.library")) {
+                extensions.configure<LibraryExtension> {
+                    if ((compileSdk ?: 0) < 36) compileSdk = 36
                 }
             }
         }
