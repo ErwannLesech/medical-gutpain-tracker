@@ -1,9 +1,14 @@
+import 'dart:ui' show ImageFilter;
+
+import 'package:flutter/foundation.dart' show setEquals;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/services/coin_service.dart';
 import '../../core/services/providers.dart';
 import '../../core/services/scene_puzzle.dart';
 import '../../core/services/scene_service.dart';
+import '../../core/utils/haptic_service.dart';
 import '../../shared/theme/colors.dart';
 import '../../shared/widgets/coin_widgets.dart';
 
@@ -304,11 +309,207 @@ class _ScenePieceDrawDialogState extends State<ScenePieceDrawDialog> {
   }
 }
 
-/// Image de la scène finie : le « couvercle de la boîte » du puzzle
-Future<void> showSceneReference(BuildContext context, SceneDef def) {
+/// Le « couvercle de la boîte » du puzzle : le modèle à reconstruire.
+///
+/// Tant que la scène n'est pas terminée, il est flouté (juste de quoi deviner
+/// l'ambiance) et on peut dévoiler une zone à la fois contre des Catcoins.
+/// Une fois la scène terminée, il s'affiche en clair.
+Future<void> showSceneReference(
+  BuildContext context,
+  SceneDef def, {
+  required bool complete,
+}) {
   return showDialog<void>(
     context: context,
-    builder: (context) => Dialog(
+    builder: (context) => SceneReferenceDialog(def: def, complete: complete),
+  );
+}
+
+/// Zones (quadrillage [SceneReveal.columns] × [SceneReveal.rows]) conservées
+/// par un clip : on y découpe le modèle flou ou net selon ce qui est dévoilé.
+class _CellsClipper extends CustomClipper<Path> {
+  final Set<int> cells;
+  const _CellsClipper(this.cells);
+
+  @override
+  Path getClip(Size size) {
+    final w = size.width / SceneReveal.columns;
+    final h = size.height / SceneReveal.rows;
+    final path = Path();
+    for (final cell in cells) {
+      path.addRect(
+        Rect.fromLTWH(
+          (cell % SceneReveal.columns) * w,
+          (cell ~/ SceneReveal.columns) * h,
+          w,
+          h,
+        ),
+      );
+    }
+    return path;
+  }
+
+  @override
+  bool shouldReclip(_CellsClipper old) => !setEquals(old.cells, cells);
+}
+
+class SceneReferenceDialog extends ConsumerStatefulWidget {
+  final SceneDef def;
+
+  /// Scène terminée : le modèle s'affiche en clair
+  final bool complete;
+
+  const SceneReferenceDialog({
+    super.key,
+    required this.def,
+    required this.complete,
+  });
+
+  @override
+  ConsumerState<SceneReferenceDialog> createState() =>
+      _SceneReferenceDialogState();
+}
+
+class _SceneReferenceDialogState extends ConsumerState<SceneReferenceDialog> {
+  /// Flou proportionnel à la largeur affichée (illisible mais reconnaissable)
+  static const double blurRatio = 0.03;
+
+  Set<int> _revealed = const {};
+  String? _message;
+  bool _busy = false;
+
+  @override
+  void initState() {
+    super.initState();
+    if (!widget.complete) _loadRevealed();
+  }
+
+  Future<void> _loadRevealed() async {
+    final revealed = await ref
+        .read(sceneServiceProvider)
+        .revealedCells(widget.def.id);
+    if (mounted) setState(() => _revealed = revealed);
+  }
+
+  Future<void> _onCellTap(int cell) async {
+    if (_busy) return;
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Dévoiler cette zone ?'),
+        content: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text('Ça coûte '),
+            Text(
+              '${CoinRewards.sceneReveal} ',
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            const CatCoinIcon(size: 18),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('Non'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: const Text('Dévoiler'),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true || !mounted) return;
+
+    setState(() => _busy = true);
+    final service = ref.read(sceneServiceProvider);
+    final ok = await service.revealCell(widget.def.id, cell);
+    final revealed = await service.revealedCells(widget.def.id);
+    if (!mounted) return;
+    setState(() {
+      _busy = false;
+      _revealed = revealed;
+      _message = ok || revealed.contains(cell)
+          ? null
+          : 'Il te faut ${CoinRewards.sceneReveal} Catcoins pour dévoiler une zone';
+    });
+    if (ok) HapticService.success();
+  }
+
+  /// Le modèle, net ou flou, découpé selon les zones dévoilées
+  Widget _buildImage(double width) {
+    final def = widget.def;
+    final sharp = Image.asset(def.referenceImage, fit: BoxFit.contain);
+    if (widget.complete) return sharp;
+
+    final hidden = {
+      for (var i = 0; i < SceneReveal.cells; i++)
+        if (!_revealed.contains(i)) i,
+    };
+    final sigma = width * blurRatio;
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        if (hidden.isNotEmpty)
+          ClipPath(
+            clipper: _CellsClipper(hidden),
+            child: ImageFiltered(
+              imageFilter: ImageFilter.blur(sigmaX: sigma, sigmaY: sigma),
+              child: sharp,
+            ),
+          ),
+        if (_revealed.isNotEmpty)
+          ClipPath(clipper: _CellsClipper(_revealed), child: sharp),
+        // Quadrillage : chaque zone encore floue est cliquable
+        Column(
+          children: [
+            for (var r = 0; r < SceneReveal.rows; r++)
+              Expanded(
+                child: Row(
+                  children: [
+                    for (var c = 0; c < SceneReveal.columns; c++)
+                      Expanded(child: _buildCell(r * SceneReveal.columns + c)),
+                  ],
+                ),
+              ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildCell(int cell) {
+    final hidden = !_revealed.contains(cell);
+    return Container(
+      key: ValueKey('reveal-cell-$cell'),
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.white.withValues(alpha: 0.35),
+          width: 0.5,
+        ),
+      ),
+      child: hidden
+          ? InkWell(
+              onTap: () => _onCellTap(cell),
+              child: const Center(
+                child: Icon(
+                  Icons.visibility_outlined,
+                  color: Colors.white,
+                  size: 22,
+                  shadows: [Shadow(blurRadius: 6, color: Colors.black54)],
+                ),
+              ),
+            )
+          : null,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final def = widget.def;
+    final grey = TextStyle(fontSize: 12, color: Colors.grey[600]);
+    return Dialog(
       clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
       child: Column(
@@ -344,24 +545,59 @@ Future<void> showSceneReference(BuildContext context, SceneDef def) {
             padding: const EdgeInsets.all(8),
             child: AspectRatio(
               aspectRatio: def.reference.w / def.reference.h,
-              child: InteractiveViewer(
-                maxScale: 4,
-                child: Image.asset(def.referenceImage, fit: BoxFit.contain),
+              child: LayoutBuilder(
+                builder: (context, constraints) => widget.complete
+                    ? InteractiveViewer(
+                        maxScale: 4,
+                        child: _buildImage(constraints.maxWidth),
+                      )
+                    : _buildImage(constraints.maxWidth),
               ),
             ),
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
-            child: Text(
-              'Pince pour zoomer. Les repères ⭕ de la scène montrent où il manque une pièce.',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 12, color: Colors.grey[600]),
-            ),
+            child: widget.complete
+                ? Text(
+                    'Pince pour zoomer. Bravo, la scène est reconstruite ! 🎉',
+                    textAlign: TextAlign.center,
+                    style: grey,
+                  )
+                : Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Le modèle est flou : à toi de deviner où va chaque '
+                        'pièce. Touche une zone pour la dévoiler '
+                        '(${CoinRewards.sceneReveal} Catcoins).',
+                        textAlign: TextAlign.center,
+                        style: grey,
+                      ),
+                      const SizedBox(height: 6),
+                      Text(
+                        '${_revealed.length} / ${SceneReveal.cells} zones dévoilées',
+                        style: grey.copyWith(fontWeight: FontWeight.w600),
+                      ),
+                      if (_message != null) ...[
+                        const SizedBox(height: 6),
+                        Text(
+                          _message!,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: Colors.redAccent,
+                          ),
+                        ),
+                      ],
+                      const SizedBox(height: 10),
+                      const CoinBalanceChip(),
+                    ],
+                  ),
           ),
         ],
       ),
-    ),
-  );
+    );
+  }
 }
 
 /// Boutique : acheter précisément la pièce qui manque

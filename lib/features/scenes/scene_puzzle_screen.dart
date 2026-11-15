@@ -256,7 +256,11 @@ class _ScenePuzzleScreenState extends ConsumerState<ScenePuzzleScreen> {
             IconButton(
               tooltip: 'Le modèle',
               icon: const Icon(Icons.image_outlined),
-              onPressed: () => showSceneReference(context, state.def),
+              onPressed: () => showSceneReference(
+                context,
+                state.def,
+                complete: state.isComplete,
+              ),
             ),
             IconButton(
               tooltip: 'Boutique',

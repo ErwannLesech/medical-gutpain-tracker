@@ -48,6 +48,9 @@ class _MonthlyRecapScreenState extends ConsumerState<MonthlyRecapScreen>
   List<_Slide> _slides = const [];
   int _index = 0;
 
+  /// Catcoins offerts à l'instant pour ce bilan (0 s'ils l'étaient déjà)
+  int _bonus = 0;
+
   @override
   void initState() {
     super.initState();
@@ -102,10 +105,19 @@ class _MonthlyRecapScreenState extends ConsumerState<MonthlyRecapScreen>
   void _previous() => _goTo(_index - 1);
 
   /// Arrivée sur la dernière page : le bilan est vu (la bannière s'adoucit)
+  /// et le cadeau du mois est versé la toute première fois.
   Future<void> _markSeen() async {
     final coins = ref.read(coinServiceProvider);
-    await coins.markRecapSeen(widget.month.year, widget.month.month);
-    if (mounted) ref.invalidate(recapSeenProvider(widget.month));
+    final bonus = await coins.markRecapSeen(
+      widget.month.year,
+      widget.month.month,
+    );
+    if (!mounted) return;
+    ref.invalidate(recapSeenProvider(widget.month));
+    if (bonus > 0) {
+      HapticService.success();
+      setState(() => _bonus = bonus);
+    }
   }
 
   // ==================== HELPERS DE TEXTE ====================
@@ -635,6 +647,33 @@ class _MonthlyRecapScreenState extends ConsumerState<MonthlyRecapScreen>
             ),
           ],
         ),
+        if (_bonus > 0) ...[
+          const SizedBox(height: 20),
+          Center(
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.2),
+                borderRadius: BorderRadius.circular(24),
+              ),
+              child: Wrap(
+                alignment: WrapAlignment.center,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  const Text('🎁 ', style: TextStyle(fontSize: 16)),
+                  CoinGainLabel(
+                    amount: _bonus,
+                    style: _body.copyWith(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(' pour ton bilan', style: _body.copyWith(fontSize: 14)),
+                ],
+              ),
+            ),
+          ),
+        ],
         const SizedBox(height: 32),
         Text(
           'Merci de prendre soin de toi ce mois-ci 💜',

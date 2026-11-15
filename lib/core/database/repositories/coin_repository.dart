@@ -42,6 +42,15 @@ class CoinRepository {
     return await _isar.coinTransactions.getByRefKey(refKey) != null;
   }
 
+  /// Clés de tous les mouvements dont la clé commence par [prefix]
+  Future<List<String>> refKeysWithPrefix(String prefix) async {
+    return _isar.coinTransactions
+        .filter()
+        .refKeyStartsWith(prefix)
+        .refKeyProperty()
+        .findAll();
+  }
+
   /// Solde actuel (somme de tous les mouvements)
   Future<int> getBalance() async {
     return _isar.coinTransactions.where().amountProperty().sum();

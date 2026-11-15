@@ -1,8 +1,9 @@
 import '../database/repositories/coin_repository.dart';
 import '../models/coin_transaction.dart';
 
-/// Barème des Catcoins : on n'en gagne qu'avec les doublons du journal,
-/// et on les dépense en indices ou en pièces de scène choisies.
+/// Barème des Catcoins : on en gagne avec les doublons du journal et en
+/// consultant son bilan mensuel, et on les dépense en indices, en zones
+/// dévoilées du modèle ou en pièces de scène choisies.
 class CoinRewards {
   CoinRewards._();
 
@@ -17,6 +18,12 @@ class CoinRewards {
 
   /// Prix d'un indice dans le puzzle des scènes (gratuit après 3 erreurs)
   static const int sceneHint = 1;
+
+  /// Prix pour dévoiler une zone du modèle flouté d'une scène
+  static const int sceneReveal = 4;
+
+  /// Cadeau la première fois qu'on va au bout du bilan d'un mois
+  static const int monthlyRecap = 5;
 
   /// Ancienneté max d'un journal pour gagner une pièce (évite de "farmer"
   /// en créant de vieux journaux)
@@ -37,6 +44,9 @@ class CoinService {
 
   static String recapRefKey(int year, int month) =>
       'recap:${_month(year, month)}';
+
+  static String recapBonusRefKey(int year, int month) =>
+      'recap-bonus:${_month(year, month)}';
 
   static String dayKey(DateTime d) => _day(d);
 
@@ -59,6 +69,10 @@ class CoinService {
       _coinRepo.getEarnedBetween(start, end);
 
   Future<bool> hasRefKey(String refKey) => _coinRepo.hasRefKey(refKey);
+
+  /// Clés de tous les mouvements dont la clé commence par [prefix]
+  Future<List<String>> refKeysWithPrefix(String prefix) =>
+      _coinRepo.refKeysWithPrefix(prefix);
 
   Future<int> _record(CoinReason reason, int amount, String refKey) async {
     final added = await _coinRepo.addIfAbsent(
@@ -102,9 +116,15 @@ class CoinService {
   Future<bool> isRecapSeen(int year, int month) =>
       _coinRepo.hasRefKey(recapRefKey(year, month));
 
-  /// Marque le bilan comme vu (mouvement à 0 : le bilan ne rapporte rien,
-  /// le registre sert seulement de trace)
-  Future<void> markRecapSeen(int year, int month) async {
+  /// Marque le bilan comme vu (mouvement à 0, simple trace dans le registre)
+  /// et verse le cadeau du mois, une seule fois.
+  /// Retourne les Catcoins gagnés (0 si le cadeau a déjà été versé).
+  Future<int> markRecapSeen(int year, int month) async {
     await _record(CoinReason.monthlyRecap, 0, recapRefKey(year, month));
+    return _record(
+      CoinReason.monthlyRecap,
+      CoinRewards.monthlyRecap,
+      recapBonusRefKey(year, month),
+    );
   }
 }

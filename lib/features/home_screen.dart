@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 import '../core/models/models.dart';
+import '../core/services/coin_service.dart';
 import '../core/services/monthly_recap_service.dart';
 import '../core/services/providers.dart';
 import '../core/utils/haptic_service.dart';
@@ -808,7 +809,7 @@ class _MonthlyRecapBanner extends ConsumerWidget {
                         )
                       else
                         Text(
-                          '1 minute pour revivre ton mois',
+                          '1 minute pour revivre ton mois · +${CoinRewards.monthlyRecap} Catcoins',
                           style: TextStyle(color: Colors.white.withValues(alpha: 0.9), fontSize: 13),
                         ),
                     ],

@@ -255,6 +255,23 @@ class SceneService {
     'hint:$sceneId:${DateTime.now().microsecondsSinceEpoch}',
   );
 
+  /// Zones déjà dévoilées du modèle flouté d'une scène
+  Future<Set<int>> revealedCells(String sceneId) async => SceneReveal.parse(
+    sceneId,
+    await _coins.refKeysWithPrefix(SceneReveal.refKeyPrefix(sceneId)),
+  );
+
+  /// Dévoile une zone du modèle contre des Catcoins. Retourne false si le
+  /// solde est insuffisant ou si la zone est déjà dévoilée (la clé est unique
+  /// par scène et par zone : on ne paie jamais deux fois).
+  Future<bool> revealCell(String sceneId, int cell) {
+    if (cell < 0 || cell >= SceneReveal.cells) return Future.value(false);
+    return _coins.spend(
+      CoinRewards.sceneReveal,
+      SceneReveal.refKey(sceneId, cell),
+    );
+  }
+
   /// Choisit l'animal qui vient habiter la scène terminée (une seule fois)
   Future<bool> choosePet(String sceneId, String petId) async {
     final state = await getState(sceneId);

@@ -175,6 +175,33 @@ class PetDef {
   String get icon => 'assets/scenes/pets/icons/$id.webp';
 }
 
+/// Modèle de la scène flouté, découpé en quadrillage : on peut dévoiler
+/// une zone à la fois contre des Catcoins. Les zones dévoilées sont retrouvées
+/// dans le registre des Catcoins (une dépense par zone), sans table dédiée.
+class SceneReveal {
+  SceneReveal._();
+
+  static const int columns = 4;
+  static const int rows = 2;
+  static const int cells = columns * rows;
+
+  static String refKeyPrefix(String sceneId) => 'reveal:$sceneId:';
+
+  static String refKey(String sceneId, int cell) =>
+      '${refKeyPrefix(sceneId)}$cell';
+
+  /// Zones dévoilées d'après les clés du registre
+  static Set<int> parse(String sceneId, Iterable<String> refKeys) {
+    final prefix = refKeyPrefix(sceneId);
+    return {
+      for (final key in refKeys)
+        if (key.startsWith(prefix))
+          if (int.tryParse(key.substring(prefix.length)) case final cell?)
+            if (cell >= 0 && cell < cells) cell,
+    };
+  }
+}
+
 /// État d'avancement d'une scène, calculé à partir des pièces possédées.
 /// Classe pure (sans base de données) : toute la logique du puzzle est ici.
 class ScenePuzzleState {

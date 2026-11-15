@@ -34,8 +34,13 @@ class _FakeCoinService extends CoinService {
   @override
   Future<bool> isRecapSeen(int year, int month) async => seen;
 
+  /// Cadeau versé une seule fois, comme le vrai registre
   @override
-  Future<void> markRecapSeen(int year, int month) async => seen = true;
+  Future<int> markRecapSeen(int year, int month) async {
+    final first = !seen;
+    seen = true;
+    return first ? CoinRewards.monthlyRecap : 0;
+  }
 }
 
 MonthlyRecap _richRecap() {
@@ -112,8 +117,10 @@ void main() {
       await tester.pump(const Duration(milliseconds: 1500));
       expect(find.text('Tes récompenses du mois'), findsOneWidget);
 
-      // Arrivé au bout : le bilan est marqué comme vu (sans Catcoins)
+      // Arrivé au bout : le bilan est marqué comme vu, avec le cadeau du mois
       expect(coins.seen, isTrue);
+      expect(find.text(' pour ton bilan'), findsOneWidget);
+      expect(find.text('+${CoinRewards.monthlyRecap} '), findsOneWidget);
       expect(find.text('Fermer'), findsOneWidget);
       expect(tester.takeException(), isNull);
     });
